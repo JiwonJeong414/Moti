@@ -87,76 +87,73 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <Modal isVisible={isModalVisible}>
-      <View style={styles.container}>
-        {/* <Button text={"Go to Hotline Screen"} onPress={goToHotlineScreen} /> */}
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require("../assets/pixel_night.png")}
-          />
-        </TouchableOpacity>
-        <Image style={styles.profile} source={require("../assets/night.png")} />
+    <View style={styles.container}>
+      <TouchableOpacity>
+        <Image
+          style={styles.image}
+          source={require("../assets/pixel_night.png")}
+        />
+      </TouchableOpacity>
+      <Image style={styles.profile} source={require("../assets/night.png")} />
 
-        {/* Quotes */}
-        <View style={styles.quotes}>
-          <Text style={styles.words}>
-            "When you have a dream, you've got to grab it and never let go."
-          </Text>
-          <Text style={styles.words2}> — Carol Burnett</Text>
-        </View>
-        <Text style={styles.text}> Jiwon's Dashboard </Text>
-
-        {/* To do list */}
-        <View style={styles.taskWrapper}>
-          <View style={styles.test}>
-            <Text style={styles.sectionTitle}> Today's tasks</Text>
-            {/* Write a task */}
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-              <TextInput
-                style={styles.input}
-                value={task}
-                onChangeText={(text) => setTask(text)}
-                onSubmitEditing={() => handleAddTask()}
-              />
-            </KeyboardAvoidingView>
-          </View>
-        </View>
-        <View style={styles.items}>
-          {/* This is where the tasks will go!  */}
-          {taskItems.map((item, index) => {
-            return (
-              <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                <Task text={item} />
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        {/* Events */}
-        <Text style={styles.sectionTitle}> Events </Text>
-        <View style={styles.eventsTitle}>
-          <Events></Events>
-        </View>
-        <Text style={{ fontWeight: "bold", fontSize: 20 }}>{text}</Text>
-        <View style={{ margin: 20 }}>
-          <Button title="DatePicker" onPress={() => showMode("date")} />
-        </View>
-
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )}
+      {/* Quotes */}
+      <View style={styles.quotes}>
+        <Text style={styles.words}>
+          "When you have a dream, you've got to grab it and never let go."
+        </Text>
+        <Text style={styles.words2}> — Carol Burnett</Text>
       </View>
-    </Modal>
+      <Text style={styles.text}> Jiwon's Dashboard </Text>
+
+      {/* To do list */}
+      <View style={styles.taskWrapper}>
+        <View style={styles.test}>
+          <Text style={styles.sectionTitle}> Today's tasks</Text>
+          {/* Write a task */}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={styles.input}
+              value={task}
+              onChangeText={(text) => setTask(text)}
+              onSubmitEditing={() => handleAddTask()}
+            />
+          </KeyboardAvoidingView>
+        </View>
+      </View>
+      <View style={styles.items}>
+        {/* This is where the tasks will go!  */}
+        {taskItems.map((item, index) => {
+          return (
+            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+              <Task text={item} />
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      {/* Events */}
+      <Text style={styles.sectionTitle}> Events </Text>
+      <View style={styles.eventsTitle}>
+        <Events></Events>
+      </View>
+      <Text style={{ fontWeight: "bold", fontSize: 20 }}>{text}</Text>
+      <View style={{ margin: 20 }}>
+        <Button title="DatePicker" onPress={() => showMode("date")} />
+      </View>
+
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+    </View>
   );
 };
 
