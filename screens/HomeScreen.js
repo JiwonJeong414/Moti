@@ -17,31 +17,9 @@ import Task from "../Components/Task";
 import Events from "../Components/Events";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Todo from "../Components/Todo";
 
 const HomeScreen = ({ navigation }) => {
-  const [toDoItems, storeToDoItem] = useState([]);
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  useEffect(() => {
-    const retrieveToDoItems = async () => {
-      let retrieveData = await AsyncStorage.getItem("ToDoItems");
-      storeToDoItem(retrieveData);
-    };
-    retrieveToDoItems();
-  }, []);
-
-  const setToDoItem = async (title) => {
-    let newData = [...toDoItems, title];
-    await AsyncStorage.setItem("TodoItems", newData);
-    storeToDoItem(newData);
-  };
-
-  const deleteToDoItem = async (title) => {
-    let newData = toDoItems.filter((toDoItems) => toDoItems !== title);
-    await AsyncStorage.setItem("ToDoItems", newData);
-    storeToDoItem(newData);
-  };
-
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
 
@@ -70,18 +48,6 @@ const HomeScreen = ({ navigation }) => {
     setMode(currentMode);
   };
 
-  const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
-    setTask(null);
-  };
-
-  const completeTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
-  };
-
   const goToHotlineScreen = () => {
     navigation.navigate("Hotline");
   };
@@ -105,40 +71,12 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <Text style={styles.text}> Jiwon's Dashboard </Text>
 
-      {/* To do list */}
-      <View style={styles.taskWrapper}>
-        <View style={styles.test}>
-          <Text style={styles.sectionTitle}> Today's tasks</Text>
-          {/* Write a task */}
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            <TextInput
-              style={styles.input}
-              value={task}
-              onChangeText={(text) => setTask(text)}
-              onSubmitEditing={() => handleAddTask()}
-            />
-          </KeyboardAvoidingView>
-        </View>
-      </View>
-      <View style={styles.items}>
-        {/* This is where the tasks will go!  */}
-        {taskItems.map((item, index) => {
-          return (
-            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-              <Task text={item} />
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
       {/* Events */}
-      <Text style={styles.sectionTitle}> Events </Text>
+      {/* <Text style={styles.sectionTitle}> Events </Text>
       <View style={styles.eventsTitle}>
         <Events></Events>
-      </View>
-      <Text style={{ fontWeight: "bold", fontSize: 20 }}>{text}</Text>
+      </View> */}
+      {/* <Text style={{ fontWeight: "bold", fontSize: 20 }}>{text}</Text>
       <View style={{ margin: 20 }}>
         <Button title="DatePicker" onPress={() => showMode("date")} />
       </View>
@@ -152,7 +90,9 @@ const HomeScreen = ({ navigation }) => {
           display="default"
           onChange={onChange}
         />
-      )}
+      )} */}
+
+      <Todo />
     </View>
   );
 };
