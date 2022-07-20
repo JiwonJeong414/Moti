@@ -14,7 +14,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Task from "./Task";
 
-const Todo = () => {
+const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -34,13 +34,9 @@ const Todo = () => {
   }, []);
 
   const setToDoItem = async (title) => {
-    try {
-      let newData = { tasks: [...taskItems, title] };
-      await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
-      setTaskItems(newData.tasks);
-    } catch (e) {
-      //saving error
-    }
+    let newData = { tasks: [...taskItems, title] };
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
+    setTaskItems(newData.tasks);
   };
 
   const deleteToDoItem = async (deleteTitle) => {
@@ -78,7 +74,7 @@ const Todo = () => {
       )}
       <View style={styles.container}>
         <View style={styles.groupRow}>
-          <Text style={styles.sectionTitle}> Today's Tasks </Text>
+          <Text style={styles.sectionTitle}> {widgetTitle}</Text>
           <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
             <View style={styles.addButton}></View>
           </TouchableWithoutFeedback>
