@@ -1,17 +1,34 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 const Event = ({ text }) => {
+  const calculateDate = (text) => {
+    const today = new Date();
+    console.log(today.getFullYear());
+    console.log(today.getMonth() + 1);
+    console.log(today.getDate());
+    console.log(text);
+    const selectedDate = text.split("-");
+    console.log(selectedDate);
+    return Number(selectedDate[2]) - Number(today.getDate());
+  };
+
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
         <View style={styles.square}></View>
-        <Text style={styles.text}> AP Exam </Text>
-        <Text style={styles.itemText}>{text}</Text>
+        <Text style={styles.text}> </Text>
+        <TextInput style={styles.itemText} placeholder="Event Title" />
       </View>
       <View style={styles.itemLeft}>
         <View style={styles.circular}></View>
-        <Text style={styles.left}>2 Months 1 Weeks 7 Days Left</Text>
+        <Text style={styles.left}>{calculateDate(text)} Days Left</Text>
       </View>
     </View>
   );
@@ -48,6 +65,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     maxWidth: "80%",
+    paddingBottom: 10,
   },
   circular: {
     width: 12,

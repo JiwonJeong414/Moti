@@ -78,7 +78,7 @@ const Todo = ({ widgetTitle }) => {
           <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
             <View style={styles.addButton}></View>
           </TouchableWithoutFeedback>
-          <Modal transparent visible={modalVisible} animationType="fade">
+          <Modal transparent visible={modalVisible} animationType="slide">
             <View style={styles.modalBackground}>
               <TextInput
                 style={styles.modalHeader}
