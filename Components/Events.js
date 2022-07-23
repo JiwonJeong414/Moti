@@ -10,12 +10,7 @@ import {
 const Event = ({ text }) => {
   const calculateDate = (text) => {
     const today = new Date();
-    console.log(today.getFullYear());
-    console.log(today.getMonth() + 1);
-    console.log(today.getDate());
-    console.log(text);
     const selectedDate = text.split("-");
-    console.log(selectedDate);
     return Number(selectedDate[2]) - Number(today.getDate());
   };
 

@@ -22,15 +22,12 @@ const Todo = ({ widgetTitle }) => {
 
   useEffect(() => {
     const retrieveToDoItems = async () => {
-      let retrieveData = await AsyncStorage.getItem("ToDoItems").then(
-        console.log("retrieved")
-      );
+      let retrieveData = await AsyncStorage.getItem("ToDoItems");
       retrieveData = JSON.parse(retrieveData);
       if (retrieveData == null) setTaskItems([]);
       else setTaskItems(retrieveData.tasks);
     };
     retrieveToDoItems();
-    console.log("called");
   }, []);
 
   const setToDoItem = async (title) => {
@@ -94,7 +91,6 @@ const Todo = ({ widgetTitle }) => {
             </TouchableWithoutFeedback>
           </Modal>
         </View>
-        {console.log(taskItems)}
         {taskItems != null ? (
           taskItems.map((item, index) => {
             return (

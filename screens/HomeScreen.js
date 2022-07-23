@@ -12,15 +12,29 @@ import {
   Keyboard,
   Button,
   Modal,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Task from "../Components/Task";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Todo from "../Components/Todo";
 import CustomDatePicker from "../Components/CustomDatePicker";
 
-const HomeScreen = ({ navigation }) => {
-  const goToHotlineScreen = () => {
-    navigation.navigate("Hotline");
+const HomeScreen = ({ navigation, route }) => {
+  const [myName, setMyName] = useState();
+  const { onboarded, setOnboard } = route.params;
+
+  useEffect(() => {
+    const getName = async () => {
+      let userName = await AsyncStorage.getItem("Name");
+      userName = JSON.parse(userName);
+      setMyName(userName);
+    };
+    getName();
+  }, [onboarded]);
+
+  const deleteUsername = async () => {
+    await AsyncStorage.removeItem("Name");
+    setOnboard(false);
   };
 
   return (
@@ -40,7 +54,12 @@ const HomeScreen = ({ navigation }) => {
         </Text>
         <Text style={styles.words2}> — Carol Burnett</Text>
       </View>
-      <Text style={styles.text}> Jiwon's Dashboard </Text>
+      <View style={styles.row}>
+        <Text style={styles.text}> {myName}'s Dashboard </Text>
+        <TouchableWithoutFeedback onPress={() => deleteUsername()}>
+          <View style={styles.deleteAccount} />
+        </TouchableWithoutFeedback>
+      </View>
       <CustomDatePicker widgetTitle="Events" />
       <Todo widgetTitle="Today's Tasks" />
     </View>
@@ -80,12 +99,22 @@ const styles = StyleSheet.create({
     fontFamily: "Baskerville-Bold",
     color: "darkblue",
   },
+  row: {
+    flexDirection: "row",
+  },
   words2: {
     fontSize: 25,
     fontStyle: "italic",
     fontFamily: "Baskerville-Bold",
     color: "darkblue",
     marginLeft: 180,
+  },
+  deleteAccount: {
+    width: 30,
+    height: 30,
+    backgroundColor: "purple",
+    marginLeft: 20,
+    top: 10,
   },
 });
 
