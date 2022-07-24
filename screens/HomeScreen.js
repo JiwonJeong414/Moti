@@ -13,6 +13,7 @@ import {
   Button,
   Modal,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import Task from "../Components/Task";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -38,31 +39,33 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity>
-        <Image
-          style={styles.image}
-          source={require("../assets/pixel_night.png")}
-        />
-      </TouchableOpacity>
-      <Image style={styles.profile} source={require("../assets/night.png")} />
+    <ScrollView style={styles.container}>
+      <View>
+        <TouchableOpacity>
+          <Image
+            style={styles.image}
+            source={require("../assets/pixel_night.png")}
+          />
+        </TouchableOpacity>
+        <Image style={styles.profile} source={require("../assets/night.png")} />
 
-      {/* Quotes */}
-      <View style={styles.quotes}>
-        <Text style={styles.words}>
-          "When you have a dream, you've got to grab it and never let go."
-        </Text>
-        <Text style={styles.words2}> — Carol Burnett</Text>
+        {/* Quotes */}
+        <View style={styles.quotes}>
+          <Text style={styles.words}>
+            "When you have a dream, you've got to grab it and never let go."
+          </Text>
+          <Text style={styles.words2}> — Carol Burnett</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.text}> {myName}'s Dashboard </Text>
+          <TouchableWithoutFeedback onPress={() => deleteUsername()}>
+            <View style={styles.deleteAccount} />
+          </TouchableWithoutFeedback>
+        </View>
+        <CustomDatePicker widgetTitle="Events" />
+        <Todo widgetTitle="Today's Tasks" />
       </View>
-      <View style={styles.row}>
-        <Text style={styles.text}> {myName}'s Dashboard </Text>
-        <TouchableWithoutFeedback onPress={() => deleteUsername()}>
-          <View style={styles.deleteAccount} />
-        </TouchableWithoutFeedback>
-      </View>
-      <CustomDatePicker widgetTitle="Events" />
-      <Todo widgetTitle="Today's Tasks" />
-    </View>
+    </ScrollView>
   );
 };
 
