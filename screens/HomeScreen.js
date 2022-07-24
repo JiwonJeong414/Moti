@@ -19,6 +19,7 @@ import Task from "../Components/Task";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Todo from "../Components/Todo";
 import CustomDatePicker from "../Components/CustomDatePicker";
+import BannerAndIcon from "../Components/BannerAndIcon";
 
 const HomeScreen = ({ navigation, route }) => {
   const [myName, setMyName] = useState();
@@ -41,14 +42,7 @@ const HomeScreen = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require("../assets/pixel_night.png")}
-          />
-        </TouchableOpacity>
-        <Image style={styles.profile} source={require("../assets/night.png")} />
-
+        <BannerAndIcon />
         {/* Quotes */}
         <View style={styles.quotes}>
           <Text style={styles.words}>
@@ -73,19 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#b3b3d5",
-  },
-  image: {
-    width: "100%",
-    height: 190,
-    marginBottom: 40,
-  },
-  profile: {
-    position: "absolute",
-    top: 120,
-    width: 100,
-    height: 100,
-    borderRadius: 20,
-    left: 20,
   },
   text: {
     fontSize: 30,
