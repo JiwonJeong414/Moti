@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
+import ProfileInput from "../Components/ProfileInput";
 
 const BannerAndIcon = () => {
   const [imageUri, setImageUri] = useState();
@@ -37,11 +38,13 @@ const BannerAndIcon = () => {
         imageUri={imageUri}
         onChangeImage={(uri) => setImageUri(uri)}
         container={styles.imageContainer}
+        asyncStorageName={"Banner"}
       />
-      <ImageInput
+      <ProfileInput
         imageUri={profileUri}
         onChangeImage={(uri) => setProfileUri(uri)}
         container={styles.profile}
+        asyncStorageName={"Profile"}
       />
     </View>
   );

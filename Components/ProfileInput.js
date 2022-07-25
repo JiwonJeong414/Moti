@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ImageInput = ({
+const ProfileInput = ({
   imageUri,
   onChangeImage,
   container,
@@ -18,7 +18,7 @@ const ImageInput = ({
 }) => {
   useEffect(() => {
     const retrieveImage = async () => {
-      let retrieveImage = await AsyncStorage.getItem("Image");
+      let retrieveImage = await AsyncStorage.getItem("Profile");
       retrieveImage = JSON.parse(retrieveImage);
       if (retrieveImage == null) onChangeImage(null);
       else onChangeImage(retrieveImage);
@@ -42,7 +42,7 @@ const ImageInput = ({
   };
 
   const deleteImage = async () => {
-    await AsyncStorage.deleteItem("Image");
+    await AsyncStorage.deleteItem("Profile");
     onChangeImage(null);
   };
 
@@ -54,7 +54,7 @@ const ImageInput = ({
       });
       console.log(result.uri);
       if (!result.cancelled) {
-        await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
+        await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
         onChangeImage(result.uri);
       }
     } catch (error) {
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageInput;
+export default ProfileInput;
