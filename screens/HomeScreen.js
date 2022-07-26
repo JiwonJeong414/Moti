@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,8 +20,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Todo from "../Components/Todo";
 import CustomDatePicker from "../Components/CustomDatePicker";
 import BannerAndIcon from "../Components/BannerAndIcon";
+import colorsContext from "../config/colorsContext";
+import colors from "../config/colors";
 
 const HomeScreen = ({ navigation, route }) => {
+  const theme = useContext(colorsContext);
   const [myName, setMyName] = useState();
   const { onboarded, setOnboard } = route.params;
 
@@ -40,7 +43,7 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.color }]}>
       <View>
         <BannerAndIcon />
         {/* Quotes */}
@@ -66,7 +69,6 @@ const HomeScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#b3b3d5",
   },
   text: {
     fontSize: 30,

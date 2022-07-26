@@ -18,6 +18,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
 import ProfileInput from "../Components/ProfileInput";
+import TemplateColors from "./TemplateColors";
 
 const BannerAndIcon = () => {
   const [imageUri, setImageUri] = useState();
@@ -39,7 +40,8 @@ const BannerAndIcon = () => {
         onChangeImage={(uri) => setImageUri(uri)}
         container={styles.imageContainer}
         asyncStorageName={"Banner"}
-      />
+      ></ImageInput>
+      <TemplateColors />
       <ProfileInput
         imageUri={profileUri}
         onChangeImage={(uri) => setProfileUri(uri)}
