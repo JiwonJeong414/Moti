@@ -1,9 +1,12 @@
 const colors = {
-  blue: {
-    color: "blue",
+  white: {
+    color: "white",
   },
   red: {
     color: "red",
+  },
+  blue: {
+    color: "blue",
   },
 };
 

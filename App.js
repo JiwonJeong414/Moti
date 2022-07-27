@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -26,23 +26,12 @@ import { EventRegister } from "react-native-event-listeners";
 const Stack = createNativeStackNavigator();
 const BottomStack = createBottomTabNavigator();
 
+export const ModeContext = createContext(null);
+
 export default function App() {
   const [onboarded, setOnboard] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState(false);
-
-  useEffect(() => {
-    let eventListener = EventRegister.addEventListener(
-      "changeTheme",
-      (data) => {
-        setMode(data);
-        console.log(data);
-      }
-    );
-    return () => {
-      EventRegister.removeEventListener(eventListener);
-    };
-  });
+  const [loading, setLoading] = useState();
+  const [mode, setMode] = useState("white");
 
   useEffect(() => {
     const checkIfLoggedIn = async () => {
@@ -57,43 +46,53 @@ export default function App() {
   }, []);
 
   return (
-    <colorsContext.Provider value={mode === true ? colors.red : colors.blue}>
-      <NavigationContainer>
-        {loading === true ? (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Loading"
-              component={LoadingScreen}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        ) : onboarded === false ? (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Login"
-              component={OnBoardingScreen}
-              options={{ headerShown: false }}
-              initialParams={{
-                onboarded: onboarded,
-                setOnboard: setOnboard,
-              }}
-            />
-          </Stack.Navigator>
-        ) : (
-          <BottomStack.Navigator>
-            <BottomStack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{ title: "Home", headerShown: false }}
-              initialParams={{
-                onboarded: onboarded,
-                setOnboard: setOnboard,
-              }}
-            />
-            <BottomStack.Screen name="Hotline" component={HotlineScreen} />
-          </BottomStack.Navigator>
-        )}
-      </NavigationContainer>
-    </colorsContext.Provider>
+    <ModeContext.Provider value={{ mode, setMode }}>
+      <colorsContext.Provider
+        value={
+          mode === "white"
+            ? colors.white
+            : mode === "red"
+            ? colors.red
+            : colors.blue
+        }
+      >
+        <NavigationContainer>
+          {loading === true ? (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Loading"
+                component={LoadingScreen}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          ) : onboarded === false ? (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={OnBoardingScreen}
+                options={{ headerShown: false }}
+                initialParams={{
+                  onboarded: onboarded,
+                  setOnboard: setOnboard,
+                }}
+              />
+            </Stack.Navigator>
+          ) : (
+            <BottomStack.Navigator>
+              <BottomStack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{ title: "Home", headerShown: false }}
+                initialParams={{
+                  onboarded: onboarded,
+                  setOnboard: setOnboard,
+                }}
+              />
+              <BottomStack.Screen name="Hotline" component={HotlineScreen} />
+            </BottomStack.Navigator>
+          )}
+        </NavigationContainer>
+      </colorsContext.Provider>
+    </ModeContext.Provider>
   );
 }
