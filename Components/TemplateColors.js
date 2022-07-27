@@ -21,10 +21,20 @@ import { ModeContext } from "../App";
 
 const TemplateColors = () => {
   const [colorsModalVisible, setColorsModalVisible] = useState(false);
-  const { mode, setMode } = useContext(ModeContext);
+  const { primary, setPrimary } = useContext(ModeContext);
+  const { neutral, setNeutral } = useContext(ModeContext);
+  const { accents, setAccents } = useContext(ModeContext);
 
   const colorPicked = (color) => {
-    setMode(color);
+    setPrimary(color);
+  };
+
+  const neutralColorPicked = (color) => {
+    setNeutral(color);
+  };
+
+  const accentColorPicked = (color) => {
+    setAccents(color);
   };
 
   return (
@@ -35,7 +45,7 @@ const TemplateColors = () => {
         onPress={() => setColorsModalVisible(true)}
       />
       <Modal visible={colorsModalVisible} animationType="slide">
-        <View style={styles.modalBackground}>
+        <View style={[styles.modalBackground, { marginTop: 50 }]}>
           <Text style={styles.header}>Primary</Text>
           <TouchableWithoutFeedback onPress={() => colorPicked("white")}>
             <View
@@ -46,7 +56,7 @@ const TemplateColors = () => {
                 },
               ]}
             >
-              {mode === "white" ? <Completed /> : <></>}
+              {primary === "white" ? <Completed /> : <></>}
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={() => colorPicked("red")}>
@@ -58,7 +68,7 @@ const TemplateColors = () => {
                 },
               ]}
             >
-              {mode === "red" ? <Completed /> : <></>}
+              {primary === "red" ? <Completed /> : <></>}
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={() => colorPicked("blue")}>
@@ -70,13 +80,90 @@ const TemplateColors = () => {
                 },
               ]}
             >
-              {mode === "blue" ? <Completed /> : <></>}
+              {primary === "blue" ? <Completed /> : <></>}
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={() => setColorsModalVisible(false)}
-          >
-            <View style={styles.closeButton}></View>
+        </View>
+        <TouchableWithoutFeedback onPress={() => setColorsModalVisible(false)}>
+          <View style={styles.closeButton}></View>
+        </TouchableWithoutFeedback>
+
+        <View style={styles.modalBackground}>
+          <Text style={[styles.header, { marginRight: 10 }]}>Neutral</Text>
+          <TouchableWithoutFeedback onPress={() => neutralColorPicked("white")}>
+            <View
+              style={[
+                styles.pickedColor,
+                {
+                  backgroundColor: "#f0f5fc",
+                },
+              ]}
+            >
+              {neutral === "white" ? <Completed /> : <></>}
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => neutralColorPicked("red")}>
+            <View
+              style={[
+                styles.pickedColor,
+                {
+                  backgroundColor: "red",
+                },
+              ]}
+            >
+              {neutral === "red" ? <Completed /> : <></>}
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => neutralColorPicked("blue")}>
+            <View
+              style={[
+                styles.pickedColor,
+                {
+                  backgroundColor: "blue",
+                },
+              ]}
+            >
+              {neutral === "blue" ? <Completed /> : <></>}
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.modalBackground}>
+          <Text style={[styles.header, { marginRight: 1 }]}>Accents</Text>
+          <TouchableWithoutFeedback onPress={() => accentColorPicked("white")}>
+            <View
+              style={[
+                styles.pickedColor,
+                {
+                  backgroundColor: "#f0f5fc",
+                },
+              ]}
+            >
+              {accents === "white" ? <Completed /> : <></>}
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => accentColorPicked("red")}>
+            <View
+              style={[
+                styles.pickedColor,
+                {
+                  backgroundColor: "red",
+                },
+              ]}
+            >
+              {accents === "red" ? <Completed /> : <></>}
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => accentColorPicked("blue")}>
+            <View
+              style={[
+                styles.pickedColor,
+                {
+                  backgroundColor: "blue",
+                },
+              ]}
+            >
+              {accents === "blue" ? <Completed /> : <></>}
+            </View>
           </TouchableWithoutFeedback>
         </View>
       </Modal>
@@ -87,18 +174,15 @@ const TemplateColors = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: -40,
-    bottom: 40,
   },
   button: {
     width: 10,
     height: 40,
   },
   modalBackground: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
     flexDirection: "row",
+    marginLeft: 20,
+    marginTop: 20,
   },
   closeButton: {
     width: 140,
@@ -117,6 +201,8 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 20,
+    marginLeft: 5,
+    marginRight: 5,
     justifyContent: "center",
     alignItems: "center",
   },

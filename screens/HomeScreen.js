@@ -22,6 +22,7 @@ import CustomDatePicker from "../Components/CustomDatePicker";
 import BannerAndIcon from "../Components/BannerAndIcon";
 import colorsContext from "../config/colorsContext";
 import colors from "../config/colors";
+import TemplateColors from "../Components/TemplateColors";
 
 const HomeScreen = ({ navigation, route }) => {
   const theme = useContext(colorsContext);
@@ -46,6 +47,7 @@ const HomeScreen = ({ navigation, route }) => {
     <ScrollView style={[styles.container, { backgroundColor: theme.color }]}>
       <View>
         <BannerAndIcon />
+        <TemplateColors />
         {/* Quotes */}
         <View style={styles.quotes}>
           <Text style={styles.words}>

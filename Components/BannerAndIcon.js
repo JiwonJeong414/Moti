@@ -41,7 +41,6 @@ const BannerAndIcon = () => {
         container={styles.imageContainer}
         asyncStorageName={"Banner"}
       ></ImageInput>
-      <TemplateColors />
       <ProfileInput
         imageUri={profileUri}
         onChangeImage={(uri) => setProfileUri(uri)}
@@ -81,7 +80,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "gray",
     height: 190,
-    marginBottom: 40,
     justifyContent: "center",
     width: "100%",
     overflow: "hidden",

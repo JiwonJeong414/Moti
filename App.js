@@ -31,7 +31,9 @@ export const ModeContext = createContext(null);
 export default function App() {
   const [onboarded, setOnboard] = useState(false);
   const [loading, setLoading] = useState();
-  const [mode, setMode] = useState("white");
+  const [primary, setPrimary] = useState("white");
+  const [neutral, setNeutral] = useState("white");
+  const [accents, setAccents] = useState("white");
 
   useEffect(() => {
     const checkIfLoggedIn = async () => {
@@ -46,12 +48,14 @@ export default function App() {
   }, []);
 
   return (
-    <ModeContext.Provider value={{ mode, setMode }}>
+    <ModeContext.Provider
+      value={{ primary, setPrimary, neutral, setNeutral, accents, setAccents }}
+    >
       <colorsContext.Provider
         value={
-          mode === "white"
+          primary === "white"
             ? colors.white
-            : mode === "red"
+            : primary === "red"
             ? colors.red
             : colors.blue
         }
@@ -78,17 +82,34 @@ export default function App() {
               />
             </Stack.Navigator>
           ) : (
-            <BottomStack.Navigator>
+            <BottomStack.Navigator
+              tabBarOptions={{
+                activeBackgroundColor: "blue",
+                inactiveBackgroundColor: "blue",
+              }}
+            >
               <BottomStack.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ title: "Home", headerShown: false }}
+                options={{
+                  title: "Home",
+                  headerShown: false,
+                  tabBarActiveTintColor: "red",
+                }}
                 initialParams={{
                   onboarded: onboarded,
                   setOnboard: setOnboard,
                 }}
               />
-              <BottomStack.Screen name="Hotline" component={HotlineScreen} />
+              <BottomStack.Screen
+                name="Hotline"
+                component={HotlineScreen}
+                options={{
+                  title: "Hotline",
+                  headerShown: false,
+                  tabBarActiveTintColor: "red",
+                }}
+              />
             </BottomStack.Navigator>
           )}
         </NavigationContainer>
