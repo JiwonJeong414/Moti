@@ -4,13 +4,13 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
-  Modal,
   Button,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
+import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Task from "./Task";
 
@@ -75,16 +75,22 @@ const Todo = ({ widgetTitle }) => {
           <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
             <View style={styles.addButton}></View>
           </TouchableWithoutFeedback>
-          <Modal transparent visible={modalVisible} animationType="slide">
-            <View style={styles.modalBackground}>
-              <TextInput
-                style={styles.modalHeader}
-                placeholder="Type your todos here"
-                placeholderTextColor={"gray"}
-                value={task}
-                onChangeText={(text) => setTask(text)}
-              />
-            </View>
+          <Modal
+            isVisible={modalVisible}
+            animationIn="bounceIn"
+            animationOut="bounceOut"
+            useNativeDriver
+            hideModalContentWhileAnimating
+            onBackdropPress={() => setModalVisible(false)}
+            style={styles.modalBackground}
+          >
+            <TextInput
+              style={styles.modalHeader}
+              placeholder="Type your todos here"
+              placeholderTextColor={"gray"}
+              value={task}
+              onChangeText={(text) => setTask(text)}
+            />
             <View style={styles.closeButton} />
             <TouchableWithoutFeedback onPress={() => handleAddTask(task)}>
               <View style={styles.closeButton}></View>
@@ -133,15 +139,13 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 140,
     height: 55,
-    top: 510,
-    left: 210,
+    top: 490,
+    left: 180,
     borderRadius: 20,
     backgroundColor: "#553AF6",
     position: "absolute",
   },
   modalBackground: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
   },

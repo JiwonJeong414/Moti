@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const Event = ({ text }) => {
+const Event = ({ text, title }) => {
   const calculateDate = (text) => {
     const today = new Date();
     const selectedDate = text.split("-");
@@ -19,7 +19,7 @@ const Event = ({ text }) => {
       <View style={styles.itemLeft}>
         <View style={styles.square}></View>
         <Text style={styles.text}> </Text>
-        <TextInput style={styles.itemText} placeholder="Event Title" />
+        <Text style={styles.itemText}>{title}</Text>
       </View>
       <View style={styles.itemLeft}>
         <View style={styles.circular}></View>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,7 +21,11 @@ import OnBoardingScreen from "./screens/OnBoardingScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colorsContext from "./config/colorsContext";
 import colors from "./config/colors";
+import neutralContext from "./config/neutralContext";
+import neutral from "./config/neutral";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { EventRegister } from "react-native-event-listeners";
+import { BlurView } from "expo-blur";
 
 const Stack = createNativeStackNavigator();
 const BottomStack = createBottomTabNavigator();
@@ -29,6 +33,8 @@ const BottomStack = createBottomTabNavigator();
 export const ModeContext = createContext(null);
 
 export default function App() {
+  const neutralColor = useContext(neutralContext);
+
   const [onboarded, setOnboard] = useState(false);
   const [loading, setLoading] = useState();
   const [primary, setPrimary] = useState("white");
@@ -60,59 +66,83 @@ export default function App() {
             : colors.blue
         }
       >
-        <NavigationContainer>
-          {loading === true ? (
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Loading"
-                component={LoadingScreen}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          ) : onboarded === false ? (
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Login"
-                component={OnBoardingScreen}
-                options={{ headerShown: false }}
-                initialParams={{
-                  onboarded: onboarded,
-                  setOnboard: setOnboard,
+        <neutralContext.Provider
+          value={
+            neutral === "white"
+              ? colors.white
+              : neutral === "red"
+              ? colors.red
+              : colors.blue
+          }
+        >
+          <NavigationContainer>
+            {loading === true ? (
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Loading"
+                  component={LoadingScreen}
+                  options={{ headerShown: false }}
+                />
+              </Stack.Navigator>
+            ) : onboarded === false ? (
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Login"
+                  component={OnBoardingScreen}
+                  options={{ headerShown: false }}
+                  initialParams={{
+                    onboarded: onboarded,
+                    setOnboard: setOnboard,
+                  }}
+                />
+              </Stack.Navigator>
+            ) : (
+              <BottomStack.Navigator
+                screenOptions={{
+                  tabBarStyle: { position: "absolute" },
+                  tabBarBackground: () => (
+                    <View
+                      style={[
+                        StyleSheet.absoluteFill,
+                        { backgroundColor: neutralColor.color },
+                      ]}
+                    />
+                  ),
                 }}
-              />
-            </Stack.Navigator>
-          ) : (
-            <BottomStack.Navigator
-              tabBarOptions={{
-                activeBackgroundColor: "blue",
-                inactiveBackgroundColor: "blue",
-              }}
-            >
-              <BottomStack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={{
-                  title: "Home",
-                  headerShown: false,
-                  tabBarActiveTintColor: "red",
-                }}
-                initialParams={{
-                  onboarded: onboarded,
-                  setOnboard: setOnboard,
-                }}
-              />
-              <BottomStack.Screen
-                name="Hotline"
-                component={HotlineScreen}
-                options={{
-                  title: "Hotline",
-                  headerShown: false,
-                  tabBarActiveTintColor: "red",
-                }}
-              />
-            </BottomStack.Navigator>
-          )}
-        </NavigationContainer>
+              >
+                <BottomStack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{
+                    title: "Home",
+                    headerShown: false,
+                    tabBarActiveTintColor: "red",
+                    tabBarIcon: ({ size, color }) => (
+                      <MaterialCommunityIcons
+                        name="home"
+                        size={size}
+                        color={color}
+                      />
+                    ),
+                  }}
+                  initialParams={{
+                    onboarded: onboarded,
+                    setOnboard: setOnboard,
+                  }}
+                />
+                <BottomStack.Screen
+                  name="Hotline"
+                  component={HotlineScreen}
+                  options={{
+                    title: "Hotline",
+                    headerShown: false,
+                    tabBarActiveTintColor: "red",
+                  }}
+                />
+              </BottomStack.Navigator>
+            )}
+          </NavigationContainer>
+        </neutralContext.Provider>
       </colorsContext.Provider>
     </ModeContext.Provider>
   );

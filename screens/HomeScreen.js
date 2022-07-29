@@ -23,6 +23,7 @@ import BannerAndIcon from "../Components/BannerAndIcon";
 import colorsContext from "../config/colorsContext";
 import colors from "../config/colors";
 import TemplateColors from "../Components/TemplateColors";
+import Quotes from "../Components/Quotes";
 
 const HomeScreen = ({ navigation, route }) => {
   const theme = useContext(colorsContext);
@@ -50,10 +51,7 @@ const HomeScreen = ({ navigation, route }) => {
         <TemplateColors />
         {/* Quotes */}
         <View style={styles.quotes}>
-          <Text style={styles.words}>
-            "When you have a dream, you've got to grab it and never let go."
-          </Text>
-          <Text style={styles.words2}> — Carol Burnett</Text>
+          <Quotes />
         </View>
         <View style={styles.row}>
           <Text style={styles.text}> {myName}'s Dashboard </Text>

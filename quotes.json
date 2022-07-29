@@ -1,10 +1,17 @@
-id:1
-quote: 091i490
-guy: jadsf
-
-id: 2 
-quote: 29034
-guy: 23490234
-//increment id everytime the app opens up
-
-id: 3
+[
+    {
+        "id": 1,
+        "quote": "There are two ways of spreading light: to be the candle or the mirror that reflects it.",
+        "person": "Edith Wharton"
+    },
+    {
+        "id": 2,
+        "quote": "When you have a dream, you've got to grab it and never let go.",
+        "person": "Carol Burnett"
+    },
+    {
+        "id": 3,
+        "quote": "You do not find the happy life. You make it.",
+        "person": "Camilla Eyring Kimbal"
+    }
+]

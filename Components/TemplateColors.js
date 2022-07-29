@@ -16,6 +16,7 @@ import {
   ScrollView,
 } from "react-native";
 import Completed from "./Completed";
+import ColorPicker from "react-native-wheel-color-picker";
 import { EventRegister } from "react-native-event-listeners";
 import { ModeContext } from "../App";
 
@@ -45,6 +46,7 @@ const TemplateColors = () => {
         onPress={() => setColorsModalVisible(true)}
       />
       <Modal visible={colorsModalVisible} animationType="slide">
+        <ColorPicker thumbSize={50} gapSize={16} sliderHidden={true} />
         <View style={[styles.modalBackground, { marginTop: 50 }]}>
           <Text style={styles.header}>Primary</Text>
           <TouchableWithoutFeedback onPress={() => colorPicked("white")}>
