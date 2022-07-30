@@ -13,18 +13,28 @@ const Quotes = () => {
   const [backendData, setBackendData] = useState([{}]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api")
+    fetch("http://192.168.0.139:5000/api")
       .then((response) => response.json())
       .then((json) => setBackendData(json.movies))
       .catch((error) => alert(error))
       .then(setLoading(false));
   }, []);
 
-  console.log(JSON.stringify(quotes));
+  console.log(backendData);
 
   return (
     <View>
-      <Text>{backendData}</Text>
+      <FlatList
+        data={backendData}
+        keyExtractor={({ id }, index) => id}
+        renderItem={({ item }) => (
+          <View style={{ paddingBottom: 10 }}>
+            <Text style={styles.movieText}>
+              {item.id}. {item.title}, {item.releaseYear}
+            </Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
