@@ -11,6 +11,7 @@ import {
   TextInput,
   Keyboard,
   Button,
+  TouchableHighlight,
   Modal,
   TouchableWithoutFeedback,
   ScrollView,
@@ -18,6 +19,8 @@ import {
 import Completed from "./Completed";
 import ColorPicker from "react-native-wheel-color-picker";
 import { EventRegister } from "react-native-event-listeners";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { ModeContext } from "../App";
 
 const TemplateColors = () => {
@@ -40,11 +43,15 @@ const TemplateColors = () => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Colors"
-        style={styles.button}
-        onPress={() => setColorsModalVisible(true)}
-      />
+      <View style={styles.icon}>
+        <TouchableOpacity onPress={() => setColorsModalVisible(true)}>
+          <Entypo
+            name="dots-three-horizontal"
+            size={moderateScale(45)}
+            color={"black"}
+          />
+        </TouchableOpacity>
+      </View>
       <Modal visible={colorsModalVisible} animationType="slide">
         <ColorPicker thumbSize={50} gapSize={16} sliderHidden={true} />
         <View style={[styles.modalBackground, { marginTop: 50 }]}>
@@ -180,6 +187,11 @@ const styles = StyleSheet.create({
   button: {
     width: 10,
     height: 40,
+  },
+  icon: {
+    flexDirection: "row-reverse",
+    marginLeft: 20,
+    marginTop: -4,
   },
   modalBackground: {
     flexDirection: "row",

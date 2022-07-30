@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   },
   quotes: {
     paddingLeft: 10,
+    marginTop: -10,
   },
   words: {
     fontSize: 25,

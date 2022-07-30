@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 import quotes from "../quotes.json";
 
 const Quotes = () => {
-  const [listings, setListings] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [backendData, setBackendData] = useState([{}]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetch("http://localhost:5000/api")
+      .then((response) => response.json())
+      .then((json) => setBackendData(json.movies))
+      .catch((error) => alert(error))
+      .then(setLoading(false));
+  }, []);
 
   console.log(JSON.stringify(quotes));
 
   return (
     <View>
-      <Text style={styles.words}>
-        "When you have a dream, you've got to grab it and never let go."
-      </Text>
-      <Text style={styles.person}> — Carol Burnett</Text>
+      <Text>{backendData}</Text>
     </View>
   );
 };
