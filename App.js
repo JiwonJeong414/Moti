@@ -26,6 +26,9 @@ import neutral from "./config/neutral";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { EventRegister } from "react-native-event-listeners";
 import { BlurView } from "expo-blur";
+import BottomTabNavigator, {
+  HomeTabNavigator,
+} from "./navigation/LoginNavigator";
 
 const Stack = createNativeStackNavigator();
 const BottomStack = createBottomTabNavigator();
@@ -97,49 +100,10 @@ export default function App() {
                 />
               </Stack.Navigator>
             ) : (
-              <BottomStack.Navigator
-                screenOptions={{
-                  tabBarStyle: { position: "absolute" },
-                  tabBarBackground: () => (
-                    <View
-                      style={[
-                        StyleSheet.absoluteFill,
-                        { backgroundColor: neutralColor.color },
-                      ]}
-                    />
-                  ),
-                }}
-              >
-                <BottomStack.Screen
-                  name="Home"
-                  component={HomeScreen}
-                  options={{
-                    title: "Home",
-                    headerShown: false,
-                    tabBarActiveTintColor: "red",
-                    tabBarIcon: ({ size, color }) => (
-                      <MaterialCommunityIcons
-                        name="home"
-                        size={size}
-                        color={color}
-                      />
-                    ),
-                  }}
-                  initialParams={{
-                    onboarded: onboarded,
-                    setOnboard: setOnboard,
-                  }}
-                />
-                <BottomStack.Screen
-                  name="Hotline"
-                  component={HotlineScreen}
-                  options={{
-                    title: "Hotline",
-                    headerShown: false,
-                    tabBarActiveTintColor: "red",
-                  }}
-                />
-              </BottomStack.Navigator>
+              <Stack.Navigator>
+                <Stack.Screen name="Root" component={BottomTabNavigator} />
+                <Stack.Screen name="Home" component={HomeTabNavigator} />
+              </Stack.Navigator>
             )}
           </NavigationContainer>
         </neutralContext.Provider>

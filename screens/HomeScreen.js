@@ -24,11 +24,12 @@ import colorsContext from "../config/colorsContext";
 import colors from "../config/colors";
 import TemplateColors from "../Components/TemplateColors";
 import Quotes from "../Components/Quotes";
+import { RootContext } from "../config/RootContext";
 
 const HomeScreen = ({ navigation, route }) => {
   const theme = useContext(colorsContext);
   const [myName, setMyName] = useState();
-  const { onboarded, setOnboard } = route.params;
+  const { onboarded, setOnboard } = React.useContext(RootContext);
 
   useEffect(() => {
     const getName = async () => {
@@ -48,7 +49,6 @@ const HomeScreen = ({ navigation, route }) => {
     <ScrollView style={[styles.container, { backgroundColor: theme.color }]}>
       <View>
         <BannerAndIcon />
-        <TemplateColors />
         {/* Quotes */}
         <View style={styles.quotes}>
           <Quotes />

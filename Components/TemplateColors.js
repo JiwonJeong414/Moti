@@ -49,15 +49,8 @@ const TemplateColors = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.icon}>
-        <TouchableOpacity onPress={() => setColorsModalVisible(true)}>
-          <Entypo
-            name="dots-three-horizontal"
-            size={moderateScale(45)}
-            color={"black"}
-          />
-        </TouchableOpacity>
-      </View>
+      {/* <View style={styles.icon}>
+      </View> */}
       <Modal
         isVisible={colorsModalVisible}
         onBackdropPress={() => setColorsModalVisible(false)}
