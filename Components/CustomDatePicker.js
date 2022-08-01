@@ -7,6 +7,7 @@ import {
   Platform,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import Modal from "react-native-modal";
@@ -37,9 +38,13 @@ const CustomDatePicker = ({ widgetTitle }) => {
   };
 
   const handleAdd = () => {
-    showModal(false);
-    setDate(null);
-    setEvents([...events, date]);
+    if (date === null) {
+      Alert.alert("You need to select a date");
+    } else {
+      showModal(false);
+      setEvents([...events, date]);
+      setDate(null);
+    }
   };
 
   const deleteEventItem = (deleteTitle) => {
