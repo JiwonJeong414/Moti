@@ -86,17 +86,18 @@ const HomeTabStack = createStackNavigator();
 
 export function HomeTabNavigator({ navigation }) {
   const [settingVisible, setSettingVisible] = React.useState(false);
-  const { onboarded, setOnboard } = React.useContext(RootContext);
+  const { onboarded, setOnboard, colorTheme, setColorTheme } =
+    React.useContext(RootContext);
 
   const chooseColorPressed = () => {
-    navigation.navigate("ConfigureSettings");
+    navigation.navigate("TemplateColorsScreen");
     setSettingVisible(false);
   };
 
   const deleteUsername = async () => {
     setSettingVisible(false);
     await AsyncStorage.removeItem("Name");
-    setTimeout(async () => {
+    setTimeout(() => {
       setOnboard(false);
     }, 300);
   };
@@ -169,7 +170,7 @@ export function HomeTabNavigator({ navigation }) {
         }}
       />
       <HomeTabStack.Screen
-        name="ConfigureSettings"
+        name="TemplateColorsScreen"
         component={TemplateColorsScreen}
         options={{
           headerLeft: () => (

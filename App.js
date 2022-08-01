@@ -30,6 +30,7 @@ import BottomTabNavigator, {
   HomeTabNavigator,
 } from "./navigation/LoginNavigator";
 import { RootContext } from "./config/RootContext";
+import { Provider as PaperProvider } from "react-native-paper";
 
 const Stack = createNativeStackNavigator();
 const BottomStack = createBottomTabNavigator();
@@ -40,12 +41,16 @@ export default function App() {
   const neutralColor = useContext(neutralContext);
 
   const [onboarded, setOnboard] = React.useState(false);
+  const [colorTheme, setColorTheme] = React.useState({});
   const [loading, setLoading] = useState();
-  const [primary, setPrimary] = useState("white");
-  const [neutral, setNeutral] = useState("white");
-  const [accents, setAccents] = useState("white");
 
   useEffect(() => {
+    let colorTheme = {
+      primary: "white",
+      neutral: "white",
+      accents: "white",
+    };
+    setColorTheme(colorTheme);
     const checkIfLoggedIn = async () => {
       let userName = await AsyncStorage.getItem("Name");
       userName = JSON.parse(userName);
@@ -58,66 +63,49 @@ export default function App() {
   }, []);
 
   return (
-    <ModeContext.Provider
-      value={{ primary, setPrimary, neutral, setNeutral, accents, setAccents }}
-    >
-      <colorsContext.Provider
-        value={
-          primary === "white"
-            ? colors.white
-            : primary === "red"
-            ? colors.red
-            : colors.blue
-        }
-      >
-        <neutralContext.Provider
-          value={
-            neutral === "white"
-              ? colors.white
-              : neutral === "red"
-              ? colors.red
-              : colors.blue
-          }
+    <PaperProvider>
+      <NavigationContainer>
+        {loading === true ? (
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Loading"
+              component={LoadingScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        ) : (
+          <></>
+        )}
+        <RootContext.Provider
+          value={{
+            onboarded: onboarded,
+            setOnboard: setOnboard,
+            colorTheme: colorTheme,
+            setColorTheme: setColorTheme,
+          }}
         >
-          <NavigationContainer>
-            {loading === true ? (
-              <Stack.Navigator>
-                <Stack.Screen
-                  name="Loading"
-                  component={LoadingScreen}
-                  options={{ headerShown: false }}
-                />
-              </Stack.Navigator>
-            ) : (
-              <></>
-            )}
-            <RootContext.Provider
-              value={{ onboarded: onboarded, setOnboard: setOnboard }}
+          {onboarded === false ? (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={OnBoardingScreen}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          ) : (
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                gestureEnabled: true,
+                gestureDirection: "horizontal",
+              }}
             >
-              {onboarded === false ? (
-                <Stack.Navigator>
-                  <Stack.Screen
-                    name="Login"
-                    component={OnBoardingScreen}
-                    options={{ headerShown: false }}
-                  />
-                </Stack.Navigator>
-              ) : (
-                <Stack.Navigator
-                  screenOptions={{
-                    headerShown: false,
-                    gestureEnabled: true,
-                    gestureDirection: "vertical",
-                  }}
-                >
-                  <Stack.Screen name="Root" component={BottomTabNavigator} />
-                  <Stack.Screen name="Home" component={HomeTabNavigator} />
-                </Stack.Navigator>
-              )}
-            </RootContext.Provider>
-          </NavigationContainer>
-        </neutralContext.Provider>
-      </colorsContext.Provider>
-    </ModeContext.Provider>
+              <Stack.Screen name="Root" component={BottomTabNavigator} />
+              <Stack.Screen name="Home" component={HomeTabNavigator} />
+            </Stack.Navigator>
+          )}
+        </RootContext.Provider>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }

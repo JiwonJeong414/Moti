@@ -29,7 +29,7 @@ import { RootContext } from "../config/RootContext";
 const HomeScreen = ({ navigation, route }) => {
   const theme = useContext(colorsContext);
   const [myName, setMyName] = useState();
-  const { onboarded, setOnboard } = React.useContext(RootContext);
+  const { onboarded, setOnboard, colorTheme } = React.useContext(RootContext);
 
   useEffect(() => {
     const getName = async () => {
@@ -41,7 +41,9 @@ const HomeScreen = ({ navigation, route }) => {
   }, [onboarded]);
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.color }]}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: colorTheme.primary }]}
+    >
       <View>
         <BannerAndIcon />
         {/* Quotes */}

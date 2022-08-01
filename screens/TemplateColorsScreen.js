@@ -22,13 +22,31 @@ import { EventRegister } from "react-native-event-listeners";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { ModeContext } from "../App";
+import { RootContext } from "../config/RootContext";
 
 const TemplateColors = () => {
   const [colorsModalVisible, setColorsModalVisible] = useState(false);
   const [customVisible, setCustomVisible] = useState(false);
-  const { primary, setPrimary } = useContext(ModeContext);
-  const { neutral, setNeutral } = useContext(ModeContext);
-  const { accents, setAccents } = useContext(ModeContext);
+  const { colorTheme, setColorTheme } = React.useContext(RootContext);
+  const [primary, setPrimary] = useState(colorTheme.primary);
+  const [neutral, setNeutral] = useState("white");
+  const [accents, setAccents] = useState("white");
+
+  useEffect(() => {
+    let colorTheme = {
+      primary: "",
+      neutral: neutral,
+      accents: accents,
+    };
+    if (primary == "white") {
+      colorTheme.primary = "white";
+    } else if (primary == "red") {
+      colorTheme.primary = "red";
+    } else if (primary == "blue") {
+      colorTheme.primary = "blue";
+    }
+    setColorTheme(colorTheme);
+  }, [primary]);
 
   const colorPicked = (color) => {
     setPrimary(color);

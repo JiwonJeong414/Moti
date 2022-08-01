@@ -20,8 +20,6 @@ const Quotes = () => {
       .then(setLoading(false));
   }, []);
 
-  console.log(backendData);
-
   return (
     <View>
       <FlatList
