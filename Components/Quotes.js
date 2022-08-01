@@ -7,49 +7,63 @@ import {
   FlatList,
 } from "react-native";
 import quotes from "../quotes.json";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Quotes = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [backendData, setBackendData] = useState([{}]);
+  let DATA = [...quotes];
+
+  const [idNumber, setIdNumber] = useState(1);
+  const [quotesData, setQuotesData] = useState(DATA);
 
   useEffect(() => {
-    fetch("http://192.168.0.139:5000/api")
-      .then((response) => response.json())
-      .then((json) => setBackendData(json.movies))
-      .catch((error) => alert(error))
-      .then(setLoading(false));
+    const retrieveQuoteID = async () => {
+      let retrieveQuoteID = await AsyncStorage.getItem("Number");
+      retrieveQuoteID = JSON.parse(retrieveQuoteID);
+      if (retrieveQuoteID === quotesData.length) handleIdNumber(0);
+      else handleIdNumber(retrieveQuoteID);
+    };
+    retrieveQuoteID();
   }, []);
 
+  const handleIdNumber = async (quoteID) => {
+    await AsyncStorage.setItem("Number", JSON.stringify(quoteID + 1));
+    setIdNumber(quoteID + 1);
+  };
+
+  let item = quotesData.find((item) => item.id === idNumber);
+
   return (
-    <View>
-      <FlatList
-        data={backendData}
-        keyExtractor={({ id }, index) => id}
-        renderItem={({ item }) => (
-          <View style={{ paddingBottom: 10 }}>
-            <Text style={styles.movieText}>
-              {item.id}. {item.title}, {item.releaseYear}
-            </Text>
-          </View>
-        )}
-      />
+    <View style={styles.container}>
+      <View style={styles.quotes}>
+        <Text style={styles.words}>"{item.quote}"</Text>
+        <Text style={styles.author}> — {item.person}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   words: {
-    fontSize: 25,
+    fontSize: moderateScale(22),
     fontStyle: "italic",
     fontFamily: "Baskerville-Bold",
     color: "darkblue",
   },
-  person: {
-    fontSize: 25,
+  quotes: {
+    paddingLeft: moderateScale(5),
+    marginTop: moderateScale(42),
+  },
+  author: {
+    fontSize: moderateScale(22),
     fontStyle: "italic",
     fontFamily: "Baskerville-Bold",
     color: "darkblue",
-    marginLeft: 180,
+    marginLeft: moderateScale(140),
+    marginBottom: moderateScale(-10),
   },
 });
 

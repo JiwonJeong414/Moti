@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  TextInput,
   Keyboard,
   Button,
   Modal,
@@ -22,9 +21,9 @@ import CustomDatePicker from "../Components/CustomDatePicker";
 import BannerAndIcon from "../Components/BannerAndIcon";
 import colorsContext from "../config/colorsContext";
 import colors from "../config/colors";
-import TemplateColors from "./TemplateColorsScreen";
 import Quotes from "../Components/Quotes";
 import { RootContext } from "../config/RootContext";
+import { TextInput } from "react-native-paper";
 
 const HomeScreen = ({ navigation, route }) => {
   const theme = useContext(colorsContext);

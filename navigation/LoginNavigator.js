@@ -43,12 +43,13 @@ import Modal from "react-native-modal";
 const BottomTab = createMaterialBottomTabNavigator();
 
 export default function BottomTabNavigator({ navigation }) {
+  const { colorTheme } = React.useContext(RootContext);
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       shifting={true}
       sceneAnimationEnabled={true}
-      barStyle={{ backgroundColor: "red" }}
+      barStyle={{ backgroundColor: colorTheme.neutral }}
     >
       <BottomTab.Screen
         name="Home"
@@ -59,7 +60,7 @@ export default function BottomTabNavigator({ navigation }) {
             <MaterialCommunityIcons
               name="home"
               size={moderateScale(20)}
-              color={color}
+              color={colorTheme.accents}
             />
           ),
         }}
@@ -73,7 +74,7 @@ export default function BottomTabNavigator({ navigation }) {
             <FontAwesome5
               name="phone-alt"
               size={moderateScale(20)}
-              color={color}
+              color={colorTheme.accents}
             />
           ),
         }}
@@ -158,7 +159,7 @@ export function HomeTabNavigator({ navigation }) {
                     <View style={[styles.item, { marginTop: 10 }]}>
                       <View style={styles.itemLeft}>
                         <View style={styles.square}></View>
-                        <Text style={styles.itemText}>Choose Template</Text>
+                        <Text style={styles.itemText}>Themes/Modes</Text>
                       </View>
                       <View style={styles.circular}></View>
                     </View>

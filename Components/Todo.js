@@ -4,8 +4,6 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
-  Button,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
@@ -13,6 +11,8 @@ import {
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Task from "./Task";
+import { Button, IconButton, TextInput } from "react-native-paper";
+import { moderateScale } from "react-native-size-matters";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
@@ -51,6 +51,11 @@ const Todo = ({ widgetTitle }) => {
     setModalVisible(false);
   };
 
+  const handleModal = () => {
+    setTask(null);
+    setModalVisible(true);
+  };
+
   return (
     <>
       {loading ? (
@@ -72,9 +77,15 @@ const Todo = ({ widgetTitle }) => {
       <View style={styles.container}>
         <View style={styles.groupRow}>
           <Text style={styles.sectionTitle}> {widgetTitle}</Text>
-          <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-            <View style={styles.addButton}></View>
-          </TouchableWithoutFeedback>
+          <IconButton
+            icon="sticker-plus"
+            onPress={handleModal}
+            style={{
+              right: moderateScale(15),
+              marginBottom: moderateScale(-8),
+              bottom: moderateScale(8),
+            }}
+          />
           <Modal
             isVisible={modalVisible}
             animationIn="bounceIn"
@@ -84,17 +95,26 @@ const Todo = ({ widgetTitle }) => {
             onBackdropPress={() => setModalVisible(false)}
             style={styles.modalBackground}
           >
-            <TextInput
-              style={styles.modalHeader}
-              placeholder="Type your todos here"
-              placeholderTextColor={"gray"}
-              value={task}
-              onChangeText={(text) => setTask(text)}
-            />
-            <View style={styles.closeButton} />
-            <TouchableWithoutFeedback onPress={() => handleAddTask(task)}>
-              <View style={styles.closeButton}></View>
-            </TouchableWithoutFeedback>
+            <View style={styles.modalHeader}>
+              <TextInput
+                label="Task Title"
+                mode="outlined"
+                style={{ width: moderateScale(245) }}
+                value={task}
+                onChangeText={(text) => setTask(text)}
+              />
+              <Button
+                mode="contained"
+                onPress={() => handleAddTask(task)}
+                style={{
+                  position: "absolute",
+                  left: moderateScale(200),
+                  top: moderateScale(190),
+                }}
+              >
+                Add
+              </Button>
+            </View>
           </Modal>
         </View>
         {taskItems != null ? (

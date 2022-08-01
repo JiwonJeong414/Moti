@@ -5,8 +5,6 @@ import {
   View,
   TouchableHighlight,
   Platform,
-  Button,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -15,6 +13,8 @@ import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-neat-date-picker";
 import Events from "./Events";
+import { Button, IconButton, TextInput } from "react-native-paper";
+import { moderateScale } from "react-native-size-matters";
 
 const CustomDatePicker = ({ widgetTitle }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -48,11 +48,25 @@ const CustomDatePicker = ({ widgetTitle }) => {
     setEvents(newDataArray);
   };
 
+  const handleModal = () => {
+    showModal(true);
+    setTitle(null);
+    setDate(null);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.sectionTitle}> {widgetTitle}</Text>
-        <Button title={"Choose Date"} onPress={() => showModal(true)} />
+        <IconButton
+          icon="calendar-plus"
+          onPress={handleModal}
+          style={{
+            right: moderateScale(15),
+            marginBottom: moderateScale(-8),
+            bottom: moderateScale(8),
+          }}
+        />
       </View>
       <Modal
         isVisible={modal}
@@ -64,29 +78,51 @@ const CustomDatePicker = ({ widgetTitle }) => {
         style={styles.modalBackground}
       >
         <View style={styles.modalHeader}>
-          <View style={styles.title}>
-            <TextInput
-              placeholder="Type your event title here"
-              placeholderTextColor={"gray"}
-              value={title}
-              onChangeText={(text) => setTitle(text)}
-            />
-          </View>
-          <TouchableWithoutFeedback onPress={openDatePicker}>
-            <View style={styles.date}>
-              <DatePicker
-                isVisible={showDatePicker}
-                mode={"single"}
-                onCancel={onCancel}
-                onConfirm={onConfirm}
-                initialDate={new Date()}
-              />
-              {events != null ? <Text>{date}</Text> : <></>}
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={handleAdd}>
-            <View style={styles.closeButton}></View>
-          </TouchableWithoutFeedback>
+          <TextInput
+            label="Event Title"
+            value={title}
+            mode="outlined"
+            onChangeText={(text) => setTitle(text)}
+            style={{
+              width: moderateScale(190),
+              marginBottom: moderateScale(20),
+            }}
+          />
+          {date === null ? (
+            <Button
+              mode="contained"
+              icon="calendar-month"
+              onPress={openDatePicker}
+            >
+              Select Date
+            </Button>
+          ) : (
+            <Button
+              mode="contained"
+              icon="calendar-month"
+              onPress={openDatePicker}
+            >
+              {date}
+            </Button>
+          )}
+          <DatePicker
+            isVisible={showDatePicker}
+            mode={"single"}
+            onCancel={onCancel}
+            onConfirm={onConfirm}
+            initialDate={new Date()}
+          />
+          <Button
+            mode="contained"
+            onPress={handleAdd}
+            style={{
+              position: "absolute",
+              left: moderateScale(195),
+              top: moderateScale(190),
+            }}
+          >
+            Add
+          </Button>
         </View>
       </Modal>
       {events != null ? (
@@ -146,7 +182,6 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   modalHeader: {
-    display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",

@@ -10,7 +10,6 @@ import {
   Platform,
   TextInput,
   Keyboard,
-  Button,
   TouchableHighlight,
   TouchableWithoutFeedback,
   ScrollView,
@@ -19,9 +18,9 @@ import Completed from "../Components/Completed";
 import ColorPicker from "react-native-wheel-color-picker";
 import Modal from "react-native-modal";
 import { EventRegister } from "react-native-event-listeners";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Entypo, AntDesign } from "@expo/vector-icons";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
-import { ModeContext } from "../App";
+import { Button } from "react-native-paper";
 import { RootContext } from "../config/RootContext";
 
 const TemplateColors = () => {
@@ -29,8 +28,11 @@ const TemplateColors = () => {
   const [customVisible, setCustomVisible] = useState(false);
   const { colorTheme, setColorTheme } = React.useContext(RootContext);
   const [primary, setPrimary] = useState(colorTheme.primary);
-  const [neutral, setNeutral] = useState("white");
-  const [accents, setAccents] = useState("white");
+  const [neutral, setNeutral] = useState(colorTheme.neutral);
+  const [accents, setAccents] = useState(colorTheme.accents);
+
+  const [customColor, setCustomColor] = useState("");
+  const [customPicked, setCustomPicked] = useState("");
 
   useEffect(() => {
     let colorTheme = {
@@ -44,11 +46,46 @@ const TemplateColors = () => {
       colorTheme.primary = "red";
     } else if (primary == "blue") {
       colorTheme.primary = "blue";
+    } else if (primary == "custom") {
+      colorTheme.primary = customColor;
     }
     setColorTheme(colorTheme);
   }, [primary]);
 
+  useEffect(() => {
+    let colorTheme = {
+      primary: primary,
+      neutral: "",
+      accents: accents,
+    };
+    if (neutral == "white") {
+      colorTheme.neutral = "white";
+    } else if (neutral == "red") {
+      colorTheme.neutral = "red";
+    } else if (neutral == "blue") {
+      colorTheme.neutral = "blue";
+    }
+    setColorTheme(colorTheme);
+  }, [neutral]);
+
+  useEffect(() => {
+    let colorTheme = {
+      primary: primary,
+      neutral: neutral,
+      accents: "",
+    };
+    if (accents == "white") {
+      colorTheme.accents = "white";
+    } else if (accents == "red") {
+      colorTheme.accents = "red";
+    } else if (accents == "blue") {
+      colorTheme.accents = "blue";
+    }
+    setColorTheme(colorTheme);
+  }, [accents]);
+
   const colorPicked = (color) => {
+    console.log("picked");
     setPrimary(color);
   };
 
@@ -60,9 +97,10 @@ const TemplateColors = () => {
     setAccents(color);
   };
 
-  const customPicked = () => {
+  const handleCustomColor = (color) => {
     colorPicked("custom");
-    setCustomVisible(true);
+    setCustomPicked(color);
+    setCustomVisible(false);
   };
 
   return (
@@ -70,6 +108,49 @@ const TemplateColors = () => {
       <View style={styles.whiteBackground}>
         <View style={[styles.modalBackground, { marginTop: 50 }]}>
           <Text style={styles.header}>Primary</Text>
+          <Modal isVisible={customVisible} style={styles.customModal}>
+            <View style={styles.wheelBackground}>
+              <View style={styles.test}>
+                <ColorPicker
+                  sliderSize={30}
+                  gapSize={20}
+                  thumbSize={25}
+                  onColorChange={(color) => setCustomColor(color)}
+                />
+              </View>
+              <Button
+                mode="contained"
+                color={customColor}
+                onPress={() => handleCustomColor(customColor)}
+                style={{ marginLeft: 220, top: 170, marginTop: 50 }}
+              >
+                Select
+              </Button>
+            </View>
+          </Modal>
+          <TouchableWithoutFeedback onPress={() => setCustomVisible(true)}>
+            {primary === "custom" ? (
+              <View
+                style={[
+                  styles.pickedColor,
+                  {
+                    backgroundColor: customPicked,
+                  },
+                ]}
+              >
+                <Completed />
+              </View>
+            ) : (
+              <View
+                style={[
+                  styles.pickedColor,
+                  { borderColor: "black", borderWidth: moderateScale(5) },
+                ]}
+              >
+                <AntDesign name="plus" size={moderateScale(30)} color="black" />
+              </View>
+            )}
+          </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={() => colorPicked("white")}>
             <View
               style={[
@@ -104,29 +185,6 @@ const TemplateColors = () => {
               ]}
             >
               {primary === "blue" ? <Completed /> : <></>}
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={customPicked}>
-            <View
-              style={[
-                styles.pickedColor,
-                {
-                  backgroundColor: "gray",
-                },
-              ]}
-            >
-              <Modal
-                isVisible={customVisible}
-                onBackdropPress={() => setCustomVisible(false)}
-                style={styles.customModal}
-              >
-                <View style={styles.wheelBackground}>
-                  <View style={styles.test}>
-                    <ColorPicker sliderSize={30} gapSize={20} thumbSize={25} />
-                  </View>
-                </View>
-              </Modal>
-              {primary === "custom" ? <Completed /> : <></>}
             </View>
           </TouchableWithoutFeedback>
         </View>
