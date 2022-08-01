@@ -22,7 +22,7 @@ import CustomDatePicker from "../Components/CustomDatePicker";
 import BannerAndIcon from "../Components/BannerAndIcon";
 import colorsContext from "../config/colorsContext";
 import colors from "../config/colors";
-import TemplateColors from "../Components/TemplateColors";
+import TemplateColors from "./TemplateColorsScreen";
 import Quotes from "../Components/Quotes";
 import { RootContext } from "../config/RootContext";
 
@@ -40,11 +40,6 @@ const HomeScreen = ({ navigation, route }) => {
     getName();
   }, [onboarded]);
 
-  const deleteUsername = async () => {
-    await AsyncStorage.removeItem("Name");
-    setOnboard(false);
-  };
-
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.color }]}>
       <View>
@@ -55,9 +50,6 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
         <View style={styles.row}>
           <Text style={styles.text}> {myName}'s Dashboard </Text>
-          <TouchableWithoutFeedback onPress={() => deleteUsername()}>
-            <View style={styles.deleteAccount} />
-          </TouchableWithoutFeedback>
         </View>
         <CustomDatePicker widgetTitle="Events" />
         <Todo widgetTitle="Today's Tasks" />

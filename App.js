@@ -29,6 +29,7 @@ import { BlurView } from "expo-blur";
 import BottomTabNavigator, {
   HomeTabNavigator,
 } from "./navigation/LoginNavigator";
+import { RootContext } from "./config/RootContext";
 
 const Stack = createNativeStackNavigator();
 const BottomStack = createBottomTabNavigator();
@@ -38,7 +39,7 @@ export const ModeContext = createContext(null);
 export default function App() {
   const neutralColor = useContext(neutralContext);
 
-  const [onboarded, setOnboard] = useState(false);
+  const [onboarded, setOnboard] = React.useState(false);
   const [loading, setLoading] = useState();
   const [primary, setPrimary] = useState("white");
   const [neutral, setNeutral] = useState("white");
@@ -87,24 +88,33 @@ export default function App() {
                   options={{ headerShown: false }}
                 />
               </Stack.Navigator>
-            ) : onboarded === false ? (
-              <Stack.Navigator>
-                <Stack.Screen
-                  name="Login"
-                  component={OnBoardingScreen}
-                  options={{ headerShown: false }}
-                  initialParams={{
-                    onboarded: onboarded,
-                    setOnboard: setOnboard,
-                  }}
-                />
-              </Stack.Navigator>
             ) : (
-              <Stack.Navigator>
-                <Stack.Screen name="Root" component={BottomTabNavigator} />
-                <Stack.Screen name="Home" component={HomeTabNavigator} />
-              </Stack.Navigator>
+              <></>
             )}
+            <RootContext.Provider
+              value={{ onboarded: onboarded, setOnboard: setOnboard }}
+            >
+              {onboarded === false ? (
+                <Stack.Navigator>
+                  <Stack.Screen
+                    name="Login"
+                    component={OnBoardingScreen}
+                    options={{ headerShown: false }}
+                  />
+                </Stack.Navigator>
+              ) : (
+                <Stack.Navigator
+                  screenOptions={{
+                    headerShown: false,
+                    gestureEnabled: true,
+                    gestureDirection: "vertical",
+                  }}
+                >
+                  <Stack.Screen name="Root" component={BottomTabNavigator} />
+                  <Stack.Screen name="Home" component={HomeTabNavigator} />
+                </Stack.Navigator>
+              )}
+            </RootContext.Provider>
           </NavigationContainer>
         </neutralContext.Provider>
       </colorsContext.Provider>

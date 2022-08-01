@@ -18,7 +18,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
 import ProfileInput from "../Components/ProfileInput";
-import TemplateColors from "./TemplateColors";
+import TemplateColors from "../screens/TemplateColorsScreen";
 
 const BannerAndIcon = () => {
   const [imageUri, setImageUri] = useState();

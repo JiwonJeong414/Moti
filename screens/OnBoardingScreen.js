@@ -12,10 +12,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreen from "../screens/HomeScreen";
+import { RootContext } from "../config/RootContext";
 
 const OnBoardingScreen = ({ navigation, route }) => {
   const [text, setText] = useState();
-  const { onboarded, setOnboard } = route.params;
+  const { onboarded, setOnboard } = React.useContext(RootContext);
 
   const setName = async (name) => {
     await AsyncStorage.setItem("Name", JSON.stringify(name));
