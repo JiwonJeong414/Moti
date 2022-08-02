@@ -8,12 +8,6 @@ import {
 } from "react-native";
 
 const Event = ({ text, title }) => {
-  const calculateDate = (text) => {
-    const today = new Date();
-    const selectedDate = text.split("-");
-    return Number(selectedDate[2]) - Number(today.getDate());
-  };
-
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
@@ -23,7 +17,17 @@ const Event = ({ text, title }) => {
       </View>
       <View style={styles.itemLeft}>
         <View style={styles.circular}></View>
-        <Text style={styles.left}>{calculateDate(text)} Days Left</Text>
+        {text > 1 ? (
+          <Text style={styles.left}>{text} Days Left</Text>
+        ) : text === 0 ? (
+          <Text style={styles.left}>D-Day</Text>
+        ) : text < 1 ? (
+          <Text style={styles.left}>{Math.abs(text)} Days Ago</Text>
+        ) : text === 1 ? (
+          <Text style={styles.left}>{text} Day Left </Text>
+        ) : (
+          <Text style={styles.left}>{Math.abs(text)} Day Ago </Text>
+        )}
       </View>
     </View>
   );
