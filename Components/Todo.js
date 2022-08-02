@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Task from "./Task";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
+import { Swipeable } from "react-native-gesture-handler";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
@@ -36,15 +37,16 @@ const Todo = ({ widgetTitle }) => {
     setTaskItems(newData.tasks);
   };
 
-  const deleteToDoItem = async (deleteTitle) => {
-    let newDataArray = taskItems.filter((title) => title != deleteTitle);
-    let newDataObject = { tasks: newDataArray };
-    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newDataObject));
-    setTaskItems(newDataArray);
+  const deleteToDoItem = async (index) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy.splice(index, 1);
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(itemsCopy));
+    setTaskItems(itemsCopy);
   };
 
   const handleAddTask = (title) => {
     setLoading(true);
+    console.log("title: " + title);
     setToDoItem(title);
     setTask(null);
     setLoading(false);
@@ -124,7 +126,17 @@ const Todo = ({ widgetTitle }) => {
                 key={index}
                 onPress={() => deleteToDoItem(item)}
               >
-                <Task text={item} />
+                <Task
+                  text={item}
+                  renderRightActions={() => (
+                    <View
+                      style={{
+                        backgroundColor: "red",
+                        width: 70,
+                      }}
+                    ></View>
+                  )}
+                />
               </TouchableOpacity>
             );
           })

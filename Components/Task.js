@@ -1,15 +1,39 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Swipeable } from "react-native-gesture-handler";
 
-const Task = ({ text }) => {
+const Task = ({ text, renderRightActions }) => {
+  const [completedVisible, setCompletedVisible] = useState(false);
+
+  const handleComplete = () => {
+    setCompletedVisible(!completedVisible);
+  };
+
   return (
-    <View style={styles.item}>
-      <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
-        <Text style={styles.itemText}>{text}</Text>
+    <Swipeable renderRightActions={renderRightActions}>
+      <View style={styles.item}>
+        <View style={styles.itemLeft}>
+          <TouchableWithoutFeedback onPress={handleComplete}>
+            <View style={styles.square}>
+              {completedVisible === true ? (
+                <MaterialCommunityIcons name="check" size={30} />
+              ) : (
+                <></>
+              )}
+            </View>
+          </TouchableWithoutFeedback>
+          <Text style={styles.itemText}>{text}</Text>
+        </View>
+        <View style={styles.circular}></View>
       </View>
-      <View style={styles.circular}></View>
-    </View>
+    </Swipeable>
   );
 };
 
@@ -33,6 +57,8 @@ const styles = StyleSheet.create({
   square: {
     width: 24,
     height: 24,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#55BCF6",
     opacity: 0.4,
     borderRadius: 5,

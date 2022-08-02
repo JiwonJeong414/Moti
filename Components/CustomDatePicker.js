@@ -36,6 +36,13 @@ const CustomDatePicker = ({ widgetTitle }) => {
   const onConfirm = (date) => {
     setShowDatePicker(false);
     setDate(date.dateString);
+    let today = new Date();
+    let day = today.getDay();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let myToday = calculate(year + "-" + (month + 1) + "-" + day);
+    let myDate = calculate(date.dateString);
+    setCalculateDate(myDate - myToday);
   };
 
   const calculate = (text) => {
@@ -44,7 +51,6 @@ const CustomDatePicker = ({ widgetTitle }) => {
     let addedDate = 0;
     addedDate = Math.floor(Number(selectedDate[0]) / 4) * 1461;
     let isLeapYear = false;
-    console.log("addedDate: " + addedDate);
     if (Number(selectedDate[0]) % 4 === 0) isLeapYear = true;
     if (!isLeapYear) addedDate += (Number(selectedDate[0]) % 4) * 365;
     // 31
@@ -100,9 +106,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
     else if (Number(selectedDate[1]) - 1 === 11 && isLeapYear === true)
       addedDate += 335;
     // 31 (now add days)
-    console.log("addedDate: " + addedDate);
     addedDate += Number(selectedDate[2]);
-    console.log("addedDate: " + addedDate);
     return addedDate;
   };
 
@@ -110,29 +114,25 @@ const CustomDatePicker = ({ widgetTitle }) => {
     if (date === null) {
       Alert.alert("You need to select a date");
     } else {
-      let today = new Date();
-      let day = today.getDay();
-      let month = today.getMonth();
-      let year = today.getFullYear();
-      let myToday = calculate(year + "-" + (month + 1) + "-" + day);
-      let myDate = calculate(date);
-      setCalculateDate(myDate - myToday);
       showModal(false);
-      setEvents([...events, date]);
+      setEvents([...events, { date: calculateDate, title: title }]);
+      setCalculateDate(null);
+      setTitle(null);
       setDate(null);
     }
   };
 
-  const deleteEventItem = (deleteTitle) => {
-    let newDataArray = events.filter((title) => title != deleteTitle);
-    setTitle(null);
-    setEvents(newDataArray);
+  const deleteEventItem = (index) => {
+    let itemsCopy = [...events];
+    itemsCopy.splice(index, 1);
+    setEvents(itemsCopy);
   };
 
   const handleModal = () => {
     showModal(true);
     setTitle(null);
     setDate(null);
+    setCalculateDate(null);
   };
 
   return (
@@ -209,8 +209,11 @@ const CustomDatePicker = ({ widgetTitle }) => {
       {events != null ? (
         events.map((item, index) => {
           return (
-            <TouchableOpacity key={index} onPress={() => deleteEventItem(item)}>
-              <Events text={calculateDate} title={title} />
+            <TouchableOpacity
+              key={index}
+              onPress={() => deleteEventItem(index)}
+            >
+              <Events text={item.date} title={item.title} />
             </TouchableOpacity>
           );
         })
