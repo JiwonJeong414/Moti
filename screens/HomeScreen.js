@@ -83,7 +83,6 @@ const HomeScreen = ({ navigation, route }) => {
           </View>
           <CustomDatePicker widgetTitle="Events" />
           <Todo widgetTitle="Today's Tasks" />
-          <Task />
         </View>
       }
       data={taskTests}

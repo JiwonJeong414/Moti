@@ -5,6 +5,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
@@ -14,12 +15,30 @@ import Task from "./Task";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
 import { Swipeable } from "react-native-gesture-handler";
+import GestureRecognizer, {
+  swipeDirections,
+} from "react-native-swipe-gestures";
+import ListItemDeleteAction from "./ListItemDeleteAction";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
+  const [taskItems, setTaskItems] = useState(["die", "potato"]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const DATA = [
+    {
+      title: "First Item",
+    },
+    {
+      title: "Second Item",
+    },
+    {
+      title: "Third Item",
+    },
+  ];
+
+  const [testData, setTestData] = useState([]);
 
   useEffect(() => {
     const retrieveToDoItems = async () => {
@@ -32,9 +51,12 @@ const Todo = ({ widgetTitle }) => {
   }, []);
 
   const setToDoItem = async (title) => {
-    let newData = { tasks: [...taskItems, title] };
-    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
-    setTaskItems(newData.tasks);
+    // let newData = { tasks: [...taskItems, title] };
+    // await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
+    // setTaskItems(newData.tasks);
+    // console.log("yeah: " + taskItems + "asdjfk: " + title);
+    // let newData = [...taskItems, title];
+    setTaskItems([...taskItems, { task: title, id: Math.random() }]);
   };
 
   const deleteToDoItem = async (index) => {
@@ -46,8 +68,7 @@ const Todo = ({ widgetTitle }) => {
 
   const handleAddTask = (title) => {
     setLoading(true);
-    console.log("title: " + title);
-    setToDoItem(title);
+    setTestData([...testData, { title: title }]);
     setTask(null);
     setLoading(false);
     setModalVisible(false);
@@ -56,6 +77,16 @@ const Todo = ({ widgetTitle }) => {
   const handleModal = () => {
     setTask(null);
     setModalVisible(true);
+  };
+
+  const handleDelete = (item, index) => {
+    console.log("item: " + item);
+    console.log("index222: " + index);
+    console.log("index: " + DATA.findIndex((obj) => obj.id === item.id));
+    let itemsCopy = [...testData];
+    itemsCopy.splice(index, 1);
+    console.log(itemsCopy);
+    setTestData(itemsCopy);
   };
 
   return (
@@ -119,30 +150,19 @@ const Todo = ({ widgetTitle }) => {
             </View>
           </Modal>
         </View>
-        {taskItems != null ? (
-          taskItems.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => deleteToDoItem(item)}
-              >
-                <Task
-                  text={item}
-                  renderRightActions={() => (
-                    <View
-                      style={{
-                        backgroundColor: "red",
-                        width: 70,
-                      }}
-                    ></View>
-                  )}
+        <FlatList
+          data={testData}
+          renderItem={({ item, index }) => (
+            <Task
+              text={item.title}
+              renderRightActions={() => (
+                <ListItemDeleteAction
+                  onPress={() => handleDelete(item, index)}
                 />
-              </TouchableOpacity>
-            );
-          })
-        ) : (
-          <></>
-        )}
+              )}
+            />
+          )}
+        ></FlatList>
       </View>
     </>
   );
