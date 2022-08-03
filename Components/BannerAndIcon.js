@@ -33,7 +33,7 @@ const BannerAndIcon = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View>
       <ImageInput
         imageUri={imageUri}
         onChangeImage={(uri) => setImageUri(uri)}
@@ -53,10 +53,6 @@ const BannerAndIcon = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  button: {
-    left: 100,
-    marginTop: 200,
   },
   image: {
     width: "100%",

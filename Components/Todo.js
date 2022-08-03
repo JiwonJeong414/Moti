@@ -22,53 +22,36 @@ import ListItemDeleteAction from "./ListItemDeleteAction";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState(["die", "potato"]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const DATA = [
-    {
-      title: "First Item",
-    },
-    {
-      title: "Second Item",
-    },
-    {
-      title: "Third Item",
-    },
-  ];
-
   const [testData, setTestData] = useState([]);
 
   useEffect(() => {
     const retrieveToDoItems = async () => {
       let retrieveData = await AsyncStorage.getItem("ToDoItems");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTaskItems([]);
-      else setTaskItems(retrieveData.tasks);
+      if (retrieveData == null) setTestData([]);
+      else setTestData(retrieveData);
     };
     retrieveToDoItems();
   }, []);
 
   const setToDoItem = async (title) => {
-    // let newData = { tasks: [...taskItems, title] };
-    // await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
-    // setTaskItems(newData.tasks);
-    // console.log("yeah: " + taskItems + "asdjfk: " + title);
-    // let newData = [...taskItems, title];
-    setTaskItems([...taskItems, { task: title, id: Math.random() }]);
+    let newData = [...testData, { title: title }];
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
+    setTestData(newData);
   };
 
   const deleteToDoItem = async (index) => {
-    let itemsCopy = [...taskItems];
+    let itemsCopy = [...testData];
     itemsCopy.splice(index, 1);
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(itemsCopy));
-    setTaskItems(itemsCopy);
+    setTestData(itemsCopy);
   };
 
   const handleAddTask = (title) => {
     setLoading(true);
-    setTestData([...testData, { title: title }]);
+    setToDoItem(title);
     setTask(null);
     setLoading(false);
     setModalVisible(false);
@@ -80,13 +63,7 @@ const Todo = ({ widgetTitle }) => {
   };
 
   const handleDelete = (item, index) => {
-    console.log("item: " + item);
-    console.log("index222: " + index);
-    console.log("index: " + DATA.findIndex((obj) => obj.id === item.id));
-    let itemsCopy = [...testData];
-    itemsCopy.splice(index, 1);
-    console.log(itemsCopy);
-    setTestData(itemsCopy);
+    deleteToDoItem(index);
   };
 
   return (
@@ -119,37 +96,37 @@ const Todo = ({ widgetTitle }) => {
               bottom: moderateScale(8),
             }}
           />
-          <Modal
-            isVisible={modalVisible}
-            animationIn="bounceIn"
-            animationOut="bounceOut"
-            useNativeDriver
-            hideModalContentWhileAnimating
-            onBackdropPress={() => setModalVisible(false)}
-            style={styles.modalBackground}
-          >
-            <View style={styles.modalHeader}>
-              <TextInput
-                label="Task Title"
-                mode="outlined"
-                style={{ width: moderateScale(245) }}
-                value={task}
-                onChangeText={(text) => setTask(text)}
-              />
-              <Button
-                mode="contained"
-                onPress={() => handleAddTask(task)}
-                style={{
-                  position: "absolute",
-                  left: moderateScale(200),
-                  top: moderateScale(190),
-                }}
-              >
-                Add
-              </Button>
-            </View>
-          </Modal>
         </View>
+        <Modal
+          isVisible={modalVisible}
+          animationIn="bounceIn"
+          animationOut="bounceOut"
+          useNativeDriver
+          hideModalContentWhileAnimating
+          onBackdropPress={() => setModalVisible(false)}
+          style={styles.modalBackground}
+        >
+          <View style={styles.modalHeader}>
+            <TextInput
+              label="Task Title"
+              mode="outlined"
+              style={{ width: moderateScale(245) }}
+              value={task}
+              onChangeText={(text) => setTask(text)}
+            />
+            <Button
+              mode="contained"
+              onPress={() => handleAddTask(task)}
+              style={{
+                position: "absolute",
+                left: moderateScale(200),
+                top: moderateScale(190),
+              }}
+            >
+              Add
+            </Button>
+          </View>
+        </Modal>
         <FlatList
           data={testData}
           renderItem={({ item, index }) => (
@@ -170,7 +147,7 @@ const Todo = ({ widgetTitle }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    top: -120,
   },
   addButton: {
     width: 24,
@@ -187,15 +164,6 @@ const styles = StyleSheet.create({
   },
   groupRow: {
     flexDirection: "row",
-  },
-  closeButton: {
-    width: 140,
-    height: 55,
-    top: 490,
-    left: 180,
-    borderRadius: 20,
-    backgroundColor: "#553AF6",
-    position: "absolute",
   },
   modalBackground: {
     justifyContent: "center",

@@ -45,7 +45,8 @@ const Quotes = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: -10,
+    paddingLeft: 10,
   },
   words: {
     fontSize: moderateScale(22),
