@@ -21,14 +21,41 @@ export default function App() {
   const [onboarded, setOnboard] = React.useState(false);
   const [colorTheme, setColorTheme] = React.useState({});
   const [loading, setLoading] = useState();
+  const [primary, setPrimary] = useState();
+  const [neutral, setNeutral] = useState();
+  const [accents, setAccents] = useState();
 
   useEffect(() => {
     let colorTheme = {
-      primary: "white",
-      neutral: "white",
-      accents: "#939597",
+      primary: primary,
+      neutral: neutral,
+      accents: accents,
     };
     setColorTheme(colorTheme);
+  }, [accents]);
+
+  useEffect(() => {
+    const retrievePrimary = async () => {
+      let retrieveData = await AsyncStorage.getItem("Primary");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setPrimary("#939597");
+      else setPrimary(retrieveData);
+    };
+    retrievePrimary();
+    const retrieveNeutral = async () => {
+      let retrieveData = await AsyncStorage.getItem("Neutral");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setNeutral("#939597");
+      else setNeutral(retrieveData);
+    };
+    retrieveNeutral();
+    const retrieveAccents = async () => {
+      let retrieveData = await AsyncStorage.getItem("Accents");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setAccents("#939597");
+      else setAccents(retrieveData);
+    };
+    retrieveAccents();
     const checkIfLoggedIn = async () => {
       let userName = await AsyncStorage.getItem("Name");
       userName = JSON.parse(userName);
