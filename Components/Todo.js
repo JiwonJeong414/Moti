@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   FlatList,
+  ScrollView,
   ActivityIndicator,
   Dimensions,
 } from "react-native";

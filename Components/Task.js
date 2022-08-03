@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 
 const Task = ({ text, renderRightActions }) => {
   const [completedVisible, setCompletedVisible] = useState(false);
-
   const handleComplete = () => {
     setCompletedVisible(!completedVisible);
   };
@@ -23,13 +22,25 @@ const Task = ({ text, renderRightActions }) => {
           <TouchableWithoutFeedback onPress={handleComplete}>
             <View style={styles.square}>
               {completedVisible === true ? (
-                <MaterialCommunityIcons name="check" size={30} />
+                <AntDesign
+                  name="close"
+                  size={30}
+                  style={{ right: 2.5, bottom: 2.5 }}
+                />
               ) : (
                 <></>
               )}
             </View>
           </TouchableWithoutFeedback>
-          <Text style={styles.itemText}>{text}</Text>
+          {completedVisible === true ? (
+            <Text
+              style={[styles.itemText, { textDecorationLine: "line-through" }]}
+            >
+              {text}
+            </Text>
+          ) : (
+            <Text style={styles.itemText}>{text}</Text>
+          )}
         </View>
         <View style={styles.circular}></View>
       </View>
@@ -39,6 +50,8 @@ const Task = ({ text, renderRightActions }) => {
 
 const styles = StyleSheet.create({
   item: {
+    borderWidth: 2,
+    borderColor: "black",
     backgroundColor: "#FFF",
     padding: 15,
     left: 20,
@@ -47,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   itemLeft: {
     flexDirection: "row",
@@ -58,9 +71,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#55BCF6",
-    opacity: 0.4,
     borderRadius: 5,
     marginRight: 15,
   },

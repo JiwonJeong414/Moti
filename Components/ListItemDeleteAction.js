@@ -8,8 +8,8 @@ function ListItemDeleteAction({ onPress }) {
     <TouchableWithoutFeedback onPress={onPress}>
       <View
         style={{
-          width: 70,
-          backgroundColor: "blue",
+          marginBottom: moderateScale(10),
+          paddingRight: moderateScale(10),
           justifyContent: "center",
           alignItems: "center",
         }}

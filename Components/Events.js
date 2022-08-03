@@ -10,29 +10,27 @@ import { Swipeable } from "react-native-gesture-handler";
 
 const Event = ({ text, title, renderRightActions }) => {
   return (
-    <Swipeable renderRightActions={renderRightActions}>
-      <View style={styles.item}>
-        <View style={styles.itemLeft}>
-          <View style={styles.square}></View>
-          <Text style={styles.text}> </Text>
-          <Text style={styles.itemText}>{title}</Text>
-        </View>
-        <View style={styles.itemLeft}>
-          <View style={styles.circular}></View>
-          {text > 1 ? (
-            <Text style={styles.left}>{text} Days Left</Text>
-          ) : text === 0 ? (
-            <Text style={styles.left}>D-Day</Text>
-          ) : text < 1 ? (
-            <Text style={styles.left}>{Math.abs(text)} Days Ago</Text>
-          ) : text === 1 ? (
-            <Text style={styles.left}>{text} Day Left </Text>
-          ) : (
-            <Text style={styles.left}>{Math.abs(text)} Day Ago </Text>
-          )}
-        </View>
+    <View style={styles.item}>
+      <View style={styles.itemLeft}>
+        <View style={styles.square}></View>
+        <Text style={styles.text}> </Text>
+        <Text style={styles.itemText}>{title}</Text>
       </View>
-    </Swipeable>
+      <View style={styles.itemLeft}>
+        <View style={styles.circular}></View>
+        {text > 1 ? (
+          <Text style={styles.left}>{text} Days Left</Text>
+        ) : text === 0 ? (
+          <Text style={styles.left}>D-Day</Text>
+        ) : text < 1 ? (
+          <Text style={styles.left}>{Math.abs(text)} Days Ago</Text>
+        ) : text === 1 ? (
+          <Text style={styles.left}>{text} Day Left </Text>
+        ) : (
+          <Text style={styles.left}>{Math.abs(text)} Day Ago </Text>
+        )}
+      </View>
+    </View>
   );
 };
 

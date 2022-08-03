@@ -22,11 +22,7 @@ import HotlineScreen from "../screens/HotlineScreen";
 import LoadingScreen from "../screens/LoadingScreen";
 import OnBoardingScreen from "../screens/OnBoardingScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import colorsContext from "../config/colorsContext";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
-import colors from "../config/colors";
-import neutralContext from "../config/neutralContext";
-import neutral from "../config/neutral";
 import {
   MaterialCommunityIcons,
   Entypo,
