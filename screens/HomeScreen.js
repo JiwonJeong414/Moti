@@ -12,13 +12,21 @@ import Task from "../Components/Task";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Todo from "../Components/Todo";
 import CustomDatePicker from "../Components/CustomDatePicker";
-import BannerAndIcon from "../Components/BannerAndIcon";
 import Quotes from "../Components/Quotes";
+import BannerAndIcon from "../Components/BannerAndIcon";
 import { RootContext } from "../config/RootContext";
 import ListItemDeleteAction from "../Components/ListItemDeleteAction";
 import { moderateScale } from "react-native-size-matters";
-import { Button, IconButton, TextInput } from "react-native-paper";
 import Modal from "react-native-modal";
+import {
+  Avatar,
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  IconButton,
+  TextInput,
+} from "react-native-paper";
 
 const HomeScreen = ({ navigation, route }) => {
   const [myName, setMyName] = useState();
@@ -77,71 +85,93 @@ const HomeScreen = ({ navigation, route }) => {
     getName();
   }, [onboarded]);
 
+  const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
+
   return (
-    <FlatList
-      style={{ backgroundColor: colorTheme.primary }}
-      ListHeaderComponent={
-        <View
-          style={[styles.container, { backgroundColor: colorTheme.primary }]}
-        >
-          <BannerAndIcon />
-          <Quotes />
-          <Text style={styles.text}>{myName}'s Dashboard</Text>
-          <CustomDatePicker widgetTitle="Events" />
-          <View style={styles.groupRow}>
-            <Text style={styles.sectionTitle}> Tasks</Text>
-            <IconButton
-              icon="sticker-plus"
-              onPress={handleModal}
-              style={{
-                right: moderateScale(15),
-                marginBottom: moderateScale(-8),
-                bottom: moderateScale(8),
-              }}
-            />
-          </View>
-          <Modal
-            isVisible={modalVisible}
-            animationIn="bounceIn"
-            animationOut="bounceOut"
-            useNativeDriver
-            hideModalContentWhileAnimating
-            onBackdropPress={() => setModalVisible(false)}
-            style={styles.modalBackground}
+    <View>
+      <FlatList
+        style={{ backgroundColor: colorTheme.primary }}
+        ListHeaderComponent={
+          <View
+            style={[styles.container, { backgroundColor: colorTheme.primary }]}
           >
-            <View style={styles.modalHeader}>
-              <TextInput
-                label="Task Title"
-                mode="outlined"
-                style={{ width: moderateScale(245) }}
-                value={task}
-                onChangeText={(text) => setTask(text)}
-              />
-              <Button
-                mode="contained"
-                onPress={() => handleAddTask(task)}
+            <BannerAndIcon />
+            <Quotes />
+            <Text style={styles.text}>{myName}'s Dashboard</Text>
+            <CustomDatePicker widgetTitle="Events" />
+            <View style={styles.groupRow}>
+              <Text style={styles.sectionTitle}> Tasks</Text>
+              <IconButton
+                icon="sticker-plus"
+                onPress={handleModal}
                 style={{
-                  position: "absolute",
-                  left: moderateScale(200),
-                  top: moderateScale(190),
+                  right: moderateScale(15),
+                  marginBottom: moderateScale(-8),
+                  bottom: moderateScale(8),
                 }}
-              >
-                Add
-              </Button>
+              />
             </View>
-          </Modal>
-        </View>
-      }
-      data={testData}
-      renderItem={({ item, index }) => (
-        <Task
-          text={item.title}
-          renderRightActions={() => (
-            <ListItemDeleteAction onPress={() => handleDelete(item, index)} />
-          )}
-        />
-      )}
-    ></FlatList>
+            <Modal
+              isVisible={modalVisible}
+              animationIn="bounceIn"
+              animationOut="bounceOut"
+              useNativeDriver
+              hideModalContentWhileAnimating
+              onBackdropPress={() => setModalVisible(false)}
+              style={styles.modalBackground}
+            >
+              <View style={styles.modalHeader}>
+                <TextInput
+                  label="Task Title"
+                  mode="outlined"
+                  style={{ width: moderateScale(245) }}
+                  value={task}
+                  onChangeText={(text) => setTask(text)}
+                />
+                <Button
+                  mode="contained"
+                  onPress={() => handleAddTask(task)}
+                  style={{
+                    position: "absolute",
+                    left: moderateScale(200),
+                    top: moderateScale(190),
+                  }}
+                >
+                  Add
+                </Button>
+              </View>
+            </Modal>
+          </View>
+        }
+        data={testData}
+        renderItem={({ item, index }) => (
+          <Task
+            text={item.title}
+            renderRightActions={() => (
+              <ListItemDeleteAction onPress={() => handleDelete(item, index)} />
+            )}
+          />
+        )}
+        ListFooterComponent={
+          <Card>
+            <Card.Title
+              title="Card Title"
+              subtitle="Card Subtitle"
+              left={LeftContent}
+            />
+            <Card.Content>
+              <Title>Card title</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+        }
+      ></FlatList>
+    </View>
   );
 };
 

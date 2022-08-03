@@ -26,7 +26,7 @@ export default function App() {
     let colorTheme = {
       primary: "white",
       neutral: "white",
-      accents: "white",
+      accents: "#939597",
     };
     setColorTheme(colorTheme);
     const checkIfLoggedIn = async () => {

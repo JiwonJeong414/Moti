@@ -33,7 +33,7 @@ const BannerAndIcon = () => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       <ImageInput
         imageUri={imageUri}
         onChangeImage={(uri) => setImageUri(uri)}
