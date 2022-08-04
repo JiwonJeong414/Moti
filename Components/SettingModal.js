@@ -17,7 +17,7 @@ const SettingModal = ({ navigation }) => {
   const [settingVisible, setSettingVisible] = useState(false);
 
   const chooseColorPressed = () => {
-    navigation.navigate("TemplateColorsScreen");
+    navigation.navigate("Choose Colors");
     setSettingVisible(false);
   };
 
@@ -35,7 +35,7 @@ const SettingModal = ({ navigation }) => {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          marginRight: moderateScale(20),
+          marginLeft: moderateScale(20),
           headerStyle: {
             height: 80,
           },
@@ -63,7 +63,7 @@ const SettingModal = ({ navigation }) => {
                 <View style={styles.circular}></View>
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={deleteUsername}>
+            <TouchableWithoutFeedback onPress={() => setOnboard(false)}>
               <View style={[styles.item, { marginTop: 10 }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>

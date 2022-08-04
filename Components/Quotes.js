@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: -10,
     paddingLeft: 10,
+    paddingRight: 10,
   },
   words: {
     fontSize: moderateScale(22),
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
   },
   quotes: {
     paddingLeft: moderateScale(5),
-    marginTop: moderateScale(42),
   },
   author: {
     fontSize: moderateScale(22),

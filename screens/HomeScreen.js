@@ -18,6 +18,7 @@ import { RootContext } from "../config/RootContext";
 import ListItemDeleteAction from "../Components/ListItemDeleteAction";
 import { moderateScale } from "react-native-size-matters";
 import Modal from "react-native-modal";
+import Habits from "../Components/Habits";
 import SettingModal from "../Components/SettingModal";
 import {
   Avatar,
@@ -152,6 +153,7 @@ const HomeScreen = ({ navigation, route }) => {
             )}
           />
         )}
+        ListFooterComponent={<Habits widgetTitle="Habits" />}
       ></FlatList>
     </View>
   );

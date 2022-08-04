@@ -68,43 +68,25 @@ export default function BottomTabNavigator({ navigation }) {
 const HomeTabStack = createStackNavigator();
 
 export function HomeTabNavigator({ navigation }) {
-  const { onboarded, setOnboard, update, setUpdate } =
-    React.useContext(RootContext);
+  const { colorTheme } = React.useContext(RootContext);
+  const { onboarded, setOnboard } = React.useContext(RootContext);
+  const [settingVisible, setSettingVisible] = useState(false);
 
   return (
     <HomeTabStack.Navigator screenOptions={{ headerMode: "screen" }}>
       <HomeTabStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{
-          header: () => (
-            <TouchableOpacity
-              onPress={() => setOnboard(false)}
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                position: "absolute",
-                left: 40,
-                top: 200,
-                headerStyle: {
-                  height: 80,
-                },
-              }}
-            >
-              <Entypo
-                name="dots-three-horizontal"
-                size={moderateScale(45)}
-                color={"black"}
-              />
-            </TouchableOpacity>
-          ),
-        }}
+        options={{ headerShown: false }}
       />
       <HomeTabStack.Screen
-        name="TemplateColorsScreen"
+        name="Choose Colors"
         component={TemplateColorsScreen}
         options={{
+          headerStyle: {
+            backgroundColor: colorTheme.neutral,
+          },
+          headerShadowVisible: false,
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
               <Feather

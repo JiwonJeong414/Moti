@@ -67,6 +67,10 @@ function RootNavigator() {
       else setAccents(retrieveData);
     };
     retrieveAccents();
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
     const checkIfLoggedIn = async () => {
       let userName = await AsyncStorage.getItem("Name");
       userName = JSON.parse(userName);
@@ -78,6 +82,9 @@ function RootNavigator() {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
