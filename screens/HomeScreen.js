@@ -18,6 +18,7 @@ import { RootContext } from "../config/RootContext";
 import ListItemDeleteAction from "../Components/ListItemDeleteAction";
 import { moderateScale } from "react-native-size-matters";
 import Modal from "react-native-modal";
+import SettingModal from "../Components/SettingModal";
 import {
   Avatar,
   Button,
@@ -85,10 +86,8 @@ const HomeScreen = ({ navigation, route }) => {
     getName();
   }, [onboarded]);
 
-  const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
-
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: colorTheme.primary }}>
       <FlatList
         style={{ backgroundColor: colorTheme.primary }}
         ListHeaderComponent={
@@ -96,6 +95,7 @@ const HomeScreen = ({ navigation, route }) => {
             style={[styles.container, { backgroundColor: colorTheme.primary }]}
           >
             <BannerAndIcon />
+            <SettingModal navigation={navigation} />
             <Quotes />
             <Text style={styles.text}>{myName}'s Dashboard</Text>
             <CustomDatePicker widgetTitle="Events" />
@@ -152,24 +152,6 @@ const HomeScreen = ({ navigation, route }) => {
             )}
           />
         )}
-        ListFooterComponent={
-          <Card>
-            <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            />
-            <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions>
-          </Card>
-        }
       ></FlatList>
     </View>
   );

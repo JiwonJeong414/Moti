@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
+import { RootContext } from "../config/RootContext";
 
 const Task = ({ text, renderRightActions }) => {
+  const { colorTheme } = React.useContext(RootContext);
   const [completedVisible, setCompletedVisible] = useState(false);
   const handleComplete = () => {
     setCompletedVisible(!completedVisible);
@@ -17,10 +19,25 @@ const Task = ({ text, renderRightActions }) => {
 
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <View style={styles.item}>
+      <View
+        style={[
+          styles.item,
+          {
+            borderColor: colorTheme.accents,
+            backgroundColor: colorTheme.neutral,
+          },
+        ]}
+      >
         <View style={styles.itemLeft}>
           <TouchableWithoutFeedback onPress={handleComplete}>
-            <View style={styles.square}>
+            <View
+              style={[
+                styles.square,
+                {
+                  backgroundColor: colorTheme.accents,
+                },
+              ]}
+            >
               {completedVisible === true ? (
                 <AntDesign
                   name="close"
@@ -42,7 +59,9 @@ const Task = ({ text, renderRightActions }) => {
             <Text style={styles.itemText}>{text}</Text>
           )}
         </View>
-        <View style={styles.circular}></View>
+        <View
+          style={[styles.circular, { borderColor: colorTheme.accents }]}
+        ></View>
       </View>
     </Swipeable>
   );
@@ -51,8 +70,6 @@ const Task = ({ text, renderRightActions }) => {
 const styles = StyleSheet.create({
   item: {
     borderWidth: 2,
-    borderColor: "black",
-    backgroundColor: "#FFF",
     padding: 15,
     left: 20,
     width: 380,
@@ -71,7 +88,6 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     alignItems: "center",
-    backgroundColor: "#55BCF6",
     borderRadius: 5,
     marginRight: 15,
   },
@@ -83,7 +99,6 @@ const styles = StyleSheet.create({
   circular: {
     width: 12,
     height: 12,
-    borderColor: "#55BCF6",
     borderWidth: 2,
     borderRadius: 5,
   },

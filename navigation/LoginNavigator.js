@@ -3,37 +3,23 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  SafeAreaView,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-  Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import HotlineScreen from "../screens/HotlineScreen";
-import LoadingScreen from "../screens/LoadingScreen";
-import OnBoardingScreen from "../screens/OnBoardingScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import { moderateScale } from "react-native-size-matters";
 import {
   MaterialCommunityIcons,
   Entypo,
   Feather,
   FontAwesome5,
 } from "@expo/vector-icons";
-import { EventRegister } from "react-native-event-listeners";
 import TemplateColorsScreen from "../screens/TemplateColorsScreen";
-import { BlurView } from "expo-blur";
 import { RootContext } from "../config/RootContext";
-import SettingsScreen from "../screens/SettingsScreen";
 import Modal from "react-native-modal";
 
 const BottomTab = createMaterialBottomTabNavigator();
@@ -82,37 +68,25 @@ export default function BottomTabNavigator({ navigation }) {
 const HomeTabStack = createStackNavigator();
 
 export function HomeTabNavigator({ navigation }) {
-  const [settingVisible, setSettingVisible] = React.useState(false);
-  const { onboarded, setOnboard, colorTheme, setColorTheme } =
+  const { onboarded, setOnboard, update, setUpdate } =
     React.useContext(RootContext);
 
-  const chooseColorPressed = () => {
-    navigation.navigate("TemplateColorsScreen");
-    setSettingVisible(false);
-  };
-
-  const deleteUsername = async () => {
-    setSettingVisible(false);
-    await AsyncStorage.removeItem("Name");
-    setTimeout(() => {
-      setOnboard(false);
-    }, 300);
-  };
-
   return (
-    <HomeTabStack.Navigator>
+    <HomeTabStack.Navigator screenOptions={{ headerMode: "screen" }}>
       <HomeTabStack.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          headerRight: () => (
+          header: () => (
             <TouchableOpacity
-              onPress={() => setSettingVisible(true)}
+              onPress={() => setOnboard(false)}
               style={{
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                marginRight: moderateScale(20),
+                position: "absolute",
+                left: 40,
+                top: 200,
                 headerStyle: {
                   height: 80,
                 },
@@ -123,45 +97,6 @@ export function HomeTabNavigator({ navigation }) {
                 size={moderateScale(45)}
                 color={"black"}
               />
-              <Modal
-                isVisible={settingVisible}
-                animationIn="bounceIn"
-                animationOut="bounceOut"
-                onBackdropPress={() => setSettingVisible(false)}
-                style={{ justifyContent: "center", alignItems: "center" }}
-              >
-                <View
-                  style={[styles.modalBackground, { flexDirection: "column" }]}
-                >
-                  <TouchableWithoutFeedback onPress={chooseColorPressed}>
-                    <View style={styles.item}>
-                      <View style={styles.itemLeft}>
-                        <View style={styles.square}></View>
-                        <Text style={styles.itemText}>Choose Colors</Text>
-                      </View>
-                      <View style={styles.circular}></View>
-                    </View>
-                  </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback onPress={deleteUsername}>
-                    <View style={[styles.item, { marginTop: 10 }]}>
-                      <View style={styles.itemLeft}>
-                        <View style={styles.square}></View>
-                        <Text style={styles.itemText}>Edit Name</Text>
-                      </View>
-                      <View style={styles.circular}></View>
-                    </View>
-                  </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback>
-                    <View style={[styles.item, { marginTop: 10 }]}>
-                      <View style={styles.itemLeft}>
-                        <View style={styles.square}></View>
-                        <Text style={styles.itemText}>Themes/Modes</Text>
-                      </View>
-                      <View style={styles.circular}></View>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              </Modal>
             </TouchableOpacity>
           ),
         }}

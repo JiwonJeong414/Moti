@@ -12,12 +12,23 @@ import BottomTabNavigator, {
 } from "./navigation/LoginNavigator";
 import { RootContext } from "./config/RootContext";
 import { Provider as PaperProvider } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
 
 const Stack = createNativeStackNavigator();
 
 export const ModeContext = createContext(null);
 
 export default function App() {
+  return (
+    <PaperProvider>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </PaperProvider>
+  );
+}
+
+function RootNavigator() {
   const [onboarded, setOnboard] = React.useState(false);
   const [colorTheme, setColorTheme] = React.useState({});
   const [loading, setLoading] = useState();
@@ -64,53 +75,46 @@ export default function App() {
     };
     setLoading(true);
     checkIfLoggedIn();
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        {loading === true ? (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Loading"
-              component={LoadingScreen}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        ) : (
-          <></>
-        )}
-        <RootContext.Provider
-          value={{
-            onboarded: onboarded,
-            setOnboard: setOnboard,
-            colorTheme: colorTheme,
-            setColorTheme: setColorTheme,
-          }}
-        >
-          {onboarded === false ? (
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Login"
-                component={OnBoardingScreen}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          ) : (
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-                gestureEnabled: true,
-                gestureDirection: "horizontal",
-              }}
-            >
-              <Stack.Screen name="Root" component={BottomTabNavigator} />
-              <Stack.Screen name="Home" component={HomeTabNavigator} />
-            </Stack.Navigator>
-          )}
-        </RootContext.Provider>
-      </NavigationContainer>
-    </PaperProvider>
+    <RootContext.Provider
+      value={{
+        onboarded: onboarded,
+        setOnboard: setOnboard,
+        colorTheme: colorTheme,
+        setColorTheme: setColorTheme,
+      }}
+    >
+      {loading === true ? (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator animating={true} color="black" />
+        </View>
+      ) : onboarded === false ? (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={OnBoardingScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      )}
+    </RootContext.Provider>
   );
 }
