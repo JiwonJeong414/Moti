@@ -37,6 +37,7 @@ const Streak = ({ title }) => {
     console.log(todayMonth + "/" + todayDay + "/" + todayYear);
     setStoreDate(todayMonth + "/" + todayDay + "/" + todayYear);
     setTomorrowDate(month + "/" + day + "/" + year);
+    // alert when reached milestone
   };
 
   useEffect(() => {
@@ -46,7 +47,9 @@ const Streak = ({ title }) => {
     var todayYear = todayDate.getFullYear();
     if (todayMonth + "/" + todayDay + "/" + todayYear === tomorrowDate) {
       setShowTouchable(true);
+      setCompleted(false);
     } else {
+      //however if it is still today then it shouldn't do this like to tomorrowdate -1 or something
       setTomorrowDate();
       setStoreDate();
       setStreak(0);
@@ -54,6 +57,8 @@ const Streak = ({ title }) => {
     console.log("testTomorrow: " + tomorrowDate);
     console.log("rightNow: " + todayMonth + "/" + todayDay + "/" + todayYear);
   }, [update]);
+
+  // asyncstorage habit + title (cause having 2 of the same habit will be wierd)
 
   return (
     <View style={styles.item}>

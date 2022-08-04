@@ -52,6 +52,7 @@ const ImageInput = ({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
         allowsEditing: true,
+        aspect: [10, 40],
       });
       console.log(result.uri);
       if (!result.cancelled) {

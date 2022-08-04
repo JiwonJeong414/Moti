@@ -24,7 +24,9 @@ const SettingModal = ({ navigation }) => {
   const deleteUsername = async () => {
     await AsyncStorage.removeItem("Name");
     setSettingVisible(false);
-    setOnboard(false);
+    setTimeout(() => {
+      setOnboard(false);
+    }, 700);
   };
 
   return (
@@ -63,7 +65,7 @@ const SettingModal = ({ navigation }) => {
                 <View style={styles.circular}></View>
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => setOnboard(false)}>
+            <TouchableWithoutFeedback onPress={deleteUsername}>
               <View style={[styles.item, { marginTop: 10 }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>
