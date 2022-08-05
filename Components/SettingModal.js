@@ -11,10 +11,24 @@ import { Entypo } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootContext } from "../config/RootContext";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const SettingModal = ({ navigation }) => {
   const { onboarded, setOnboard } = React.useContext(RootContext);
   const [settingVisible, setSettingVisible] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
 
   const chooseColorPressed = () => {
     navigation.navigate("Choose Colors");
@@ -56,8 +70,19 @@ const SettingModal = ({ navigation }) => {
           style={{ justifyContent: "center", alignItems: "center" }}
         >
           <View style={[styles.modalBackground, { flexDirection: "column" }]}>
+            <View style={styles.modalHeader}>
+              <Text
+                style={{
+                  color: "white",
+                  fontFamily: "NotoSans_400Regular",
+                  fontSize: moderateScale(20),
+                }}
+              >
+                Settings
+              </Text>
+            </View>
             <TouchableWithoutFeedback onPress={chooseColorPressed}>
-              <View style={styles.item}>
+              <View style={[styles.item, { marginTop: moderateScale(35) }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>
                   <Text style={styles.itemText}>Choose Colors</Text>
@@ -93,13 +118,24 @@ const SettingModal = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    left: moderateScale(140),
+  },
+  modalHeader: {
+    position: "absolute",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(40),
+    top: moderateScale(0),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8),
+    backgroundColor: "black",
   },
   modalBackground: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 10,
+    borderRadius: moderateScale(10),
     width: "80%",
     height: "30%",
     backgroundColor: "#FFF",

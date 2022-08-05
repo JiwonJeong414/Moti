@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,10 +17,58 @@ import Events from "./Events";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
 import Streak from "../Components/Streak";
+import SettingOpenCircle from "./SettingOpenCircle";
+import { AntDesign } from "@expo/vector-icons";
+import Completed from "../Components/Completed";
+import { RootContext } from "../config/RootContext";
 
 const Habits = ({ widgetTitle }) => {
   const [modal, showModal] = useState(false);
   const [title, setTitle] = useState();
+  const [habits, setHabits] = useState([]);
+  const [key, setKey] = useState(0);
+
+  const [streak, setStreak] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [storeDate, setStoreDate] = useState();
+  const [tomorrowDate, setTomorrowDate] = useState();
+
+  const handleAdd = async () => {
+    showModal(false);
+    let newData = [
+      ...habits,
+      {
+        key: key,
+        title: title,
+        streak: streak,
+        completed: completed,
+        storeDate: storeDate,
+        tomorrowDate: tomorrowDate,
+      },
+    ];
+    console.log("ajklsadfjk;: " + streak);
+    await AsyncStorage.setItem("Habits", JSON.stringify(newData));
+    setHabits(newData);
+    setTitle(null);
+  };
+
+  const deleteHabitItem = async (index) => {
+    let itemsCopy = [...habits];
+    setKey(key - 1);
+    itemsCopy.splice(index, 1);
+    await AsyncStorage.setItem("Habits", JSON.stringify(itemsCopy));
+    setHabits(itemsCopy);
+  };
+
+  useEffect(() => {
+    const retrieveToDoItems = async () => {
+      let retrieveData = await AsyncStorage.getItem("Habits");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setHabits([]);
+      else setHabits(retrieveData);
+    };
+    retrieveToDoItems();
+  }, []);
 
   const handleModal = () => {
     showModal(true);
@@ -41,7 +89,6 @@ const Habits = ({ widgetTitle }) => {
           }}
         />
       </View>
-      <Streak title={"Sleep Early"} />
       <Modal
         isVisible={modal}
         animationIn="bounceIn"
@@ -63,6 +110,7 @@ const Habits = ({ widgetTitle }) => {
             }}
           />
           <Button
+            onPress={handleAdd}
             mode="contained"
             style={{
               position: "absolute",
@@ -74,6 +122,27 @@ const Habits = ({ widgetTitle }) => {
           </Button>
         </View>
       </Modal>
+      {habits != null ? (
+        habits.map((item, index) => {
+          return (
+            <TouchableWithoutFeedback key={index}>
+              <Streak
+                title={item.title}
+                deleteItem={deleteHabitItem}
+                index={index}
+                streak={item.streak}
+                completed={item.completed}
+                storeDate={item.storeDate}
+                tomorrowDate={item.tomorrowDate}
+                item={item}
+                key={key}
+              />
+            </TouchableWithoutFeedback>
+          );
+        })
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

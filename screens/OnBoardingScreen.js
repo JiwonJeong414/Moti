@@ -13,6 +13,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreen from "../screens/HomeScreen";
 import { RootContext } from "../config/RootContext";
+import { moderateScale } from "react-native-size-matters";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const OnBoardingScreen = ({ navigation, route }) => {
   const [text, setText] = useState();
@@ -23,20 +29,33 @@ const OnBoardingScreen = ({ navigation, route }) => {
     setOnboard(true);
   };
 
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}> First Name</Text>
-      <View style={styles.name}>
+      <View style={styles.green}></View>
+      <Text style={styles.text}>What is your name?</Text>
+      <View style={styles.textInput}>
         <TextInput
           style={styles.input}
+          keyboardType="default"
           placeholder="First Name"
           placeholderTextColor="gray"
           onChangeText={(text) => setText(text)}
         ></TextInput>
-        <TouchableWithoutFeedback onPress={() => setName(text)}>
-          <View style={styles.confirm} />
-        </TouchableWithoutFeedback>
       </View>
+      <TouchableWithoutFeedback onPress={() => setName(text)}>
+        <View style={styles.confirm}>
+          <Text style={styles.next}>Next</Text>
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -44,36 +63,54 @@ const OnBoardingScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "dodgerblue",
+    backgroundColor: "#FFFEF7",
     justifyContent: "center",
     alignItems: "center",
+  },
+  green: {
+    position: "absolute",
+    top: moderateScale(193.5),
+    left: moderateScale(131.5),
+    width: moderateScale(40),
   },
   text: {
     fontWeight: "bold",
     fontSize: 20,
   },
-  name: {
-    width: "70%",
-    height: "5%",
-    marginTop: 85,
+  textInput: {
+    position: "absolute",
+    top: moderateScale(444),
+    left: moderateScale(24),
+    width: moderateScale(327),
+    height: moderateScale(52),
     backgroundColor: "#FFFFFF",
-    opacity: 0.4,
-    borderRadius: 5,
-    marginTop: 10,
-    borderColor: "black",
-    borderWidth: 2,
+    borderColor: "gray",
+    borderWidth: moderateScale(1),
+    borderRadius: moderateScale(40),
     justifyContent: "center",
+    alignItems: "center",
   },
   input: {
-    paddingLeft: 10,
+    fontSize: moderateScale(16),
+    fontFamily: "NotoSans_400Regular",
   },
   confirm: {
     position: "absolute",
-    left: 295,
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-    backgroundColor: "black",
+    top: moderateScale(516),
+    left: moderateScale(24),
+    width: moderateScale(327),
+    height: moderateScale(52),
+    borderRadius: moderateScale(40),
+    backgroundColor: "#6524FF",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  next: {
+    fontSize: moderateScale(16),
+    fontFamily: "NotoSans_400Regular",
+    color: "white",
   },
 });
 

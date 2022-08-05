@@ -9,10 +9,26 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import { RootContext } from "../config/RootContext";
+import { moderateScale } from "react-native-size-matters";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const Task = ({ text, renderRightActions }) => {
   const { colorTheme } = React.useContext(RootContext);
   const [completedVisible, setCompletedVisible] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   const handleComplete = () => {
     setCompletedVisible(!completedVisible);
   };
@@ -24,7 +40,7 @@ const Task = ({ text, renderRightActions }) => {
           styles.item,
           {
             borderColor: colorTheme.accents,
-            backgroundColor: colorTheme.neutral,
+            backgroundColor: colorTheme.primary,
           },
         ]}
       >
@@ -34,15 +50,15 @@ const Task = ({ text, renderRightActions }) => {
               style={[
                 styles.square,
                 {
-                  backgroundColor: colorTheme.accents,
+                  borderColor: colorTheme.accents,
                 },
               ]}
             >
               {completedVisible === true ? (
                 <AntDesign
                   name="close"
-                  size={30}
-                  style={{ right: 2.5, bottom: 2.5 }}
+                  size={moderateScale(20)}
+                  style={{ right: moderateScale(2), bottom: moderateScale(2) }}
                 />
               ) : (
                 <></>
@@ -69,11 +85,13 @@ const Task = ({ text, renderRightActions }) => {
 
 const styles = StyleSheet.create({
   item: {
-    borderWidth: 2,
     padding: 15,
     left: 20,
+    top: 10,
     width: 380,
     borderRadius: 10,
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -85,22 +103,23 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   square: {
-    width: 24,
-    height: 24,
+    width: moderateScale(22),
+    height: moderateScale(22),
     alignItems: "center",
-    borderRadius: 5,
+    borderWidth: moderateScale(3),
+    borderRadius: moderateScale(3),
     marginRight: 15,
   },
   itemText: {
     maxWidth: "100%",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: moderateScale(16),
+    fontFamily: "NotoSans_400Regular",
   },
   circular: {
-    width: 12,
-    height: 12,
-    borderWidth: 2,
-    borderRadius: 5,
+    width: moderateScale(10),
+    height: moderateScale(10),
+    borderWidth: moderateScale(2),
+    borderRadius: moderateScale(5),
   },
 });
 

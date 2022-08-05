@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,28 +6,141 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
+import {
+  Swipeable,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import SettingOpenCircle from "./SettingOpenCircle";
+import { moderateScale } from "react-native-size-matters";
+import { RootContext } from "../config/RootContext";
+import Modal from "react-native-modal";
+import { List } from "react-native-paper";
+import { AntDesign } from "react-native-vector-icons";
+import ListTest from "./ListTest";
 
-const Event = ({ text, title, renderRightActions }) => {
+const Event = ({ date, title, deleteItem, index }) => {
+  const { colorTheme } = React.useContext(RootContext);
+  const [deleteVisible, setDeleteVisible] = useState(false);
+  const [localdate, setLocaldate] = useState(date);
+  const [calculateDate, setCalculateDate] = useState();
+
+  useEffect(() => {
+    let today = new Date();
+    // setinterval to calculate date every 1 second
+    let day = today.getDay();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let myToday = calculate(year + "-" + (month + 1) + "-" + day);
+    let myDate = calculate(localdate);
+    setCalculateDate(myDate - myToday);
+  }, []);
+
+  const calculate = (text) => {
+    console.log("text: " + text);
+    const selectedDate = text.split("-");
+    let addedDate = 0;
+    addedDate = Math.floor(Number(selectedDate[0]) / 4) * 1461;
+    let isLeapYear = false;
+    if (Number(selectedDate[0]) % 4 === 0) isLeapYear = true;
+    if (!isLeapYear) addedDate += (Number(selectedDate[0]) % 4) * 365;
+    // 31
+    if (Number(selectedDate[1]) - 1 === 1) addedDate += 31;
+    // 28 or 29
+    else if (Number(selectedDate[1]) - 1 === 2 && isLeapYear === false)
+      addedDate += 59;
+    else if (Number(selectedDate[1]) - 1 === 2 && isLeapYear === true)
+      addedDate += 60;
+    // 31
+    else if (Number(selectedDate[1]) - 1 === 3 && isLeapYear === false)
+      addedDate += 90;
+    else if (Number(selectedDate[1]) - 1 === 3 && isLeapYear === true)
+      addedDate += 91;
+    // 30
+    else if (Number(selectedDate[1]) - 1 === 4 && isLeapYear === false)
+      addedDate += 120;
+    else if (Number(selectedDate[1]) - 1 === 4 && isLeapYear === true)
+      addedDate += 121;
+    // 31
+    else if (Number(selectedDate[1]) - 1 === 5 && isLeapYear === false)
+      addedDate += 151;
+    else if (Number(selectedDate[1]) - 1 === 5 && isLeapYear === true)
+      addedDate += 152;
+    // 30
+    else if (Number(selectedDate[1]) - 1 === 6 && isLeapYear === false)
+      addedDate += 181;
+    else if (Number(selectedDate[1]) - 1 === 6 && isLeapYear === true)
+      addedDate += 182;
+    // 31
+    else if (Number(selectedDate[1]) - 1 === 7 && isLeapYear === false)
+      addedDate += 212;
+    else if (Number(selectedDate[1]) - 1 === 7 && isLeapYear === true)
+      addedDate += 213;
+    // 31
+    else if (Number(selectedDate[1]) - 1 === 8 && isLeapYear === false)
+      addedDate += 243;
+    else if (Number(selectedDate[1]) - 1 === 8 && isLeapYear === true)
+      addedDate += 244;
+    // 30
+    else if (Number(selectedDate[1]) - 1 === 9 && isLeapYear === false)
+      addedDate += 273;
+    else if (Number(selectedDate[1]) - 1 === 9 && isLeapYear === true)
+      addedDate += 274;
+    // 31
+    else if (Number(selectedDate[1]) - 1 === 10 && isLeapYear === false)
+      addedDate += 304;
+    else if (Number(selectedDate[1]) - 1 === 10 && isLeapYear === true)
+      addedDate += 305;
+    // 30
+    else if (Number(selectedDate[1]) - 1 === 11 && isLeapYear === false)
+      addedDate += 334;
+    else if (Number(selectedDate[1]) - 1 === 11 && isLeapYear === true)
+      addedDate += 335;
+    // 31 (now add days)
+    addedDate += Number(selectedDate[2]);
+    return addedDate;
+  };
+
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, { backgroundColor: colorTheme.primary }]}>
       <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
-        <Text style={styles.text}> </Text>
         <Text style={styles.itemText}>{title}</Text>
+        <View style={{ left: moderateScale(285), position: "absolute" }}>
+          <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
+            <SettingOpenCircle />
+          </TouchableOpacity>
+          {deleteVisible === true ? (
+            <TouchableWithoutFeedback onPress={() => deleteItem(index)}>
+              <View
+                style={{
+                  width: moderateScale(50),
+                  height: moderateScale(30),
+                  right: moderateScale(15),
+                  backgroundColor: "white",
+                  borderColor: "gray",
+                  borderWidth: moderateScale(1),
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text>Delete</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          ) : (
+            <></>
+          )}
+        </View>
       </View>
       <View style={styles.itemLeft}>
-        <View style={styles.circular}></View>
-        {text > 1 ? (
-          <Text style={styles.left}>{text} Days Left</Text>
-        ) : text === 0 ? (
+        {calculateDate > 1 ? (
+          <Text style={styles.left}>{calculateDate} Days Left</Text>
+        ) : calculateDate === 0 ? (
           <Text style={styles.left}>D-Day</Text>
-        ) : text < 1 ? (
-          <Text style={styles.left}>{Math.abs(text)} Days Ago</Text>
-        ) : text === 1 ? (
-          <Text style={styles.left}>{text} Day Left </Text>
+        ) : calculateDate < 1 ? (
+          <Text style={styles.left}>{Math.abs(calculateDate)} Days Ago</Text>
+        ) : calculateDate === 1 ? (
+          <Text style={styles.left}>{calculateDate} Day Left </Text>
         ) : (
-          <Text style={styles.left}>{Math.abs(text)} Day Ago </Text>
+          <Text style={styles.left}>{Math.abs(calculateDate)} Day Ago </Text>
         )}
       </View>
     </View>
@@ -36,18 +149,18 @@ const Event = ({ text, title, renderRightActions }) => {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "#FFF",
     padding: 15,
     left: 20,
     width: 380,
     height: 120,
-    borderRadius: 10,
-    justifyContent: "space-between",
+    borderRadius: moderateScale(20),
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
     marginBottom: 20,
   },
   itemLeft: {
     flexDirection: "row",
-    flexWrap: "wrap",
+    justifyContent: "center",
     marginBottom: 5,
   },
   square: {
@@ -64,7 +177,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   itemText: {
-    maxWidth: "80%",
+    fontSize: 25,
+    fontWeight: "bold",
     paddingBottom: 10,
   },
   circular: {
@@ -80,6 +194,19 @@ const styles = StyleSheet.create({
   },
   left: {
     fontSize: 24,
+  },
+  modalBackground: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalHeader: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    width: "16%",
+    height: "4%",
+    left: moderateScale(145),
   },
 });
 

@@ -7,15 +7,30 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
-import { Entypo, Feather } from "@expo/vector-icons";
+import { Entypo, Feather, FontAwesome5 } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 import call from "react-native-phone-call";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
+import { moderateScale } from "react-native-size-matters";
+import { IconButton } from "react-native-paper";
 
 const HotlineScreen = () => {
   const { colorTheme } = React.useContext(RootContext);
 
-  const imagePick = () => {};
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
 
   const args = {
     number: "9492998258", // String value with the number to call
@@ -24,76 +39,232 @@ const HotlineScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.sectionTitle}>My Hotlines</Text>
-      <Text style={styles.sectionTitle}>Default Hotlines</Text>
-      <TouchableWithoutFeedback onPress={() => call(args)}>
-        <View
-          style={[
-            styles.item,
-            {
-              borderColor: colorTheme.accents,
-              backgroundColor: colorTheme.neutral,
-            },
-          ]}
-        >
-          <View style={styles.itemLeft}>
+    <View style={[styles.container, { backgroundColor: colorTheme.primary }]}>
+      <View style={[styles.clipboard, { backgroundColor: colorTheme.neutral }]}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.hotline}>HOTLINE</Text>
+          <View style={styles.divider}></View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Suicide Hotline</Text>
+            </View>
             <View
-              style={[
-                styles.square,
-                {
-                  backgroundColor: colorTheme.accents,
-                },
-              ]}
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
             ></View>
           </View>
           <View
-            style={[styles.circular, { borderColor: colorTheme.accents }]}
-          ></View>
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={imagePick}>
-        <View
-          style={[
-            styles.item,
-            {
-              borderColor: colorTheme.accents,
-              backgroundColor: colorTheme.neutral,
-            },
-          ]}
-        >
-          <View style={styles.itemLeft}>
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Grief Support</Text>
+            </View>
             <View
-              style={[
-                styles.square,
-                {
-                  backgroundColor: colorTheme.accents,
-                },
-              ]}
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
             ></View>
           </View>
           <View
-            style={[styles.circular, { borderColor: colorTheme.accents }]}
-          ></View>
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Assualt Hotline</Text>
+            </View>
+            <View
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Sexuality Support</Text>
+            </View>
+            <View
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Lifeline Hotline</Text>
+            </View>
+            <View
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Depression Hotline</Text>
+            </View>
+            <View
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Say Something</Text>
+            </View>
+            <View
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          {/* <TextInput
+            placeholder="Type"
+            placeholderTextColor="gray"
+            style={{ left: 40 }}
+            keyboardType="number-pad"
+          ></TextInput>
+          <View style={styles.addWrapper}>
+            <Feather name="plus" size={35} />
+          </View> */}
         </View>
-      </TouchableWithoutFeedback>
-      <TextInput
-        placeholder="Type"
-        placeholderTextColor="gray"
-        style={{ left: 40 }}
-        keyboardType="number-pad"
-      ></TextInput>
-      <View style={styles.addWrapper}>
-        <Feather name="plus" size={35} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "dodgerblue",
+  },
+  clipboard: {
+    marginTop: moderateScale(45),
+    left: moderateScale(24),
+    width: moderateScale(330),
+    height: moderateScale(660),
+    borderRadius: moderateScale(40),
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  hotline: {
+    marginTop: moderateScale(20),
+    fontSize: moderateScale(35),
+    fontFamily: "NotoSans_700Bold",
+  },
+  divider: {
+    width: moderateScale(280),
+    height: moderateScale(1),
+    backgroundColor: "gray",
+    marginTop: moderateScale(5),
+    marginBottom: moderateScale(20),
   },
   sectionTitle: {
     fontSize: 24,
@@ -120,13 +291,14 @@ const styles = StyleSheet.create({
   item: {
     borderWidth: 2,
     padding: 15,
-    left: 20,
-    width: 380,
-    borderRadius: 10,
+    width: moderateScale(280),
+    borderRadius: moderateScale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: moderateScale(15),
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   itemLeft: {
     flexDirection: "row",
@@ -141,9 +313,8 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   itemText: {
-    maxWidth: "100%",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: moderateScale(18),
+    fontFamily: "NotoSans_400Regular",
   },
   circular: {
     width: 12,

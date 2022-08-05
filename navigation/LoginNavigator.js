@@ -31,7 +31,7 @@ export default function BottomTabNavigator({ navigation }) {
       initialRouteName="Home"
       shifting={true}
       sceneAnimationEnabled={true}
-      barStyle={{ backgroundColor: colorTheme.neutral }}
+      barStyle={{ backgroundColor: colorTheme.primary }}
     >
       <BottomTab.Screen
         name="Home"

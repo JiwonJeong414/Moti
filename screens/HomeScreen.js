@@ -20,15 +20,12 @@ import { moderateScale } from "react-native-size-matters";
 import Modal from "react-native-modal";
 import Habits from "../Components/Habits";
 import SettingModal from "../Components/SettingModal";
+import { Button, IconButton, TextInput } from "react-native-paper";
 import {
-  Avatar,
-  Button,
-  Card,
-  Title,
-  Paragraph,
-  IconButton,
-  TextInput,
-} from "react-native-paper";
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const HomeScreen = ({ navigation, route }) => {
   const [myName, setMyName] = useState();
@@ -37,6 +34,11 @@ const HomeScreen = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [testData, setTestData] = useState([]);
+
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
 
   useEffect(() => {
     const retrieveToDoItems = async () => {
@@ -87,73 +89,111 @@ const HomeScreen = ({ navigation, route }) => {
     getName();
   }, [onboarded]);
 
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: colorTheme.primary }}>
       <FlatList
         style={{ backgroundColor: colorTheme.primary }}
         ListHeaderComponent={
-          <View
-            style={[styles.container, { backgroundColor: colorTheme.primary }]}
-          >
-            <BannerAndIcon />
-            <SettingModal navigation={navigation} />
-            <Quotes />
-            <Text style={styles.text}>{myName}'s Dashboard</Text>
-            <CustomDatePicker widgetTitle="Events" />
-            <View style={styles.groupRow}>
-              <Text style={styles.sectionTitle}> Tasks</Text>
-              <IconButton
-                icon="sticker-plus"
-                onPress={handleModal}
-                style={{
-                  right: moderateScale(15),
-                  marginBottom: moderateScale(-8),
-                  bottom: moderateScale(8),
-                }}
-              />
-            </View>
-            <Modal
-              isVisible={modalVisible}
-              animationIn="bounceIn"
-              animationOut="bounceOut"
-              useNativeDriver
-              hideModalContentWhileAnimating
-              onBackdropPress={() => setModalVisible(false)}
-              style={styles.modalBackground}
+          <View>
+            <View
+              style={[
+                styles.container,
+                { backgroundColor: colorTheme.primary },
+              ]}
             >
-              <View style={styles.modalHeader}>
-                <TextInput
-                  label="Task Title"
-                  mode="outlined"
-                  style={{ width: moderateScale(245) }}
-                  value={task}
-                  onChangeText={(text) => setTask(text)}
-                />
-                <Button
-                  mode="contained"
-                  onPress={() => handleAddTask(task)}
+              <BannerAndIcon />
+              <SettingModal navigation={navigation} />
+              <Quotes />
+            </View>
+            <View
+              style={[
+                styles.dashboard,
+                { backgroundColor: colorTheme.neutral, flex: 1 },
+              ]}
+            >
+              <Text style={styles.myName}>Hi {myName}</Text>
+              <View style={styles.divider}></View>
+              <CustomDatePicker widgetTitle="Events" />
+              <View style={styles.groupRow}>
+                <Text style={styles.sectionTitle}> Tasks</Text>
+                <IconButton
+                  icon="sticker-plus"
+                  onPress={handleModal}
                   style={{
-                    position: "absolute",
-                    left: moderateScale(200),
-                    top: moderateScale(190),
+                    right: moderateScale(15),
+                    marginBottom: moderateScale(-8),
+                    bottom: moderateScale(8),
                   }}
-                >
-                  Add
-                </Button>
+                />
               </View>
-            </Modal>
+              <Modal
+                isVisible={modalVisible}
+                animationIn="bounceIn"
+                animationOut="bounceOut"
+                useNativeDriver
+                hideModalContentWhileAnimating
+                onBackdropPress={() => setModalVisible(false)}
+                style={styles.modalBackground}
+              >
+                <View style={styles.modalHeader}>
+                  <TextInput
+                    label="Task Title"
+                    mode="outlined"
+                    style={{ width: moderateScale(245) }}
+                    value={task}
+                    onChangeText={(text) => setTask(text)}
+                  />
+                  <Button
+                    mode="contained"
+                    onPress={() => handleAddTask(task)}
+                    style={{
+                      position: "absolute",
+                      left: moderateScale(200),
+                      top: moderateScale(190),
+                    }}
+                  >
+                    Add
+                  </Button>
+                </View>
+              </Modal>
+            </View>
           </View>
         }
         data={testData}
         renderItem={({ item, index }) => (
-          <Task
-            text={item.title}
-            renderRightActions={() => (
-              <ListItemDeleteAction onPress={() => handleDelete(item, index)} />
-            )}
-          />
+          <View
+            style={{
+              width: moderateScale(380),
+              height: moderateScale(65),
+              backgroundColor: colorTheme.neutral,
+            }}
+          >
+            <Task
+              text={item.title}
+              renderRightActions={() => (
+                <ListItemDeleteAction
+                  onPress={() => handleDelete(item, index)}
+                />
+              )}
+            />
+          </View>
         )}
-        ListFooterComponent={<Habits widgetTitle="Habits" />}
+        ListFooterComponent={
+          <View
+            style={{
+              width: moderateScale(380),
+              backgroundColor: colorTheme.neutral,
+              borderBottomLeftRadius: moderateScale(49),
+              borderBottomRightRadius: moderateScale(49),
+            }}
+          >
+            <Habits widgetTitle="Habits" />
+          </View>
+        }
       ></FlatList>
     </View>
   );
@@ -163,20 +203,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  text: {
-    fontSize: 30,
-    fontWeight: "bold",
-    left: 10,
-    paddingTop: 10,
+  myName: {
+    fontSize: moderateScale(35),
+    textAlign: "left",
+    fontFamily: "NotoSans_700Bold",
+    left: moderateScale(24),
+    paddingTop: moderateScale(24),
+  },
+  divider: {
+    width: moderateScale(327),
+    left: moderateScale(24),
+    height: moderateScale(1),
+    backgroundColor: "gray",
+    marginTop: moderateScale(5),
   },
   row: {
     flexDirection: "row",
-  },
-  addButton: {
-    width: 24,
-    height: 24,
-    borderRadius: 40,
-    backgroundColor: "dodgerblue",
   },
   sectionTitle: {
     fontSize: 24,
@@ -208,6 +250,11 @@ const styles = StyleSheet.create({
   addTodo: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  dashboard: {
+    width: moderateScale(380),
+    borderTopLeftRadius: moderateScale(49),
+    borderTopRightRadius: moderateScale(49),
   },
 });
 

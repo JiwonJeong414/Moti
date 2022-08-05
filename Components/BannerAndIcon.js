@@ -18,6 +18,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
 import ProfileInput from "../Components/ProfileInput";
+import { moderateScale } from "react-native-size-matters";
 
 const BannerAndIcon = () => {
   const [imageUri, setImageUri] = useState();
@@ -54,29 +55,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  image: {
-    width: "100%",
-    height: 190,
-    marginBottom: 40,
-  },
   profile: {
     position: "absolute",
-    top: 120,
-    width: 100,
-    height: 100,
-    borderRadius: 20,
+    top: moderateScale(206.5),
+    left: moderateScale(131.5),
+    width: moderateScale(112),
+    height: moderateScale(112),
+    borderRadius: moderateScale(100),
+    borderWidth: moderateScale(3),
     alignItems: "center",
     backgroundColor: "gray",
     overflow: "hidden",
     justifyContent: "center",
-    left: 20,
   },
   imageContainer: {
+    height: moderateScale(244.5),
+    width: moderateScale(327),
+    borderRadius: moderateScale(24),
+    marginTop: moderateScale(45),
+    marginLeft: moderateScale(24),
     alignItems: "center",
     backgroundColor: "gray",
-    height: 190,
     justifyContent: "center",
-    width: "100%",
     overflow: "hidden",
   },
 });

@@ -9,12 +9,26 @@ import {
 import quotes from "../quotes.json";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const Quotes = () => {
   let DATA = [...quotes];
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
 
   const [idNumber, setIdNumber] = useState(1);
   const [quotesData, setQuotesData] = useState(DATA);
+
+  const handleIdNumber = async (quoteID) => {
+    await AsyncStorage.setItem("Number", JSON.stringify(quoteID + 1));
+    setIdNumber(quoteID + 1);
+  };
 
   useEffect(() => {
     const retrieveQuoteID = async () => {
@@ -26,10 +40,9 @@ const Quotes = () => {
     retrieveQuoteID();
   }, []);
 
-  const handleIdNumber = async (quoteID) => {
-    await AsyncStorage.setItem("Number", JSON.stringify(quoteID + 1));
-    setIdNumber(quoteID + 1);
-  };
+  if (!fontsLoaded) {
+    return <></>;
+  }
 
   let item = quotesData.find((item) => item.id === idNumber);
 
@@ -37,7 +50,7 @@ const Quotes = () => {
     <View style={styles.container}>
       <View style={styles.quotes}>
         <Text style={styles.words}>"{item.quote}"</Text>
-        <Text style={styles.author}> — {item.person}</Text>
+        <Text style={styles.author}>{item.person}</Text>
       </View>
     </View>
   );
@@ -45,26 +58,25 @@ const Quotes = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -10,
-    paddingLeft: 10,
-    paddingRight: 10,
+    marginLeft: moderateScale(10),
+    marginRight: moderateScale(10),
   },
   words: {
-    fontSize: moderateScale(22),
-    fontStyle: "italic",
-    fontFamily: "Baskerville-Bold",
+    fontSize: moderateScale(16),
+    fontFamily: "NotoSans_700Bold",
     color: "darkblue",
+    textAlign: "center",
   },
   quotes: {
     paddingLeft: moderateScale(5),
   },
   author: {
-    fontSize: moderateScale(22),
-    fontStyle: "italic",
-    fontFamily: "Baskerville-Bold",
+    marginTop: moderateScale(15),
+    marginBottom: moderateScale(15),
+    fontSize: moderateScale(15),
+    fontFamily: "NotoSans_400Regular",
     color: "darkblue",
-    marginLeft: moderateScale(140),
-    marginBottom: moderateScale(-10),
+    textAlign: "center",
   },
 });
 

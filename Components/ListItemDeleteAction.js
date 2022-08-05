@@ -18,6 +18,7 @@ function ListItemDeleteAction({ onPress }) {
           name="trash-can"
           size={moderateScale(35)}
           color="black"
+          style={{ top: moderateScale(10) }}
         />
       </View>
     </TouchableWithoutFeedback>

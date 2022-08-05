@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,6 +16,7 @@ import DatePicker from "react-native-neat-date-picker";
 import Events from "./Events";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
+import SettingOpenCircle from "./SettingOpenCircle";
 
 const CustomDatePicker = ({ widgetTitle }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -23,7 +24,29 @@ const CustomDatePicker = ({ widgetTitle }) => {
   const [date, setDate] = useState(null);
   const [modal, showModal] = useState(false);
   const [events, setEvents] = useState([]);
-  const [calculateDate, setCalculateDate] = useState([]);
+
+  useEffect(() => {
+    const retrieveToDoItems = async () => {
+      let retrieveData = await AsyncStorage.getItem("Events");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setEvents([]);
+      else setEvents(retrieveData);
+    };
+    retrieveToDoItems();
+  }, []);
+
+  const deleteEventItem = async (index) => {
+    let itemsCopy = [...events];
+    itemsCopy.splice(index, 1);
+    await AsyncStorage.setItem("Events", JSON.stringify(itemsCopy));
+    setEvents(itemsCopy);
+  };
+
+  const handleModal = () => {
+    showModal(true);
+    setTitle(null);
+    setDate(null);
+  };
 
   const openDatePicker = () => {
     setShowDatePicker(true);
@@ -33,106 +56,22 @@ const CustomDatePicker = ({ widgetTitle }) => {
     setShowDatePicker(false);
   };
 
-  const onConfirm = (date) => {
-    setShowDatePicker(false);
-    setDate(date.dateString);
-    let today = new Date();
-    let day = today.getDay();
-    let month = today.getMonth();
-    let year = today.getFullYear();
-    let myToday = calculate(year + "-" + (month + 1) + "-" + day);
-    let myDate = calculate(date.dateString);
-    setCalculateDate(myDate - myToday);
-  };
-
-  const calculate = (text) => {
-    console.log(text);
-    const selectedDate = text.split("-");
-    let addedDate = 0;
-    addedDate = Math.floor(Number(selectedDate[0]) / 4) * 1461;
-    let isLeapYear = false;
-    if (Number(selectedDate[0]) % 4 === 0) isLeapYear = true;
-    if (!isLeapYear) addedDate += (Number(selectedDate[0]) % 4) * 365;
-    // 31
-    if (Number(selectedDate[1]) - 1 === 1) addedDate += 31;
-    // 28 or 29
-    else if (Number(selectedDate[1]) - 1 === 2 && isLeapYear === false)
-      addedDate += 59;
-    else if (Number(selectedDate[1]) - 1 === 2 && isLeapYear === true)
-      addedDate += 60;
-    // 31
-    else if (Number(selectedDate[1]) - 1 === 3 && isLeapYear === false)
-      addedDate += 90;
-    else if (Number(selectedDate[1]) - 1 === 3 && isLeapYear === true)
-      addedDate += 91;
-    // 30
-    else if (Number(selectedDate[1]) - 1 === 4 && isLeapYear === false)
-      addedDate += 120;
-    else if (Number(selectedDate[1]) - 1 === 4 && isLeapYear === true)
-      addedDate += 121;
-    // 31
-    else if (Number(selectedDate[1]) - 1 === 5 && isLeapYear === false)
-      addedDate += 151;
-    else if (Number(selectedDate[1]) - 1 === 5 && isLeapYear === true)
-      addedDate += 152;
-    // 30
-    else if (Number(selectedDate[1]) - 1 === 6 && isLeapYear === false)
-      addedDate += 181;
-    else if (Number(selectedDate[1]) - 1 === 6 && isLeapYear === true)
-      addedDate += 182;
-    // 31
-    else if (Number(selectedDate[1]) - 1 === 7 && isLeapYear === false)
-      addedDate += 212;
-    else if (Number(selectedDate[1]) - 1 === 7 && isLeapYear === true)
-      addedDate += 213;
-    // 31
-    else if (Number(selectedDate[1]) - 1 === 8 && isLeapYear === false)
-      addedDate += 243;
-    else if (Number(selectedDate[1]) - 1 === 8 && isLeapYear === true)
-      addedDate += 244;
-    // 30
-    else if (Number(selectedDate[1]) - 1 === 9 && isLeapYear === false)
-      addedDate += 273;
-    else if (Number(selectedDate[1]) - 1 === 9 && isLeapYear === true)
-      addedDate += 274;
-    // 31
-    else if (Number(selectedDate[1]) - 1 === 10 && isLeapYear === false)
-      addedDate += 304;
-    else if (Number(selectedDate[1]) - 1 === 10 && isLeapYear === true)
-      addedDate += 305;
-    // 30
-    else if (Number(selectedDate[1]) - 1 === 11 && isLeapYear === false)
-      addedDate += 334;
-    else if (Number(selectedDate[1]) - 1 === 11 && isLeapYear === true)
-      addedDate += 335;
-    // 31 (now add days)
-    addedDate += Number(selectedDate[2]);
-    return addedDate;
-  };
-
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (date === null) {
       Alert.alert("You need to select a date");
     } else {
       showModal(false);
-      setEvents([...events, { date: calculateDate, title: title }]);
-      setCalculateDate(null);
+      let newData = [...events, { date: date, title: title }];
+      await AsyncStorage.setItem("Events", JSON.stringify(newData));
+      setEvents(newData);
       setTitle(null);
       setDate(null);
     }
   };
 
-  const deleteEventItem = (index) => {
-    let itemsCopy = [...events];
-    itemsCopy.splice(index, 1);
-    setEvents(itemsCopy);
-  };
-
-  const handleModal = () => {
-    showModal(true);
-    setTitle(null);
-    setDate(null);
-    setCalculateDate(null);
+  const onConfirm = (date) => {
+    setShowDatePicker(false);
+    setDate(date.dateString);
   };
 
   return (
@@ -209,12 +148,14 @@ const CustomDatePicker = ({ widgetTitle }) => {
       {events != null ? (
         events.map((item, index) => {
           return (
-            <TouchableOpacity
-              key={index}
-              onPress={() => deleteEventItem(index)}
-            >
-              <Events text={item.date} title={item.title} />
-            </TouchableOpacity>
+            <TouchableWithoutFeedback key={index}>
+              <Events
+                date={item.date}
+                title={item.title}
+                deleteItem={deleteEventItem}
+                index={index}
+              />
+            </TouchableWithoutFeedback>
           );
         })
       ) : (
