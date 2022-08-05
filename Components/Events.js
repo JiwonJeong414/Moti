@@ -18,7 +18,7 @@ import { List } from "react-native-paper";
 import { AntDesign } from "react-native-vector-icons";
 import ListTest from "./ListTest";
 
-const Event = ({ date, title, deleteItem, index }) => {
+const Event = ({ date, title, deleteItem, item }) => {
   const { colorTheme } = React.useContext(RootContext);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [localdate, setLocaldate] = useState(date);
@@ -26,7 +26,7 @@ const Event = ({ date, title, deleteItem, index }) => {
 
   useEffect(() => {
     let today = new Date();
-    // setinterval to calculate date every 1 second
+    // setinterval to calculate date every 1 second or just pull to refresh
     let day = today.getDay();
     let month = today.getMonth();
     let year = today.getFullYear();
@@ -109,7 +109,7 @@ const Event = ({ date, title, deleteItem, index }) => {
             <SettingOpenCircle />
           </TouchableOpacity>
           {deleteVisible === true ? (
-            <TouchableWithoutFeedback onPress={() => deleteItem(index)}>
+            <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
               <View
                 style={{
                   width: moderateScale(50),

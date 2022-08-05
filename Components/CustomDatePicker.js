@@ -35,11 +35,10 @@ const CustomDatePicker = ({ widgetTitle }) => {
     retrieveToDoItems();
   }, []);
 
-  const deleteEventItem = async (index) => {
-    let itemsCopy = [...events];
-    itemsCopy.splice(index, 1);
-    await AsyncStorage.setItem("Events", JSON.stringify(itemsCopy));
-    setEvents(itemsCopy);
+  const deleteEventItem = async (item) => {
+    let newDataArray = events.filter((obj) => obj.id != item.id);
+    await AsyncStorage.setItem("Events", JSON.stringify(newDataArray));
+    setEvents(newDataArray);
   };
 
   const handleModal = () => {
@@ -61,7 +60,11 @@ const CustomDatePicker = ({ widgetTitle }) => {
       Alert.alert("You need to select a date");
     } else {
       showModal(false);
-      let newData = [...events, { date: date, title: title }];
+      let newData = [
+        ...events,
+        { date: date, title: title, id: Math.random() },
+      ];
+      console.log(newData);
       await AsyncStorage.setItem("Events", JSON.stringify(newData));
       setEvents(newData);
       setTitle(null);
@@ -148,12 +151,12 @@ const CustomDatePicker = ({ widgetTitle }) => {
       {events != null ? (
         events.map((item, index) => {
           return (
-            <TouchableWithoutFeedback key={index}>
+            <TouchableWithoutFeedback key={item.id}>
               <Events
                 date={item.date}
                 title={item.title}
                 deleteItem={deleteEventItem}
-                index={index}
+                item={item}
               />
             </TouchableWithoutFeedback>
           );
