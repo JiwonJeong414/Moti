@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: moderateScale(3),
     borderRadius: moderateScale(3),
-    marginRight: 15,
+    marginRight: moderateScale(15),
   },
   itemText: {
     maxWidth: "100%",

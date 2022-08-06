@@ -5,4 +5,6 @@ export const RootContext = React.createContext({
   setOnboard: () => {},
   colorTheme: "",
   setColorTheme: () => {},
+  habits: [],
+  setHabits: () => {},
 });

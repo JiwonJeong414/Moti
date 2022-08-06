@@ -35,6 +35,7 @@ function RootNavigator() {
   const [primary, setPrimary] = useState();
   const [neutral, setNeutral] = useState();
   const [accents, setAccents] = useState();
+  const [habits, setHabits] = useState([]);
 
   useEffect(() => {
     let colorTheme = {
@@ -44,6 +45,16 @@ function RootNavigator() {
     };
     setColorTheme(colorTheme);
   }, [accents]);
+
+  useEffect(() => {
+    const retrieveHabits = async () => {
+      let retrieveData = await AsyncStorage.getItem("Habits");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setHabits([]);
+      else setHabits(retrieveData);
+    };
+    retrieveHabits();
+  }, []);
 
   useEffect(() => {
     const retrievePrimary = async () => {
@@ -70,7 +81,7 @@ function RootNavigator() {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
+    // let isMounted = true;
     const checkIfLoggedIn = async () => {
       let userName = await AsyncStorage.getItem("Name");
       userName = JSON.parse(userName);
@@ -82,9 +93,9 @@ function RootNavigator() {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    return () => {
-      isMounted = false;
-    };
+    // return () => {
+    //   isMounted = false;
+    // };
   }, []);
 
   return (
@@ -94,6 +105,9 @@ function RootNavigator() {
         setOnboard: setOnboard,
         colorTheme: colorTheme,
         setColorTheme: setColorTheme,
+        habits: habits,
+        setHabits,
+        setHabits,
       }}
     >
       {loading === true ? (

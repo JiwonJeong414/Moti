@@ -25,50 +25,31 @@ import { RootContext } from "../config/RootContext";
 const Habits = ({ widgetTitle }) => {
   const [modal, showModal] = useState(false);
   const [title, setTitle] = useState();
-  const [habits, setHabits] = useState([]);
-  const [key, setKey] = useState(0);
-
-  const [streak, setStreak] = useState(0);
-  const [completed, setCompleted] = useState(false);
-  const [storeDate, setStoreDate] = useState();
-  const [tomorrowDate, setTomorrowDate] = useState();
+  const { habits, setHabits } = React.useContext(RootContext);
 
   const handleAdd = async () => {
     showModal(false);
     let newData = [
       ...habits,
       {
-        key: key,
+        id: Math.random(),
         title: title,
-        streak: streak,
-        completed: completed,
-        storeDate: storeDate,
-        tomorrowDate: tomorrowDate,
+        streak: 0,
+        completed: false,
+        storeDate: "",
+        tomorrowDate: "",
       },
     ];
-    console.log("ajklsadfjk;: " + streak);
     await AsyncStorage.setItem("Habits", JSON.stringify(newData));
     setHabits(newData);
     setTitle(null);
   };
 
-  const deleteHabitItem = async (index) => {
-    let itemsCopy = [...habits];
-    setKey(key - 1);
-    itemsCopy.splice(index, 1);
-    await AsyncStorage.setItem("Habits", JSON.stringify(itemsCopy));
-    setHabits(itemsCopy);
+  const deleteHabitItem = async (item) => {
+    let newDataArray = habits.filter((obj) => obj.id != item.id);
+    await AsyncStorage.setItem("Habits", JSON.stringify(newDataArray));
+    setHabits(newDataArray);
   };
-
-  useEffect(() => {
-    const retrieveToDoItems = async () => {
-      let retrieveData = await AsyncStorage.getItem("Habits");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setHabits([]);
-      else setHabits(retrieveData);
-    };
-    retrieveToDoItems();
-  }, []);
 
   const handleModal = () => {
     showModal(true);
@@ -123,19 +104,18 @@ const Habits = ({ widgetTitle }) => {
         </View>
       </Modal>
       {habits != null ? (
-        habits.map((item, index) => {
+        habits.map((item) => {
           return (
-            <TouchableWithoutFeedback key={index}>
+            <TouchableWithoutFeedback key={item.id}>
               <Streak
                 title={item.title}
                 deleteItem={deleteHabitItem}
-                index={index}
                 streak={item.streak}
                 completed={item.completed}
                 storeDate={item.storeDate}
                 tomorrowDate={item.tomorrowDate}
+                id={item.id}
                 item={item}
-                key={key}
               />
             </TouchableWithoutFeedback>
           );

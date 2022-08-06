@@ -36,7 +36,6 @@ const Event = ({ date, title, deleteItem, item }) => {
   }, []);
 
   const calculate = (text) => {
-    console.log("text: " + text);
     const selectedDate = text.split("-");
     let addedDate = 0;
     addedDate = Math.floor(Number(selectedDate[0]) / 4) * 1461;
