@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Button,
   TextInput,
+  Image,
   TouchableWithoutFeedback,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -41,9 +42,11 @@ const OnBoardingScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.green}></View>
+      <Image source={require("../assets/image/night.png")} />
       <Text style={styles.text}>What is your name?</Text>
       <View style={styles.textInput}>
         <TextInput
+          autoCorrect={false}
           style={styles.input}
           keyboardType="default"
           placeholder="First Name"

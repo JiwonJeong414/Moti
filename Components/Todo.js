@@ -20,6 +20,7 @@ import GestureRecognizer, {
   swipeDirections,
 } from "react-native-swipe-gestures";
 import ListItemDeleteAction from "./ListItemDeleteAction";
+import TaskTestTwo from "./TaskTestTwo";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
@@ -33,21 +34,21 @@ const Todo = ({ widgetTitle }) => {
       retrieveData = JSON.parse(retrieveData);
       if (retrieveData == null) setTestData([]);
       else setTestData(retrieveData);
+      console.log(retrieveData);
     };
     retrieveToDoItems();
   }, []);
 
   const setToDoItem = async (title) => {
-    let newData = [...testData, { title: title }];
+    let newData = [...testData, { title: title, id: Math.random() }];
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
     setTestData(newData);
   };
 
-  const deleteToDoItem = async (index) => {
-    let itemsCopy = [...testData];
-    itemsCopy.splice(index, 1);
-    await AsyncStorage.setItem("ToDoItems", JSON.stringify(itemsCopy));
-    setTestData(itemsCopy);
+  const deleteToDoItem = async (item) => {
+    let newDataArray = testData.filter((obj) => obj.id != item.id);
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newDataArray));
+    setTestData(newDataArray);
   };
 
   const handleAddTask = (title) => {
@@ -64,7 +65,7 @@ const Todo = ({ widgetTitle }) => {
   };
 
   const handleDelete = (item, index) => {
-    deleteToDoItem(index);
+    deleteToDoItem(item);
   };
 
   return (
@@ -128,19 +129,21 @@ const Todo = ({ widgetTitle }) => {
             </Button>
           </View>
         </Modal>
-        <FlatList
-          data={testData}
-          renderItem={({ item, index }) => (
-            <Task
-              text={item.title}
-              renderRightActions={() => (
-                <ListItemDeleteAction
-                  onPress={() => handleDelete(item, index)}
+        {testData != null ? (
+          testData.map((item) => {
+            return (
+              <TouchableWithoutFeedback key={item.id}>
+                <Task
+                  text={item.title}
+                  item={item}
+                  deleteitem={deleteToDoItem}
                 />
-              )}
-            />
-          )}
-        ></FlatList>
+              </TouchableWithoutFeedback>
+            );
+          })
+        ) : (
+          <></>
+        )}
       </View>
     </>
   );
@@ -148,7 +151,7 @@ const Todo = ({ widgetTitle }) => {
 
 const styles = StyleSheet.create({
   container: {
-    top: -120,
+    flex: 1,
   },
   addButton: {
     width: 24,

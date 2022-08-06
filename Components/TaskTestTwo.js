@@ -7,29 +7,14 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { Swipeable } from "react-native-gesture-handler";
 import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
-import {
-  NotoSans_400Regular,
-  NotoSans_700Bold,
-  useFonts,
-} from "@expo-google-fonts/noto-sans";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import { Swipeable } from "react-native-gesture-handler";
+import ListItemDeleteAction from "./ListItemDeleteAction";
 
-const TaskTestTwo = () => {
+const TaskTestTwo = ({ id, item }) => {
   const { colorTheme } = React.useContext(RootContext);
   const [completedVisible, setCompletedVisible] = useState(false);
-
-  let [fontsLoaded] = useFonts({
-    NotoSans_400Regular,
-    NotoSans_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return <></>;
-  }
 
   const handleComplete = () => {
     setCompletedVisible(!completedVisible);
@@ -37,50 +22,58 @@ const TaskTestTwo = () => {
 
   return (
     <View>
-      <View
-        style={[
-          styles.item,
-          {
-            borderColor: colorTheme.accents,
-            backgroundColor: colorTheme.primary,
-          },
-        ]}
-      >
-        <View style={styles.itemLeft}>
-          <TouchableWithoutFeedback onPress={handleComplete}>
-            <View
-              style={[
-                styles.square,
-                {
-                  borderColor: colorTheme.accents,
-                },
-              ]}
-            >
-              {completedVisible === true ? (
-                <AntDesign
-                  name="close"
-                  size={moderateScale(20)}
-                  style={{ right: moderateScale(2), bottom: moderateScale(2) }}
-                />
-              ) : (
-                <></>
-              )}
-            </View>
-          </TouchableWithoutFeedback>
-          {completedVisible === true ? (
-            <Text
-              style={[styles.itemText, { textDecorationLine: "line-through" }]}
-            >
-              TESTTTT
-            </Text>
-          ) : (
-            <Text style={styles.itemText}>TESTTTT</Text>
-          )}
-        </View>
+      <Swipeable renderLeftActions={ListItemDeleteAction}>
         <View
-          style={[styles.circular, { borderColor: colorTheme.accents }]}
-        ></View>
-      </View>
+          style={[
+            styles.item,
+            {
+              borderColor: colorTheme.accents,
+              backgroundColor: colorTheme.primary,
+            },
+          ]}
+        >
+          <View style={styles.itemLeft}>
+            <TouchableWithoutFeedback onPress={handleComplete}>
+              <View
+                style={[
+                  styles.square,
+                  {
+                    borderColor: colorTheme.accents,
+                  },
+                ]}
+              >
+                {completedVisible === true ? (
+                  <AntDesign
+                    name="close"
+                    size={moderateScale(20)}
+                    style={{
+                      right: moderateScale(2),
+                      bottom: moderateScale(2),
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+            {completedVisible === true ? (
+              <Text
+                style={[
+                  styles.itemText,
+                  { textDecorationLine: "line-through" },
+                ]}
+              >
+                TESTTTT
+              </Text>
+            ) : (
+              <Text style={styles.itemText}>TESTTTT</Text>
+            )}
+          </View>
+          <View
+            style={[styles.circular, { borderColor: colorTheme.accents }]}
+          ></View>
+        </View>
+      </Swipeable>
     </View>
   );
 };
@@ -115,7 +108,7 @@ const styles = StyleSheet.create({
   itemText: {
     maxWidth: "100%",
     fontSize: moderateScale(16),
-    fontFamily: "NotoSans_400Regular",
+    fontFamily: "Verdana",
   },
   circular: {
     width: moderateScale(10),

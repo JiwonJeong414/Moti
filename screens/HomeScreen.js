@@ -4,8 +4,8 @@ import {
   Text,
   View,
   FlatList,
-  TouchableWithoutFeedback,
   ScrollView,
+  TouchableWithoutFeedback,
   Animated,
 } from "react-native";
 import Task from "../Components/Task";
@@ -42,45 +42,6 @@ const HomeScreen = ({ navigation, route }) => {
   });
 
   useEffect(() => {
-    const retrieveToDoItems = async () => {
-      let retrieveData = await AsyncStorage.getItem("ToDoItems");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTestData([]);
-      else setTestData(retrieveData);
-    };
-    retrieveToDoItems();
-  }, []);
-
-  const setToDoItem = async (title) => {
-    let newData = [...testData, { title: title, id: Math.random() }];
-    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
-    setTestData(newData);
-  };
-
-  const deleteToDoItem = async (item) => {
-    let newDataArray = testData.filter((obj) => obj.id != item.id);
-    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newDataArray));
-    setTestData(newDataArray);
-  };
-
-  const handleAddTask = (title) => {
-    setLoading(true);
-    setToDoItem(title);
-    setTask(null);
-    setLoading(false);
-    setModalVisible(false);
-  };
-
-  const handleModal = () => {
-    setTask(null);
-    setModalVisible(true);
-  };
-
-  const handleDelete = (item) => {
-    deleteToDoItem(item);
-  };
-
-  useEffect(() => {
     const getName = async () => {
       let userName = await AsyncStorage.getItem("Name");
       userName = JSON.parse(userName);
@@ -94,108 +55,31 @@ const HomeScreen = ({ navigation, route }) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: colorTheme.primary }}>
-      <FlatList
-        style={{
-          backgroundColor: colorTheme.primary,
-        }}
-        ListHeaderComponent={
-          <View>
-            <View
-              style={[
-                styles.container,
-                { backgroundColor: colorTheme.primary },
-              ]}
-            >
-              <BannerAndIcon />
-              <SettingModal navigation={navigation} />
-              <Quotes />
-            </View>
-            <View
-              style={[
-                styles.dashboard,
-                { backgroundColor: colorTheme.neutral, flex: 1 },
-              ]}
-            >
-              <Text style={styles.myName}>Hi {myName}</Text>
-              <View style={styles.divider}></View>
-              <CustomDatePicker widgetTitle="Events" />
-              <View style={styles.groupRow}>
-                <Text style={styles.sectionTitle}> Tasks</Text>
-                <IconButton
-                  icon="sticker-plus"
-                  onPress={handleModal}
-                  style={{
-                    right: moderateScale(15),
-                    marginBottom: moderateScale(-8),
-                    bottom: moderateScale(8),
-                  }}
-                />
-              </View>
-              <Modal
-                isVisible={modalVisible}
-                animationIn="bounceIn"
-                animationOut="bounceOut"
-                useNativeDriver
-                hideModalContentWhileAnimating
-                onBackdropPress={() => setModalVisible(false)}
-                style={styles.modalBackground}
-              >
-                <View style={styles.modalHeader}>
-                  <TextInput
-                    label="Task Title"
-                    mode="outlined"
-                    style={{ width: moderateScale(245) }}
-                    value={task}
-                    onChangeText={(text) => setTask(text)}
-                  />
-                  <Button
-                    mode="contained"
-                    onPress={() => handleAddTask(task)}
-                    style={{
-                      position: "absolute",
-                      left: moderateScale(200),
-                      top: moderateScale(190),
-                    }}
-                  >
-                    Add
-                  </Button>
-                </View>
-              </Modal>
-            </View>
-          </View>
-        }
-        data={testData}
-        renderItem={({ item, index }) => (
+    <ScrollView>
+      <View style={{ flex: 1, backgroundColor: colorTheme.primary }}>
+        <View>
           <View
-            style={{
-              width: moderateScale(380),
-              height: moderateScale(65),
-              backgroundColor: colorTheme.neutral,
-            }}
+            style={[styles.container, { backgroundColor: colorTheme.primary }]}
           >
-            <Task
-              text={item.title}
-              renderRightActions={() => (
-                <ListItemDeleteAction onPress={() => handleDelete(item)} />
-              )}
-            />
+            <BannerAndIcon />
+            <SettingModal navigation={navigation} />
+            <Quotes />
           </View>
-        )}
-        ListFooterComponent={
           <View
-            style={{
-              width: moderateScale(380),
-              backgroundColor: colorTheme.neutral,
-              borderBottomLeftRadius: moderateScale(20),
-              borderBottomRightRadius: moderateScale(20),
-            }}
+            style={[
+              styles.dashboard,
+              { backgroundColor: colorTheme.neutral, flex: 1 },
+            ]}
           >
+            <Text style={styles.myName}>Hi {myName}</Text>
+            <View style={styles.divider}></View>
+            <CustomDatePicker widgetTitle="Events" />
+            <Todo widgetTitle="Todo" />
             <Habits widgetTitle="Habits" />
           </View>
-        }
-      ></FlatList>
-    </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 

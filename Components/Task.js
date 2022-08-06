@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
@@ -15,8 +14,10 @@ import {
   NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/noto-sans";
+import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
+import ListItemDeleteAction from "./ListItemDeleteAction";
 
-const Task = ({ text, renderRightActions }) => {
+const Task = ({ text, item, deleteitem }) => {
   const { colorTheme } = React.useContext(RootContext);
   const [completedVisible, setCompletedVisible] = useState(false);
 
@@ -34,7 +35,11 @@ const Task = ({ text, renderRightActions }) => {
   };
 
   return (
-    <Swipeable renderRightActions={renderRightActions}>
+    <Swipeable
+      renderRightActions={() => (
+        <ListItemDeleteAction onPress={() => deleteitem(item)} />
+      )}
+    >
       <View
         style={[
           styles.item,
