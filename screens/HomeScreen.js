@@ -51,16 +51,15 @@ const HomeScreen = ({ navigation, route }) => {
   }, []);
 
   const setToDoItem = async (title) => {
-    let newData = [...testData, { title: title }];
+    let newData = [...testData, { title: title, id: Math.random() }];
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
     setTestData(newData);
   };
 
-  const deleteToDoItem = async (index) => {
-    let itemsCopy = [...testData];
-    itemsCopy.splice(index, 1);
-    await AsyncStorage.setItem("ToDoItems", JSON.stringify(itemsCopy));
-    setTestData(itemsCopy);
+  const deleteToDoItem = async (item) => {
+    let newDataArray = testData.filter((obj) => obj.id != item.id);
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(newDataArray));
+    setTestData(newDataArray);
   };
 
   const handleAddTask = (title) => {
@@ -76,8 +75,8 @@ const HomeScreen = ({ navigation, route }) => {
     setModalVisible(true);
   };
 
-  const handleDelete = (item, index) => {
-    deleteToDoItem(index);
+  const handleDelete = (item) => {
+    deleteToDoItem(item);
   };
 
   useEffect(() => {
@@ -96,7 +95,11 @@ const HomeScreen = ({ navigation, route }) => {
   return (
     <View style={{ flex: 1, backgroundColor: colorTheme.primary }}>
       <FlatList
-        style={{ backgroundColor: colorTheme.primary }}
+        style={{
+          backgroundColor: colorTheme.primary,
+          borderRadius: 20,
+          borderWidth: 2,
+        }}
         ListHeaderComponent={
           <View>
             <View
@@ -175,9 +178,7 @@ const HomeScreen = ({ navigation, route }) => {
             <Task
               text={item.title}
               renderRightActions={() => (
-                <ListItemDeleteAction
-                  onPress={() => handleDelete(item, index)}
-                />
+                <ListItemDeleteAction onPress={() => handleDelete(item)} />
               )}
             />
           </View>
@@ -187,8 +188,8 @@ const HomeScreen = ({ navigation, route }) => {
             style={{
               width: moderateScale(380),
               backgroundColor: colorTheme.neutral,
-              borderBottomLeftRadius: moderateScale(49),
-              borderBottomRightRadius: moderateScale(49),
+              borderBottomLeftRadius: moderateScale(20),
+              borderBottomRightRadius: moderateScale(20),
             }}
           >
             <Habits widgetTitle="Habits" />
