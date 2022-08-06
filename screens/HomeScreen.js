@@ -21,6 +21,7 @@ import Modal from "react-native-modal";
 import Habits from "../Components/Habits";
 import SettingModal from "../Components/SettingModal";
 import { Button, IconButton, TextInput } from "react-native-paper";
+import Tasktest from "../Components/Tasktest";
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,
@@ -97,8 +98,6 @@ const HomeScreen = ({ navigation, route }) => {
       <FlatList
         style={{
           backgroundColor: colorTheme.primary,
-          borderRadius: 20,
-          borderWidth: 2,
         }}
         ListHeaderComponent={
           <View>

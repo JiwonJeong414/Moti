@@ -29,14 +29,14 @@ const OnBoardingScreen = ({ navigation, route }) => {
     setOnboard(true);
   };
 
-  let [fontsLoaded] = useFonts({
-    NotoSans_400Regular,
-    NotoSans_700Bold,
-  });
+  // let [fontsLoaded] = useFonts({
+  //   NotoSans_400Regular,
+  //   NotoSans_700Bold,
+  // });
 
-  if (!fontsLoaded) {
-    return <></>;
-  }
+  // if (!fontsLoaded) {
+  //   return <></>;
+  // }
 
   return (
     <View style={styles.container}>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: moderateScale(16),
-    fontFamily: "NotoSans_400Regular",
+    fontFamily: "Verdana",
   },
   confirm: {
     position: "absolute",
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   next: {
     fontSize: moderateScale(16),
-    fontFamily: "NotoSans_400Regular",
+    fontFamily: "Verdana",
     color: "white",
   },
 });

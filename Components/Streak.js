@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -31,8 +32,6 @@ const Streak = ({
   const [localStoreDate, setLocalStoreDate] = useState(storeDate);
   const [localTomorrowDate, setLocalTomorrowDate] = useState(tomorrowDate);
 
-  const [update, setUpdate] = useState();
-
   const { colorTheme, habits, setHabits } = React.useContext(RootContext);
 
   useEffect(() => {
@@ -52,6 +51,13 @@ const Streak = ({
   const handleComplete = async () => {
     setLocalCompleted(true);
     setLocalStreak(localStreak + 1);
+    if (localStreak + 1 === 3) {
+      Alert.alert("Congratulations! You hit a 3-day streak!");
+    } else if (localStreak + 1 === 10) {
+      Alert.alert("Congratulations! You hit a 10-day streak!");
+    } else if (localStreak + 1 === 20) {
+      Alert.alert("Congratulations! You hit a 20-day streak!");
+    }
     let testArray = habits;
     let objIndex = testArray.findIndex((obj) => obj.id === id);
     console.log("Before Update: ", testArray[objIndex]);
@@ -99,12 +105,19 @@ const Streak = ({
       testArray[objIndex].tomorrowDate = "";
       testArray[objIndex].storeDate = "";
       testArray[objIndex].streak = 0;
+      testArray[objIndex].completed = false;
+      setLocalCompleted(false);
       setLocalTomorrowDate();
       setLocalStoreDate();
       setLocalStreak(0);
     }
     console.log(testArray);
-  }, [update]);
+    const set = async () => {
+      setHabits(testArray);
+      await AsyncStorage.setItem("Habits", JSON.stringify(testArray));
+    };
+    set();
+  }, []);
 
   // asyncstorage habit + title (cause having 2 of the same habit will be wierd)
 
@@ -201,9 +214,6 @@ const Streak = ({
           <Text style={styles.streak}> {localStreak}</Text>
         </View>
       </View>
-      <Button onPress={() => setUpdate(!update)} style={{ marginTop: 10 }}>
-        Update
-      </Button>
     </View>
   );
 };
