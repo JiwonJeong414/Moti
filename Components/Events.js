@@ -17,12 +17,22 @@ import Modal from "react-native-modal";
 import { List } from "react-native-paper";
 import { AntDesign } from "react-native-vector-icons";
 import ListTest from "./ListTest";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
-const Event = ({ date, title, deleteItem, item }) => {
+const Event = ({ date, index, length, title, deleteItem, item }) => {
   const { colorTheme } = React.useContext(RootContext);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [localdate, setLocaldate] = useState(date);
   const [calculateDate, setCalculateDate] = useState();
+
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
 
   useEffect(() => {
     let today = new Date();
@@ -99,8 +109,22 @@ const Event = ({ date, title, deleteItem, item }) => {
     return addedDate;
   };
 
+  const margin = index + 1 === length ? moderateScale(4) : moderateScale(20);
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   return (
-    <View style={[styles.item, { backgroundColor: colorTheme.primary }]}>
+    <View
+      style={[
+        styles.item,
+        {
+          backgroundColor: colorTheme.primary,
+          marginBottom: margin,
+        },
+      ]}
+    >
       <View style={styles.itemLeft}>
         <Text style={styles.itemText}>{title}</Text>
         <View style={{ left: moderateScale(285), position: "absolute" }}>
@@ -114,14 +138,19 @@ const Event = ({ date, title, deleteItem, item }) => {
                   width: moderateScale(50),
                   height: moderateScale(30),
                   right: moderateScale(15),
-                  backgroundColor: "white",
-                  borderColor: "gray",
-                  borderWidth: moderateScale(1),
+                  backgroundColor: colorTheme.accents,
+                  borderRadius: moderateScale(10),
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <Text>Delete</Text>
+                <Text
+                  style={{
+                    fontFamily: "NotoSans_400Regular",
+                  }}
+                >
+                  Delete
+                </Text>
               </View>
             </TouchableWithoutFeedback>
           ) : (
@@ -148,14 +177,13 @@ const Event = ({ date, title, deleteItem, item }) => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 15,
-    left: 20,
-    width: 380,
-    height: 120,
+    padding: moderateScale(14),
+    left: moderateScale(18),
+    width: moderateScale(345),
+    height: moderateScale(115),
     borderRadius: moderateScale(20),
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    marginBottom: 20,
   },
   itemLeft: {
     flexDirection: "row",
@@ -176,9 +204,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   itemText: {
-    fontSize: 25,
+    fontSize: moderateScale(28),
     fontWeight: "bold",
-    paddingBottom: 10,
+    fontFamily: "NotoSans_700Bold",
+    paddingBottom: moderateScale(4),
   },
   circular: {
     width: 12,
@@ -192,7 +221,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   left: {
-    fontSize: 24,
+    fontSize: moderateScale(23),
+    fontFamily: "NotoSans_400Regular",
   },
   modalBackground: {
     justifyContent: "center",

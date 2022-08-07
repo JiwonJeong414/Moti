@@ -31,7 +31,7 @@ export default function BottomTabNavigator({ navigation }) {
       initialRouteName="Home"
       shifting={true}
       sceneAnimationEnabled={true}
-      barStyle={{ backgroundColor: colorTheme.primary }}
+      barStyle={{ backgroundColor: colorTheme.accents }}
     >
       <BottomTab.Screen
         name="Home"
@@ -42,7 +42,7 @@ export default function BottomTabNavigator({ navigation }) {
             <MaterialCommunityIcons
               name="home"
               size={moderateScale(20)}
-              color={colorTheme.accents}
+              color={colorTheme.neutral}
             />
           ),
         }}
@@ -56,7 +56,7 @@ export default function BottomTabNavigator({ navigation }) {
             <FontAwesome5
               name="phone-alt"
               size={moderateScale(20)}
-              color={colorTheme.accents}
+              color={colorTheme.neutral}
             />
           ),
         }}

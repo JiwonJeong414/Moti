@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   words: {
     fontSize: moderateScale(16),
     fontFamily: "NotoSans_700Bold",
-    color: "darkblue",
     textAlign: "center",
   },
   quotes: {
@@ -75,7 +74,6 @@ const styles = StyleSheet.create({
     marginBottom: moderateScale(15),
     fontSize: moderateScale(15),
     fontFamily: "NotoSans_400Regular",
-    color: "darkblue",
     textAlign: "center",
   },
 });

@@ -16,6 +16,11 @@ import { Button } from "react-native-paper";
 import { RootContext } from "../config/RootContext";
 import SettingOpenCircle from "./SettingOpenCircle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const Streak = ({
   title,
@@ -34,6 +39,11 @@ const Streak = ({
 
   const { colorTheme, habits, setHabits } = React.useContext(RootContext);
 
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
+
   useEffect(() => {
     const retrieveHabitItems = async () => {
       let retrieveData = await AsyncStorage.getItem("Habits");
@@ -44,7 +54,6 @@ const Streak = ({
     };
     retrieveHabitItems();
   }, []);
-
   // trying adding the asyncstorage here and completely remove from habits
   // just configure asyncstorage here and it will update on habits
   // asyncstorage set item (based on index setstreak)
@@ -123,6 +132,10 @@ const Streak = ({
 
   const [deleteVisible, setDeleteVisible] = useState(false);
 
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   return (
     <View style={[styles.item, { backgroundColor: colorTheme.primary }]}>
       <View style={styles.itemLeft}>
@@ -144,14 +157,19 @@ const Streak = ({
                     width: moderateScale(50),
                     height: moderateScale(30),
                     right: moderateScale(15),
-                    backgroundColor: "white",
-                    borderColor: "gray",
-                    borderWidth: moderateScale(1),
+                    backgroundColor: colorTheme.accents,
+                    borderRadius: moderateScale(10),
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  <Text>Delete</Text>
+                  <Text
+                    style={{
+                      fontFamily: "NotoSans_400Regular",
+                    }}
+                  >
+                    Delete
+                  </Text>
                 </View>
               </TouchableWithoutFeedback>
             ) : (
@@ -183,28 +201,31 @@ const Streak = ({
                   top: moderateScale(2),
                   width: moderateScale(30),
                   height: moderateScale(30),
-                  backgroundColor: colorTheme.accents,
+                  borderWidth: moderateScale(3),
+                  borderColor: colorTheme.accents,
                   borderRadius: moderateScale(40),
                   alignItems: "center",
                 }}
               ></View>
             </TouchableWithoutFeedback>
           ) : (
-            <View
-              style={{
-                top: moderateScale(2),
-                width: moderateScale(30),
-                height: moderateScale(30),
-                backgroundColor: colorTheme.accents,
-                borderRadius: moderateScale(40),
-                alignItems: "center",
-              }}
-            >
+            <View>
+              <View
+                style={{
+                  top: moderateScale(2),
+                  width: moderateScale(30),
+                  height: moderateScale(30),
+                  borderWidth: moderateScale(3),
+                  borderColor: colorTheme.accents,
+                  borderRadius: moderateScale(40),
+                  alignItems: "center",
+                }}
+              ></View>
               <AntDesign
                 name="check"
                 color={colorTheme.neutral}
                 size={moderateScale(40)}
-                style={{ bottom: moderateScale(10) }}
+                style={{ position: "absolute", bottom: moderateScale(0) }}
               />
             </View>
           )}
@@ -213,6 +234,14 @@ const Streak = ({
           <Text style={styles.streak}> Streak: </Text>
           <Text style={styles.streak}> {localStreak}</Text>
         </View>
+        {/* <View
+          style={{
+            backgroundColor: colorTheme.accents,
+            width: moderateScale(100),
+            height: moderateScale(5),
+            left: moderateScale(110),
+          }}
+        /> */}
       </View>
     </View>
   );
@@ -221,12 +250,12 @@ const Streak = ({
 const styles = StyleSheet.create({
   item: {
     backgroundColor: "#FFF",
-    padding: 15,
+    padding: moderateScale(14),
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    left: 20,
-    width: 380,
-    height: 140,
+    left: moderateScale(18),
+    width: moderateScale(345),
+    height: moderateScale(130),
     borderRadius: moderateScale(20),
     justifyContent: "space-between",
     marginBottom: moderateScale(25),
@@ -235,16 +264,18 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   itemText: {
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: moderateScale(27),
+    fontFamily: "NotoSans_700Bold",
   },
   streak: {
-    fontSize: 22,
-    marginTop: 18,
+    fontSize: moderateScale(20),
+    marginTop: moderateScale(5),
+    fontFamily: "NotoSans_400Regular",
   },
   accomplished: {
-    fontSize: 22,
+    fontSize: moderateScale(20),
     marginTop: 10,
+    fontFamily: "NotoSans_700Bold",
   },
 });
 

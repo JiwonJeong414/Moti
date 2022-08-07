@@ -94,8 +94,7 @@ const Todo = ({ widgetTitle }) => {
             onPress={handleModal}
             style={{
               right: moderateScale(15),
-              marginBottom: moderateScale(-8),
-              bottom: moderateScale(8),
+              top: moderateScale(2),
             }}
           />
         </View>
@@ -160,11 +159,11 @@ const styles = StyleSheet.create({
     backgroundColor: "dodgerblue",
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: moderateScale(22),
+    paddingTop: moderateScale(10),
     fontWeight: "bold",
-    paddingLeft: 20,
-    paddingRight: 10,
-    paddingBottom: 10,
+    paddingLeft: moderateScale(18),
+    paddingRight: moderateScale(9),
   },
   groupRow: {
     flexDirection: "row",

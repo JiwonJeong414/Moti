@@ -18,7 +18,7 @@ import {
 } from "@expo-google-fonts/noto-sans";
 
 const SettingModal = ({ navigation }) => {
-  const { onboarded, setOnboard } = React.useContext(RootContext);
+  const { onboarded, setOnboard, colorTheme } = React.useContext(RootContext);
   const [settingVisible, setSettingVisible] = useState(false);
 
   let [fontsLoaded] = useFonts({
@@ -61,6 +61,11 @@ const SettingModal = ({ navigation }) => {
           name="dots-three-horizontal"
           size={moderateScale(45)}
           color={"black"}
+          style={{
+            right: moderateScale(15),
+            marginBottom: moderateScale(10),
+            bottom: moderateScale(5),
+          }}
         />
         <Modal
           isVisible={settingVisible}
@@ -168,11 +173,10 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
   },
   circular: {
-    width: 12,
-    height: 12,
-    borderColor: "#55BCF6",
-    borderWidth: 2,
-    borderRadius: 5,
+    width: moderateScale(11),
+    height: moderateScale(11),
+    borderWidth: moderateScale(2),
+    borderRadius: moderateScale(10),
   },
 });
 

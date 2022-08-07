@@ -457,9 +457,9 @@ const TemplateColors = () => {
               <View style={styles.wheelBackground}>
                 <View style={styles.test}>
                   <ColorPicker
-                    sliderSize={30}
-                    gapSize={20}
-                    thumbSize={25}
+                    sliderSize={moderateScale(30)}
+                    gapSize={moderateScale(20)}
+                    thumbSize={moderateScale(25)}
                     onColorChange={(color) => setTempCustomPrimary(color)}
                   />
                 </View>
@@ -705,9 +705,9 @@ const TemplateColors = () => {
               <View style={styles.wheelBackground}>
                 <View style={styles.test}>
                   <ColorPicker
-                    sliderSize={30}
-                    gapSize={20}
-                    thumbSize={25}
+                    sliderSize={moderateScale(30)}
+                    gapSize={moderateScale(20)}
+                    thumbSize={moderateScale(25)}
                     onColorChange={(color) => setTempCustomNeutral(color)}
                   />
                 </View>
@@ -953,9 +953,9 @@ const TemplateColors = () => {
               <View style={styles.wheelBackground}>
                 <View style={styles.test}>
                   <ColorPicker
-                    sliderSize={30}
-                    gapSize={20}
-                    thumbSize={25}
+                    sliderSize={moderateScale(30)}
+                    gapSize={moderateScale(20)}
+                    thumbSize={moderateScale(25)}
                     onColorChange={(color) => setTempCustom(color)}
                   />
                 </View>

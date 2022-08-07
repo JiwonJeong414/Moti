@@ -86,8 +86,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
           onPress={handleModal}
           style={{
             right: moderateScale(15),
-            marginBottom: moderateScale(-8),
-            bottom: moderateScale(8),
+            top: moderateScale(2),
           }}
         />
       </View>
@@ -154,6 +153,8 @@ const CustomDatePicker = ({ widgetTitle }) => {
             <TouchableWithoutFeedback key={item.id}>
               <Events
                 date={item.date}
+                index={index}
+                length={events.length}
                 title={item.title}
                 deleteItem={deleteEventItem}
                 item={item}
@@ -173,10 +174,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: moderateScale(22),
+    paddingTop: moderateScale(10),
+    paddingBottom: moderateScale(10),
     fontWeight: "bold",
-    paddingLeft: 20,
-    paddingRight: 10,
+    paddingLeft: moderateScale(18),
+    paddingRight: moderateScale(9),
   },
   title: {
     width: 200,

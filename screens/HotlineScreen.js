@@ -41,210 +41,196 @@ const HotlineScreen = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={[styles.container, { backgroundColor: colorTheme.primary }]}>
-        <View
-          style={[styles.clipboard, { backgroundColor: colorTheme.neutral }]}
-        >
-          <View style={{ alignItems: "center" }}>
-            <Text style={styles.hotline}>HOTLINE</Text>
-            <View style={styles.divider}></View>
-            <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Suicide Hotline</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+    <View style={[styles.container, { backgroundColor: colorTheme.primary }]}>
+      <View style={[styles.clipboard, { backgroundColor: colorTheme.neutral }]}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.hotline}>HOTLINE</Text>
+          <View style={styles.divider}></View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Suicide Hotline</Text>
             </View>
             <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Grief Support</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Grief Support</Text>
             </View>
             <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Assualt Hotline</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Assualt Hotline</Text>
             </View>
             <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Sexuality Support</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Sexuality Support</Text>
             </View>
             <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Lifeline Hotline</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Lifeline Hotline</Text>
             </View>
             <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Depression Hotline</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Depression Hotline</Text>
             </View>
             <View
-              style={[
-                styles.item,
-                {
-                  borderColor: colorTheme.accents,
-                  backgroundColor: colorTheme.primary,
-                },
-              ]}
-            >
-              <View style={styles.itemLeft}>
-                <TouchableOpacity
-                  onPress={() => call(args)}
-                  style={{ marginRight: moderateScale(10) }}
-                >
-                  <FontAwesome5
-                    name="phone-alt"
-                    size={moderateScale(20)}
-                    color={colorTheme.accents}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.itemText}>Say Something</Text>
-              </View>
-              <View
-                style={[styles.circular, { borderColor: colorTheme.accents }]}
-              ></View>
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
+          </View>
+          <View
+            style={[
+              styles.item,
+              {
+                borderColor: colorTheme.accents,
+                backgroundColor: colorTheme.primary,
+              },
+            ]}
+          >
+            <View style={styles.itemLeft}>
+              <TouchableOpacity
+                onPress={() => call(args)}
+                style={{ marginRight: moderateScale(10) }}
+              >
+                <FontAwesome5
+                  name="phone-alt"
+                  size={moderateScale(20)}
+                  color={colorTheme.accents}
+                />
+              </TouchableOpacity>
+              <Text style={styles.itemText}>Say Something</Text>
             </View>
-            {/* <TextInput
-            placeholder="Type"
-            placeholderTextColor="gray"
-            style={{ left: 40 }}
-            keyboardType="number-pad"
-            ></TextInput>
-            <View style={styles.addWrapper}>
-            <Feather name="plus" size={35} />
-          </View> */}
+            <View
+              style={[styles.circular, { borderColor: colorTheme.accents }]}
+            ></View>
           </View>
         </View>
-        <Tasktest />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   FlatList,
   ScrollView,
   TouchableWithoutFeedback,
+  Dimensions,
   Animated,
 } from "react-native";
 import Task from "../Components/Task";
@@ -36,6 +37,8 @@ const HomeScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [testData, setTestData] = useState([]);
 
+  const fullHeight = Dimensions.get("window").height;
+
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
     NotoSans_700Bold,
@@ -55,28 +58,40 @@ const HomeScreen = ({ navigation, route }) => {
   }
 
   return (
-    <ScrollView>
-      <View style={{ flex: 1, backgroundColor: colorTheme.primary }}>
-        <View>
-          <View
-            style={[styles.container, { backgroundColor: colorTheme.primary }]}
-          >
-            <BannerAndIcon />
-            <SettingModal navigation={navigation} />
-            <Quotes />
-          </View>
-          <View
-            style={[
-              styles.dashboard,
-              { backgroundColor: colorTheme.neutral, flex: 1 },
-            ]}
-          >
-            <Text style={styles.myName}>Hi {myName}</Text>
-            <View style={styles.divider}></View>
-            <CustomDatePicker widgetTitle="Events" />
+    <ScrollView style={{ backgroundColor: colorTheme.neutral, flex: 1 }}>
+      <View
+        style={{
+          backgroundColor: colorTheme.primary,
+          height: fullHeight,
+          position: "absolute",
+          top: -fullHeight,
+          left: 0,
+          right: 0,
+        }}
+      />
+      <View style={{ backgroundColor: colorTheme.primary }}>
+        <BannerAndIcon />
+        <SettingModal navigation={navigation} />
+        <Quotes />
+      </View>
+      <View style={{ backgroundColor: colorTheme.primary }}>
+        <View
+          style={[
+            styles.dashboard,
+            {
+              backgroundColor: colorTheme.neutral,
+              borderTopLeftRadius: moderateScale(49),
+              borderTopRightRadius: moderateScale(49),
+            },
+          ]}
+        >
+          <Text style={styles.myName}>Hi {myName}</Text>
+          <View style={styles.divider}></View>
+          <CustomDatePicker widgetTitle="Events" />
+          <View style={{ marginBottom: moderateScale(10) }}>
             <Todo widgetTitle="Todo" />
-            <Habits widgetTitle="Habits" />
           </View>
+          <Habits widgetTitle="Habits" />
         </View>
       </View>
     </ScrollView>
@@ -137,8 +152,6 @@ const styles = StyleSheet.create({
   },
   dashboard: {
     width: moderateScale(380),
-    borderTopLeftRadius: moderateScale(49),
-    borderTopRightRadius: moderateScale(49),
   },
 });
 

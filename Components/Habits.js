@@ -132,10 +132,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: moderateScale(22),
     fontWeight: "bold",
-    paddingLeft: 20,
-    paddingRight: 10,
+    paddingLeft: moderateScale(18),
+    paddingRight: moderateScale(9),
+    paddingBottom: moderateScale(15),
   },
   row: {
     flexDirection: "row",

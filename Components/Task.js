@@ -90,17 +90,17 @@ const Task = ({ text, item, deleteitem }) => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 15,
-    left: 20,
-    top: 10,
-    width: 380,
-    borderRadius: 10,
+    padding: moderateScale(14),
+    left: moderateScale(18),
+    top: moderateScale(9),
+    width: moderateScale(345),
+    borderRadius: moderateScale(10),
     shadowOpacity: 0.3,
     shadowRadius: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: moderateScale(14),
   },
   itemLeft: {
     flexDirection: "row",
