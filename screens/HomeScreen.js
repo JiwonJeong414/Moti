@@ -74,11 +74,12 @@ const HomeScreen = ({ navigation, route }) => {
         <SettingModal navigation={navigation} />
         <Quotes />
       </View>
-      <View style={{ backgroundColor: colorTheme.primary }}>
+      <View style={{ backgroundColor: colorTheme.primary, flex: 1 }}>
         <View
           style={[
             styles.dashboard,
             {
+              top: moderateScale(1),
               backgroundColor: colorTheme.neutral,
               borderTopLeftRadius: moderateScale(49),
               borderTopRightRadius: moderateScale(49),

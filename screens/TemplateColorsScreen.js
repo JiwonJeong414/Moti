@@ -23,6 +23,11 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Button } from "react-native-paper";
 import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+  useFonts,
+} from "@expo-google-fonts/noto-sans";
 
 const TemplateColors = () => {
   const { colorTheme, setColorTheme } = React.useContext(RootContext);
@@ -41,6 +46,11 @@ const TemplateColors = () => {
   const [customColor, setCustomColor] = useState("");
   const [tempCustom, setTempCustom] = useState("");
   const [customVisible, setCustomVisible] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
 
   useEffect(() => {
     let colorTheme = {
@@ -249,6 +259,10 @@ const TemplateColors = () => {
     setCustomVisible(false);
   };
 
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -455,6 +469,17 @@ const TemplateColors = () => {
             </TouchableWithoutFeedback>
             <Modal isVisible={customVisiblePrimary} style={styles.customModal}>
               <View style={styles.wheelBackground}>
+                <View style={styles.modalHeader}>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontFamily: "NotoSans_400Regular",
+                      fontSize: moderateScale(20),
+                    }}
+                  >
+                    Custom Color
+                  </Text>
+                </View>
                 <View style={styles.test}>
                   <ColorPicker
                     sliderSize={moderateScale(30)}
@@ -703,6 +728,17 @@ const TemplateColors = () => {
             </TouchableWithoutFeedback>
             <Modal isVisible={customVisibleNeutral} style={styles.customModal}>
               <View style={styles.wheelBackground}>
+                <View style={styles.modalHeader}>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontFamily: "NotoSans_400Regular",
+                      fontSize: moderateScale(20),
+                    }}
+                  >
+                    Custom Color
+                  </Text>
+                </View>
                 <View style={styles.test}>
                   <ColorPicker
                     sliderSize={moderateScale(30)}
@@ -951,6 +987,17 @@ const TemplateColors = () => {
             </TouchableWithoutFeedback>
             <Modal isVisible={customVisible} style={styles.customModal}>
               <View style={styles.wheelBackground}>
+                <View style={styles.modalHeader}>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontFamily: "NotoSans_400Regular",
+                      fontSize: moderateScale(20),
+                    }}
+                  >
+                    Custom Color
+                  </Text>
+                </View>
                 <View style={styles.test}>
                   <ColorPicker
                     sliderSize={moderateScale(30)}
@@ -1006,7 +1053,7 @@ const TemplateColors = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFFEF7",
   },
   button: {
     width: 10,
@@ -1065,6 +1112,17 @@ const styles = StyleSheet.create({
   customModal: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  modalHeader: {
+    position: "absolute",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(60),
+    top: moderateScale(0),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8),
+    backgroundColor: "black",
   },
 });
 

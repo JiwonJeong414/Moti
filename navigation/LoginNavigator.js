@@ -84,7 +84,10 @@ export function HomeTabNavigator({ navigation }) {
         component={TemplateColorsScreen}
         options={{
           headerStyle: {
-            backgroundColor: colorTheme.neutral,
+            backgroundColor: "black",
+          },
+          headerTitleStyle: {
+            color: "white",
           },
           headerShadowVisible: false,
           headerLeft: () => (
@@ -92,7 +95,7 @@ export function HomeTabNavigator({ navigation }) {
               <Feather
                 name="x"
                 size={moderateScale(30)}
-                color="black"
+                color="white"
                 style={{ marginLeft: moderateScale(20) }}
               />
             </TouchableOpacity>

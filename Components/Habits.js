@@ -80,14 +80,25 @@ const Habits = ({ widgetTitle }) => {
         style={styles.modalBackground}
       >
         <View style={styles.modalHeader}>
+          <View style={styles.modal}>
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "NotoSans_400Regular",
+                fontSize: moderateScale(20),
+              }}
+            >
+              Add Habit
+            </Text>
+          </View>
           <TextInput
             label="Habit"
             value={title}
             mode="outlined"
             onChangeText={(text) => setTitle(text)}
+            activeOutlineColor="#55BCF6"
             style={{
               width: moderateScale(190),
-              marginBottom: moderateScale(20),
             }}
           />
           <Button
@@ -97,6 +108,7 @@ const Habits = ({ widgetTitle }) => {
               position: "absolute",
               left: moderateScale(195),
               top: moderateScale(190),
+              backgroundColor: "#55BCF6",
             }}
           >
             Add
@@ -153,6 +165,17 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "30%",
     backgroundColor: "#FFF",
+  },
+  modal: {
+    position: "absolute",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(50),
+    top: moderateScale(0),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8),
+    backgroundColor: "black",
   },
 });
 

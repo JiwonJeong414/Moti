@@ -36,6 +36,7 @@ function RootNavigator() {
   const [neutral, setNeutral] = useState();
   const [accents, setAccents] = useState();
   const [habits, setHabits] = useState([]);
+  const [testData, setTestData] = useState([]);
 
   useEffect(() => {
     let colorTheme = {
@@ -54,6 +55,13 @@ function RootNavigator() {
       else setHabits(retrieveData);
     };
     retrieveHabits();
+    const retrieveTodo = async () => {
+      let retrieveData = await AsyncStorage.getItem("ToDoItems");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setTestData([]);
+      else setTestData(retrieveData);
+    };
+    retrieveTodo();
   }, []);
 
   useEffect(() => {
@@ -106,8 +114,9 @@ function RootNavigator() {
         colorTheme: colorTheme,
         setColorTheme: setColorTheme,
         habits: habits,
-        setHabits,
-        setHabits,
+        setHabits: setHabits,
+        testData: testData,
+        setTestData: setTestData,
       }}
     >
       {loading === true ? (

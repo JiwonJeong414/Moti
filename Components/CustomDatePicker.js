@@ -100,12 +100,25 @@ const CustomDatePicker = ({ widgetTitle }) => {
         style={styles.modalBackground}
       >
         <View style={styles.modalHeader}>
+          <View style={styles.modal}>
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "NotoSans_400Regular",
+                fontSize: moderateScale(20),
+              }}
+            >
+              Add Event
+            </Text>
+          </View>
           <TextInput
             label="Event Title"
             value={title}
             mode="outlined"
+            activeOutlineColor="#55BCF6"
             onChangeText={(text) => setTitle(text)}
             style={{
+              top: moderateScale(10),
               width: moderateScale(190),
               marginBottom: moderateScale(20),
             }}
@@ -115,6 +128,11 @@ const CustomDatePicker = ({ widgetTitle }) => {
               mode="contained"
               icon="calendar-month"
               onPress={openDatePicker}
+              color="gray"
+              contentStyle={{
+                height: moderateScale(40),
+                width: moderateScale(190),
+              }}
             >
               Select Date
             </Button>
@@ -123,6 +141,11 @@ const CustomDatePicker = ({ widgetTitle }) => {
               mode="contained"
               icon="calendar-month"
               onPress={openDatePicker}
+              color="gray"
+              contentStyle={{
+                height: moderateScale(40),
+                width: moderateScale(190),
+              }}
             >
               {date}
             </Button>
@@ -141,6 +164,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
               position: "absolute",
               left: moderateScale(195),
               top: moderateScale(190),
+              backgroundColor: "#55BCF6",
             }}
           >
             Add
@@ -220,6 +244,17 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "30%",
     backgroundColor: "#FFF",
+  },
+  modal: {
+    position: "absolute",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(50),
+    top: moderateScale(0),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8),
+    backgroundColor: "black",
   },
 });
 

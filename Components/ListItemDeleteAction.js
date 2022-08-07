@@ -2,8 +2,11 @@ import React from "react";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { RootContext } from "../config/RootContext";
 
 function ListItemDeleteAction({ onPress }) {
+  const { colorTheme } = React.useContext(RootContext);
+
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View
@@ -17,8 +20,8 @@ function ListItemDeleteAction({ onPress }) {
         <MaterialCommunityIcons
           name="trash-can"
           size={moderateScale(35)}
-          color="black"
-          style={{ top: moderateScale(10) }}
+          color={colorTheme.accents}
+          style={{ top: moderateScale(10), right: moderateScale(5) }}
         />
       </View>
     </TouchableWithoutFeedback>

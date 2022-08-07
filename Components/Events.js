@@ -37,11 +37,13 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
   useEffect(() => {
     let today = new Date();
     // setinterval to calculate date every 1 second or just pull to refresh
-    let day = today.getDay();
+    let day = today.getDate();
     let month = today.getMonth();
     let year = today.getFullYear();
     let myToday = calculate(year + "-" + (month + 1) + "-" + day);
     let myDate = calculate(localdate);
+    console.log("myToday: " + myToday);
+    console.log("myDate: " + myDate);
     setCalculateDate(myDate - myToday);
   }, []);
 
@@ -50,8 +52,10 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
     let addedDate = 0;
     addedDate = Math.floor(Number(selectedDate[0]) / 4) * 1461;
     let isLeapYear = false;
+    console.log("adsfasdf" + addedDate);
     if (Number(selectedDate[0]) % 4 === 0) isLeapYear = true;
     if (!isLeapYear) addedDate += (Number(selectedDate[0]) % 4) * 365;
+    console.log(isLeapYear);
     // 31
     if (Number(selectedDate[1]) - 1 === 1) addedDate += 31;
     // 28 or 29

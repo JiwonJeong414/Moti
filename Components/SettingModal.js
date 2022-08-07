@@ -96,7 +96,7 @@ const SettingModal = ({ navigation }) => {
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={deleteUsername}>
-              <View style={[styles.item, { marginTop: 10 }]}>
+              <View style={[styles.item, { marginTop: moderateScale(15) }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>
                   <Text style={styles.itemText}>Edit Name</Text>
@@ -105,7 +105,7 @@ const SettingModal = ({ navigation }) => {
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback>
-              <View style={[styles.item, { marginTop: 10 }]}>
+              <View style={[styles.item, { marginTop: moderateScale(15) }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>
                   <Text style={styles.itemText}>Themes/Modes</Text>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: moderateScale(10),
     width: "80%",
-    height: "30%",
+    height: "35%",
     backgroundColor: "#FFF",
   },
   item: {
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     maxWidth: "80%",
+    fontFamily: "NotoSans_400Regular",
   },
   circular: {
     width: moderateScale(11),

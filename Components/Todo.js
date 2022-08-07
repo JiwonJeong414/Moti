@@ -21,26 +21,19 @@ import GestureRecognizer, {
 } from "react-native-swipe-gestures";
 import ListItemDeleteAction from "./ListItemDeleteAction";
 import TaskTestTwo from "./TaskTestTwo";
+import { RootContext } from "../config/RootContext";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [testData, setTestData] = useState([]);
-
-  useEffect(() => {
-    const retrieveToDoItems = async () => {
-      let retrieveData = await AsyncStorage.getItem("ToDoItems");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTestData([]);
-      else setTestData(retrieveData);
-      console.log(retrieveData);
-    };
-    retrieveToDoItems();
-  }, []);
+  const { testData, setTestData } = React.useContext(RootContext);
 
   const setToDoItem = async (title) => {
-    let newData = [...testData, { title: title, id: Math.random() }];
+    let newData = [
+      ...testData,
+      { title: title, completed: false, id: Math.random() },
+    ];
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(newData));
     setTestData(newData);
   };
@@ -108,11 +101,23 @@ const Todo = ({ widgetTitle }) => {
           style={styles.modalBackground}
         >
           <View style={styles.modalHeader}>
+            <View style={styles.modal}>
+              <Text
+                style={{
+                  color: "white",
+                  fontFamily: "NotoSans_400Regular",
+                  fontSize: moderateScale(20),
+                }}
+              >
+                Add Task
+              </Text>
+            </View>
             <TextInput
               label="Task Title"
               mode="outlined"
-              style={{ width: moderateScale(245) }}
+              style={{ width: moderateScale(190) }}
               value={task}
+              activeOutlineColor="#55BCF6"
               onChangeText={(text) => setTask(text)}
             />
             <Button
@@ -122,6 +127,7 @@ const Todo = ({ widgetTitle }) => {
                 position: "absolute",
                 left: moderateScale(200),
                 top: moderateScale(190),
+                backgroundColor: "#55BCF6",
               }}
             >
               Add
@@ -135,6 +141,8 @@ const Todo = ({ widgetTitle }) => {
                 <Task
                   text={item.title}
                   item={item}
+                  completed={item.completed}
+                  id={item.id}
                   deleteitem={deleteToDoItem}
                 />
               </TouchableWithoutFeedback>
@@ -176,10 +184,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    paddingLeft: 16,
+    justifyContent: "center",
     borderRadius: 10,
     width: "80%",
     height: "30%",
@@ -188,6 +193,17 @@ const styles = StyleSheet.create({
   addTodo: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  modal: {
+    position: "absolute",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(50),
+    top: moderateScale(0),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8),
+    backgroundColor: "black",
   },
 });
 

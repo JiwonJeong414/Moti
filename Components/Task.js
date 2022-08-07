@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
-import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
 import {
   NotoSans_400Regular,
@@ -16,23 +15,41 @@ import {
 } from "@expo-google-fonts/noto-sans";
 import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import ListItemDeleteAction from "./ListItemDeleteAction";
+import { RootContext } from "../config/RootContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Task = ({ text, item, deleteitem }) => {
-  const { colorTheme } = React.useContext(RootContext);
-  const [completedVisible, setCompletedVisible] = useState(false);
+const Task = ({ text, item, completed, id, deleteitem }) => {
+  const { colorTheme, testData, setTestData } = React.useContext(RootContext);
+  const [completedVisible, setCompletedVisible] = useState(completed);
 
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
     NotoSans_700Bold,
   });
 
+  useEffect(() => {
+    const retrieveTodoItems = async () => {
+      let retrieveData = await AsyncStorage.getItem("ToDoItems");
+      retrieveData = JSON.parse(retrieveData);
+      let objIndex = retrieveData.findIndex((obj) => obj.id === id);
+      setCompletedVisible(retrieveData[objIndex].completed);
+      console.log(retrieveData);
+    };
+    retrieveTodoItems();
+  }, []);
+
+  const handleComplete = async () => {
+    let testArray = testData;
+    let objIndex = testData.findIndex((obj) => obj.id === id);
+    testArray[objIndex].completed = !completedVisible;
+    setCompletedVisible(!completedVisible);
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(testArray));
+    console.log(testArray);
+  };
+
   if (!fontsLoaded) {
     return <></>;
   }
-
-  const handleComplete = () => {
-    setCompletedVisible(!completedVisible);
-  };
 
   return (
     <Swipeable
@@ -62,8 +79,12 @@ const Task = ({ text, item, deleteitem }) => {
               {completedVisible === true ? (
                 <AntDesign
                   name="close"
-                  size={moderateScale(20)}
-                  style={{ right: moderateScale(2), bottom: moderateScale(2) }}
+                  size={moderateScale(23)}
+                  style={{
+                    color: colorTheme.neutral,
+                    right: moderateScale(2),
+                    bottom: moderateScale(2),
+                  }}
                 />
               ) : (
                 <></>
@@ -72,7 +93,13 @@ const Task = ({ text, item, deleteitem }) => {
           </TouchableWithoutFeedback>
           {completedVisible === true ? (
             <Text
-              style={[styles.itemText, { textDecorationLine: "line-through" }]}
+              style={[
+                styles.itemText,
+                {
+                  textDecorationLine: "line-through",
+                  textDecorationColor: colorTheme.accents,
+                },
+              ]}
             >
               {text}
             </Text>
@@ -108,8 +135,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   square: {
-    width: moderateScale(22),
-    height: moderateScale(22),
+    width: moderateScale(25),
+    height: moderateScale(25),
     alignItems: "center",
     borderWidth: moderateScale(3),
     borderRadius: moderateScale(3),

@@ -7,4 +7,6 @@ export const RootContext = React.createContext({
   setColorTheme: () => {},
   habits: [],
   setHabits: () => {},
+  testData: [],
+  setTestData: () => {},
 });
