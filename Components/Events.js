@@ -24,7 +24,7 @@ import {
 } from "@expo-google-fonts/noto-sans";
 
 const Event = ({ date, index, length, title, deleteItem, item }) => {
-  const { colorTheme } = React.useContext(RootContext);
+  const { colorTheme, textTheme } = React.useContext(RootContext);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [localdate, setLocaldate] = useState(date);
   const [calculateDate, setCalculateDate] = useState();
@@ -130,7 +130,9 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
       ]}
     >
       <View style={styles.itemLeft}>
-        <Text style={styles.itemText}>{title}</Text>
+        <Text style={[styles.itemText, { color: textTheme.text }]}>
+          {title}
+        </Text>
         <View style={{ left: moderateScale(285), position: "absolute" }}>
           <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
             <SettingOpenCircle />
@@ -151,6 +153,7 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
                 <Text
                   style={{
                     fontFamily: "NotoSans_400Regular",
+                    color: textTheme.text,
                   }}
                 >
                   Delete
@@ -164,15 +167,23 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
       </View>
       <View style={styles.itemLeft}>
         {calculateDate > 1 ? (
-          <Text style={styles.left}>{calculateDate} Days Left</Text>
+          <Text style={[styles.left, { color: textTheme.text }]}>
+            {calculateDate} Days Left
+          </Text>
         ) : calculateDate === 0 ? (
-          <Text style={styles.left}>D-Day</Text>
+          <Text style={[styles.left, { color: textTheme.text }]}>D-Day</Text>
         ) : calculateDate < 1 ? (
-          <Text style={styles.left}>{Math.abs(calculateDate)} Days Ago</Text>
+          <Text style={[styles.left, { color: textTheme.text }]}>
+            {Math.abs(calculateDate)} Days Ago
+          </Text>
         ) : calculateDate === 1 ? (
-          <Text style={styles.left}>{calculateDate} Day Left </Text>
+          <Text style={[styles.left, { color: textTheme.text }]}>
+            {calculateDate} Day Left
+          </Text>
         ) : (
-          <Text style={styles.left}>{Math.abs(calculateDate)} Day Ago </Text>
+          <Text style={[styles.left, { color: textTheme.text }]}>
+            {Math.abs(calculateDate)} Day Ago
+          </Text>
         )}
       </View>
     </View>

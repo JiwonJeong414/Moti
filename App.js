@@ -31,12 +31,40 @@ export default function App() {
 function RootNavigator() {
   const [onboarded, setOnboard] = React.useState(false);
   const [colorTheme, setColorTheme] = React.useState({});
+  const [textTheme, setTextTheme] = useState();
   const [loading, setLoading] = useState();
   const [primary, setPrimary] = useState();
   const [neutral, setNeutral] = useState();
   const [accents, setAccents] = useState();
+  const [textColor, setTextColor] = useState();
+  const [quoteColor, setQuoteColor] = useState();
   const [habits, setHabits] = useState([]);
   const [testData, setTestData] = useState([]);
+
+  useEffect(() => {
+    let colorTheme = {
+      text: textColor,
+      quote: quoteColor,
+    };
+    setTextTheme(colorTheme);
+  }, [quoteColor]);
+
+  useEffect(() => {
+    const retrieveText = async () => {
+      let retrieveData = await AsyncStorage.getItem("Text");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setTextColor("black");
+      else setTextColor(retrieveData);
+    };
+    retrieveText();
+    const retrieveQuote = async () => {
+      let retrieveData = await AsyncStorage.getItem("Quotes");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setQuoteColor("white");
+      else setQuoteColor(retrieveData);
+    };
+    retrieveQuote();
+  }, []);
 
   useEffect(() => {
     let colorTheme = {
@@ -46,23 +74,6 @@ function RootNavigator() {
     };
     setColorTheme(colorTheme);
   }, [accents]);
-
-  useEffect(() => {
-    const retrieveHabits = async () => {
-      let retrieveData = await AsyncStorage.getItem("Habits");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setHabits([]);
-      else setHabits(retrieveData);
-    };
-    retrieveHabits();
-    const retrieveTodo = async () => {
-      let retrieveData = await AsyncStorage.getItem("ToDoItems");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTestData([]);
-      else setTestData(retrieveData);
-    };
-    retrieveTodo();
-  }, []);
 
   useEffect(() => {
     const retrievePrimary = async () => {
@@ -86,6 +97,23 @@ function RootNavigator() {
       else setAccents(retrieveData);
     };
     retrieveAccents();
+  }, []);
+
+  useEffect(() => {
+    const retrieveHabits = async () => {
+      let retrieveData = await AsyncStorage.getItem("Habits");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setHabits([]);
+      else setHabits(retrieveData);
+    };
+    retrieveHabits();
+    const retrieveTodo = async () => {
+      let retrieveData = await AsyncStorage.getItem("ToDoItems");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setTestData([]);
+      else setTestData(retrieveData);
+    };
+    retrieveTodo();
   }, []);
 
   useEffect(() => {
@@ -113,6 +141,8 @@ function RootNavigator() {
         setOnboard: setOnboard,
         colorTheme: colorTheme,
         setColorTheme: setColorTheme,
+        textTheme: textTheme,
+        setTextTheme: setTextTheme,
         habits: habits,
         setHabits: setHabits,
         testData: testData,

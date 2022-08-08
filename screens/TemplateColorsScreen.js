@@ -85,8 +85,8 @@ const TemplateColors = () => {
       colorTheme.primary = "#F3A0BC";
     } else if (primary == "#58609F") {
       colorTheme.primary = "#58609F";
-    } else if (primary == "#C1BD84") {
-      colorTheme.primary = "#C1BD84";
+    } else if (primary == "#C2BFB5") {
+      colorTheme.primary = "#C2BFB5";
     } else {
       isCustom = true;
       console.log("primary: " + primary);
@@ -137,8 +137,8 @@ const TemplateColors = () => {
       colorTheme.neutral = "#F3A0BC";
     } else if (neutral == "#58609F") {
       colorTheme.neutral = "#58609F";
-    } else if (neutral == "#C1BD84") {
-      colorTheme.neutral = "#C1BD84";
+    } else if (neutral == "#C2BFB5") {
+      colorTheme.neutral = "#C2BFB5";
     } else {
       isCustom = true;
       console.log("neutral: " + neutral);
@@ -189,8 +189,8 @@ const TemplateColors = () => {
       colorTheme.accents = "#F3A0BC";
     } else if (accents == "#58609F") {
       colorTheme.accents = "#58609F";
-    } else if (accents == "#C1BD84") {
-      colorTheme.accents = "#C1BD84";
+    } else if (accents == "#C2BFB5") {
+      colorTheme.accents = "#C2BFB5";
     } else {
       isCustom = true;
       console.log("accents: " + accents);
@@ -454,17 +454,17 @@ const TemplateColors = () => {
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => primaryColorPicked("#C1BD84", false)}
+              onPress={() => primaryColorPicked("#C2BFB5", false)}
             >
               <View
                 style={[
                   styles.pickedColor,
                   {
-                    backgroundColor: "#C1BDB4",
+                    backgroundColor: "#C2BFB5",
                   },
                 ]}
               >
-                {primary === "#C1BD84" ? <Completed /> : <></>}
+                {primary === "#C2BFB5" ? <Completed /> : <></>}
               </View>
             </TouchableWithoutFeedback>
             <Modal isVisible={customVisiblePrimary} style={styles.customModal}>
@@ -713,7 +713,7 @@ const TemplateColors = () => {
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => neutralColorPicked("#C1BD84", false)}
+              onPress={() => neutralColorPicked("#C2BFB5", false)}
             >
               <View
                 style={[
@@ -723,7 +723,7 @@ const TemplateColors = () => {
                   },
                 ]}
               >
-                {neutral === "#C1BD84" ? <Completed /> : <></>}
+                {neutral === "#C2BFB5" ? <Completed /> : <></>}
               </View>
             </TouchableWithoutFeedback>
             <Modal isVisible={customVisibleNeutral} style={styles.customModal}>
@@ -972,7 +972,7 @@ const TemplateColors = () => {
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => accentColorPicked("#C1BD84", false)}
+              onPress={() => accentColorPicked("#C2BFB5", false)}
             >
               <View
                 style={[
@@ -982,7 +982,7 @@ const TemplateColors = () => {
                   },
                 ]}
               >
-                {accents === "#C1BD84" ? <Completed /> : <></>}
+                {accents === "#C2BFB5" ? <Completed /> : <></>}
               </View>
             </TouchableWithoutFeedback>
             <Modal isVisible={customVisible} style={styles.customModal}>

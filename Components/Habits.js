@@ -25,7 +25,7 @@ import { RootContext } from "../config/RootContext";
 const Habits = ({ widgetTitle }) => {
   const [modal, showModal] = useState(false);
   const [title, setTitle] = useState();
-  const { habits, setHabits } = React.useContext(RootContext);
+  const { habits, setHabits, textTheme } = React.useContext(RootContext);
 
   const handleAdd = async () => {
     showModal(false);
@@ -59,10 +59,13 @@ const Habits = ({ widgetTitle }) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.sectionTitle}> {widgetTitle}</Text>
+        <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
+          {widgetTitle}
+        </Text>
         <IconButton
           icon="bookmark-plus-outline"
           onPress={handleModal}
+          color={textTheme.text}
           style={{
             right: moderateScale(15),
             marginBottom: moderateScale(-8),

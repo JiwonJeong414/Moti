@@ -37,7 +37,8 @@ const Streak = ({
   const [localStoreDate, setLocalStoreDate] = useState(storeDate);
   const [localTomorrowDate, setLocalTomorrowDate] = useState(tomorrowDate);
 
-  const { colorTheme, habits, setHabits } = React.useContext(RootContext);
+  const { colorTheme, habits, setHabits, textTheme } =
+    React.useContext(RootContext);
 
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
@@ -166,6 +167,7 @@ const Streak = ({
                   <Text
                     style={{
                       fontFamily: "NotoSans_400Regular",
+                      color: textTheme.text,
                     }}
                   >
                     Delete
@@ -176,7 +178,9 @@ const Streak = ({
               <></>
             )}
           </View>
-          <Text style={styles.itemText}>{title}</Text>
+          <Text style={[styles.itemText, { color: textTheme.text }]}>
+            {title}
+          </Text>
         </View>
         <View
           style={{
@@ -190,6 +194,7 @@ const Streak = ({
             style={{
               fontSize: moderateScale(25),
               marginRight: moderateScale(10),
+              color: textTheme.text,
             }}
           >
             Accomplished Today:
@@ -231,17 +236,13 @@ const Streak = ({
           )}
         </View>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={styles.streak}> Streak: </Text>
-          <Text style={styles.streak}> {localStreak}</Text>
+          <Text style={[styles.streak, { color: textTheme.text }]}>
+            Streak:{" "}
+          </Text>
+          <Text style={[styles.streak, { color: textTheme.text }]}>
+            {localStreak}
+          </Text>
         </View>
-        {/* <View
-          style={{
-            backgroundColor: colorTheme.accents,
-            width: moderateScale(100),
-            height: moderateScale(5),
-            left: moderateScale(110),
-          }}
-        /> */}
       </View>
     </View>
   );

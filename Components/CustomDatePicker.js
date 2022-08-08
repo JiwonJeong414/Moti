@@ -17,6 +17,8 @@ import Events from "./Events";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
 import SettingOpenCircle from "./SettingOpenCircle";
+import { AntDesign } from "@expo/vector-icons";
+import { RootContext } from "../config/RootContext";
 
 const CustomDatePicker = ({ widgetTitle }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -77,13 +79,18 @@ const CustomDatePicker = ({ widgetTitle }) => {
     setDate(date.dateString);
   };
 
+  const { textTheme } = React.useContext(RootContext);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.sectionTitle}> {widgetTitle}</Text>
+        <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
+          {widgetTitle}
+        </Text>
         <IconButton
           icon="calendar-plus"
           onPress={handleModal}
+          color={textTheme.text}
           style={{
             right: moderateScale(15),
             top: moderateScale(2),
@@ -124,31 +131,75 @@ const CustomDatePicker = ({ widgetTitle }) => {
             }}
           />
           {date === null ? (
-            <Button
-              mode="contained"
-              icon="calendar-month"
-              onPress={openDatePicker}
-              color="gray"
-              contentStyle={{
-                height: moderateScale(40),
-                width: moderateScale(190),
-              }}
-            >
-              Select Date
-            </Button>
+            <TouchableWithoutFeedback onPress={openDatePicker}>
+              <View
+                style={{
+                  width: moderateScale(190),
+                  height: moderateScale(50),
+                  backgroundColor: "#FAFAFA",
+                  borderRadius: moderateScale(4),
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderWidth: moderateScale(1),
+                  borderColor: "#616161",
+                  flexDirection: "row",
+                }}
+              >
+                <AntDesign
+                  name="calendar"
+                  size={moderateScale(25)}
+                  style={{
+                    marginRight: moderateScale(9),
+                    right: moderateScale(10),
+                    bottom: moderateScale(1),
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: moderateScale(15),
+                    right: moderateScale(10),
+                    color: "#818589",
+                  }}
+                >
+                  Select Date
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
           ) : (
-            <Button
-              mode="contained"
-              icon="calendar-month"
-              onPress={openDatePicker}
-              color="gray"
-              contentStyle={{
-                height: moderateScale(40),
-                width: moderateScale(190),
-              }}
-            >
-              {date}
-            </Button>
+            <TouchableWithoutFeedback onPress={openDatePicker}>
+              <View
+                style={{
+                  width: moderateScale(190),
+                  height: moderateScale(50),
+                  backgroundColor: "#FAFAFA",
+                  borderRadius: moderateScale(4),
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderWidth: moderateScale(1),
+                  borderColor: "#616161",
+                  flexDirection: "row",
+                }}
+              >
+                <AntDesign
+                  name="calendar"
+                  size={moderateScale(25)}
+                  style={{
+                    marginRight: moderateScale(9),
+                    right: moderateScale(10),
+                    bottom: moderateScale(1),
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: moderateScale(15),
+                    right: moderateScale(10),
+                    color: "black",
+                  }}
+                >
+                  {date}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
           )}
           <DatePicker
             isVisible={showDatePicker}
@@ -163,7 +214,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
             style={{
               position: "absolute",
               left: moderateScale(195),
-              top: moderateScale(190),
+              top: moderateScale(215),
               backgroundColor: "#55BCF6",
             }}
           >
@@ -242,7 +293,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     width: "80%",
-    height: "30%",
+    height: "33%",
     backgroundColor: "#FFF",
   },
   modal: {

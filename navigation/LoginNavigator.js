@@ -21,11 +21,12 @@ import {
 import TemplateColorsScreen from "../screens/TemplateColorsScreen";
 import { RootContext } from "../config/RootContext";
 import Modal from "react-native-modal";
+import TextColorScreen from "../screens/TextColorScreen";
 
 const BottomTab = createMaterialBottomTabNavigator();
 
 export default function BottomTabNavigator({ navigation }) {
-  const { colorTheme } = React.useContext(RootContext);
+  const { colorTheme, textTheme } = React.useContext(RootContext);
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -42,7 +43,7 @@ export default function BottomTabNavigator({ navigation }) {
             <MaterialCommunityIcons
               name="home"
               size={moderateScale(20)}
-              color={colorTheme.neutral}
+              color={textTheme.text}
             />
           ),
         }}
@@ -56,7 +57,7 @@ export default function BottomTabNavigator({ navigation }) {
             <FontAwesome5
               name="phone-alt"
               size={moderateScale(20)}
-              color={colorTheme.neutral}
+              color={textTheme.text}
             />
           ),
         }}
@@ -82,6 +83,29 @@ export function HomeTabNavigator({ navigation }) {
       <HomeTabStack.Screen
         name="Choose Colors"
         component={TemplateColorsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+              <Feather
+                name="x"
+                size={moderateScale(30)}
+                color="white"
+                style={{ marginLeft: moderateScale(20) }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <HomeTabStack.Screen
+        name="Text Color"
+        component={TextColorScreen}
         options={{
           headerStyle: {
             backgroundColor: "black",

@@ -27,7 +27,7 @@ const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { testData, setTestData } = React.useContext(RootContext);
+  const { testData, setTestData, textTheme } = React.useContext(RootContext);
 
   const setToDoItem = async (title) => {
     let newData = [
@@ -81,10 +81,13 @@ const Todo = ({ widgetTitle }) => {
       )}
       <View style={styles.container}>
         <View style={styles.groupRow}>
-          <Text style={styles.sectionTitle}> {widgetTitle}</Text>
+          <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
+            {widgetTitle}
+          </Text>
           <IconButton
             icon="sticker-plus"
             onPress={handleModal}
+            color={textTheme.text}
             style={{
               right: moderateScale(15),
               top: moderateScale(2),

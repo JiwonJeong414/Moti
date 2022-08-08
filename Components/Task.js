@@ -19,7 +19,7 @@ import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Task = ({ text, item, completed, id, deleteitem }) => {
-  const { colorTheme, testData, setTestData } = React.useContext(RootContext);
+  const { colorTheme, testData, textTheme } = React.useContext(RootContext);
   const [completedVisible, setCompletedVisible] = useState(completed);
 
   let [fontsLoaded] = useFonts({
@@ -98,13 +98,16 @@ const Task = ({ text, item, completed, id, deleteitem }) => {
                 {
                   textDecorationLine: "line-through",
                   textDecorationColor: colorTheme.accents,
+                  color: textTheme.text,
                 },
               ]}
             >
               {text}
             </Text>
           ) : (
-            <Text style={styles.itemText}>{text}</Text>
+            <Text style={[styles.itemText, { color: textTheme.text }]}>
+              {text}
+            </Text>
           )}
         </View>
         <View

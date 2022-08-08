@@ -23,7 +23,7 @@ import { IconButton } from "react-native-paper";
 import Tasktest from "../Components/Tasktest";
 
 const HotlineScreen = () => {
-  const { colorTheme } = React.useContext(RootContext);
+  const { colorTheme, textTheme } = React.useContext(RootContext);
 
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
@@ -44,7 +44,9 @@ const HotlineScreen = () => {
     <View style={[styles.container, { backgroundColor: colorTheme.primary }]}>
       <View style={[styles.clipboard, { backgroundColor: colorTheme.neutral }]}>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.hotline}>HOTLINE</Text>
+          <Text style={[styles.hotline, { color: textTheme.text }]}>
+            HOTLINE
+          </Text>
           <View style={styles.divider}></View>
           <View
             style={[
@@ -66,7 +68,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Suicide Hotline</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Suicide Hotline
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}
@@ -92,7 +96,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Grief Support</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Grief Support
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}
@@ -118,7 +124,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Assualt Hotline</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Assualt Hotline
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}
@@ -144,7 +152,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Sexuality Support</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Sexuality Support
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}
@@ -170,7 +180,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Lifeline Hotline</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Lifeline Hotline
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}
@@ -196,7 +208,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Depression Hotline</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Depression Hotline
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}
@@ -222,7 +236,9 @@ const HotlineScreen = () => {
                   color={colorTheme.accents}
                 />
               </TouchableOpacity>
-              <Text style={styles.itemText}>Say Something</Text>
+              <Text style={[styles.itemText, { color: textTheme.text }]}>
+                Say Something
+              </Text>
             </View>
             <View
               style={[styles.circular, { borderColor: colorTheme.accents }]}

@@ -31,7 +31,7 @@ import {
 
 const HomeScreen = ({ navigation, route }) => {
   const [myName, setMyName] = useState();
-  const { onboarded, colorTheme } = React.useContext(RootContext);
+  const { onboarded, colorTheme, textTheme } = React.useContext(RootContext);
   const [task, setTask] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,9 @@ const HomeScreen = ({ navigation, route }) => {
             },
           ]}
         >
-          <Text style={styles.myName}>Hi {myName}</Text>
+          <Text style={[styles.myName, { color: textTheme.text }]}>
+            Hi {myName}
+          </Text>
           <View style={styles.divider}></View>
           <CustomDatePicker widgetTitle="Events" />
           <View style={{ marginBottom: moderateScale(10) }}>

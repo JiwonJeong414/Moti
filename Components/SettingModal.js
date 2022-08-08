@@ -18,7 +18,8 @@ import {
 } from "@expo-google-fonts/noto-sans";
 
 const SettingModal = ({ navigation }) => {
-  const { onboarded, setOnboard, colorTheme } = React.useContext(RootContext);
+  const { onboarded, setOnboard, colorTheme, textTheme } =
+    React.useContext(RootContext);
   const [settingVisible, setSettingVisible] = useState(false);
 
   let [fontsLoaded] = useFonts({
@@ -43,6 +44,11 @@ const SettingModal = ({ navigation }) => {
     }, 700);
   };
 
+  const chooseTextPress = () => {
+    navigation.navigate("Text Color");
+    setSettingVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -60,7 +66,7 @@ const SettingModal = ({ navigation }) => {
         <Entypo
           name="dots-three-horizontal"
           size={moderateScale(45)}
-          color={"black"}
+          color={textTheme.text}
           style={{
             right: moderateScale(15),
             marginBottom: moderateScale(10),
@@ -86,17 +92,8 @@ const SettingModal = ({ navigation }) => {
                 Settings
               </Text>
             </View>
-            <TouchableWithoutFeedback onPress={chooseColorPressed}>
-              <View style={[styles.item, { marginTop: moderateScale(35) }]}>
-                <View style={styles.itemLeft}>
-                  <View style={styles.square}></View>
-                  <Text style={styles.itemText}>Choose Colors</Text>
-                </View>
-                <View style={styles.circular}></View>
-              </View>
-            </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={deleteUsername}>
-              <View style={[styles.item, { marginTop: moderateScale(15) }]}>
+              <View style={[styles.item, { marginTop: moderateScale(35) }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>
                   <Text style={styles.itemText}>Edit Name</Text>
@@ -104,11 +101,20 @@ const SettingModal = ({ navigation }) => {
                 <View style={styles.circular}></View>
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={chooseColorPressed}>
               <View style={[styles.item, { marginTop: moderateScale(15) }]}>
                 <View style={styles.itemLeft}>
                   <View style={styles.square}></View>
-                  <Text style={styles.itemText}>Themes/Modes</Text>
+                  <Text style={styles.itemText}>Background Colors</Text>
+                </View>
+                <View style={styles.circular}></View>
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={chooseTextPress}>
+              <View style={[styles.item, { marginTop: moderateScale(15) }]}>
+                <View style={styles.itemLeft}>
+                  <View style={styles.square}></View>
+                  <Text style={styles.itemText}>Text Colors</Text>
                 </View>
                 <View style={styles.circular}></View>
               </View>
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   item: {
-    backgroundColor: "#FFF",
+    backgroundColor: "white",
     padding: 15,
     borderColor: "black",
     borderWidth: moderateScale(3),

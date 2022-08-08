@@ -14,6 +14,7 @@ import {
   NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/noto-sans";
+import { RootContext } from "../config/RootContext";
 
 const Quotes = () => {
   let DATA = [...quotes];
@@ -40,6 +41,8 @@ const Quotes = () => {
     retrieveQuoteID();
   }, []);
 
+  const { textTheme } = React.useContext(RootContext);
+
   if (!fontsLoaded) {
     return <></>;
   }
@@ -49,8 +52,12 @@ const Quotes = () => {
   return (
     <View style={styles.container}>
       <View style={styles.quotes}>
-        <Text style={styles.words}>"{item.quote}"</Text>
-        <Text style={styles.author}>{item.person}</Text>
+        <Text style={[styles.words, { color: textTheme.quote }]}>
+          "{item.quote}"
+        </Text>
+        <Text style={[styles.author, { color: textTheme.quote }]}>
+          {item.person}
+        </Text>
       </View>
     </View>
   );
