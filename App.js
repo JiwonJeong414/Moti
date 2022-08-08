@@ -137,7 +137,7 @@ function RootNavigator() {
         firstLoginTodo([
           { title: "Download Moti App", completed: true, id: Math.random() },
           {
-            title: "Press the Square to Complete",
+            title: "Press Square to Complete",
             completed: false,
             id: Math.random(),
           },

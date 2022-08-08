@@ -300,6 +300,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(40),
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    elevation: 5,
   },
   hotline: {
     marginTop: moderateScale(20),
@@ -325,6 +326,7 @@ const styles = StyleSheet.create({
     marginBottom: moderateScale(15),
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    elevation: 5,
   },
   itemLeft: {
     flexDirection: "row",

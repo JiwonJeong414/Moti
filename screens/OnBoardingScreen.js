@@ -33,15 +33,18 @@ const OnBoardingScreen = ({ navigation, route }) => {
           top: moderateScale(140),
         }}
       />
-      <Text
-        style={[
-          styles.text,
-          { top: Platform.OS === "android" ? moderateScale(160) : 0 },
-        ]}
-      >
-        What is your name?
-      </Text>
       <View style={styles.textInput}>
+        <Text
+          style={[
+            styles.text,
+            {
+              position: "absolute",
+              bottom: moderateScale(60),
+            },
+          ]}
+        >
+          What is your name?
+        </Text>
         <TextInput
           autoCorrect={false}
           style={styles.input}
@@ -49,7 +52,7 @@ const OnBoardingScreen = ({ navigation, route }) => {
           placeholder="First Name"
           placeholderTextColor="gray"
           onChangeText={(text) => setText(text)}
-        ></TextInput>
+        />
       </View>
       <TouchableWithoutFeedback onPress={() => setName(text)}>
         <View style={styles.confirm}>
@@ -100,6 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     shadowOpacity: 0.3,
     shadowRadius: 8,
+    elevation: 5,
   },
   next: {
     fontSize: moderateScale(16),

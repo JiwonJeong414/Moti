@@ -13,7 +13,6 @@ import DatePicker from "react-native-neat-date-picker";
 import Events from "./Events";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
-import SettingOpenCircle from "./SettingOpenCircle";
 import { AntDesign } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 

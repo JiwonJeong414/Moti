@@ -5,17 +5,11 @@ import {
   StyleSheet,
   Platform,
   TouchableOpacity,
-} from "react-native";
-import {
-  Swipeable,
   TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+} from "react-native";
 import SettingOpenCircle from "./SettingOpenCircle";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
-import Modal from "react-native-modal";
-import { List } from "react-native-paper";
-import { AntDesign } from "react-native-vector-icons";
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,
@@ -132,77 +126,73 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
         },
       ]}
     >
-      <View style={styles.itemLeft}>
-        <View style={{ left: moderateScale(285), position: "absolute" }}>
-          <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
-            <View hitSlop={10}>
-              <View
-                style={{
-                  right:
-                    Platform.OS === "ios"
-                      ? moderateScale(5)
-                      : moderateScale(32),
-                }}
-              >
-                <SettingOpenCircle />
-              </View>
+      <View style={{ flexDirection: "row-reverse" }}>
+        <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
+          <View hitSlop={10}>
+            <View style={{}}>
+              <SettingOpenCircle />
             </View>
-          </TouchableOpacity>
-          {deleteVisible === true ? (
-            <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
-              <View
+          </View>
+        </TouchableOpacity>
+        {deleteVisible === true ? (
+          <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
+            <View
+              style={{
+                width: moderateScale(50),
+                height: moderateScale(30),
+                marginLeft:
+                  Platform.OS === "ios"
+                    ? moderateScale(260)
+                    : moderateScale(236),
+                backgroundColor: colorTheme.accents,
+                borderRadius: moderateScale(10),
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
                 style={{
-                  width: moderateScale(50),
-                  height: moderateScale(30),
-
-                  right:
-                    Platform.OS === "ios"
-                      ? moderateScale(18)
-                      : moderateScale(42),
-                  backgroundColor: colorTheme.accents,
-                  borderRadius: moderateScale(10),
-                  justifyContent: "center",
-                  alignItems: "center",
+                  fontFamily: "NotoSans_400Regular",
+                  color: textTheme.text,
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: "NotoSans_400Regular",
-                    color: textTheme.text,
-                  }}
-                >
-                  Delete
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-          ) : (
-            <></>
-          )}
-        </View>
+                Delete
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        ) : (
+          <></>
+        )}
+      </View>
+      <View style={{ flexDirection: "column" }}>
         <Text style={[styles.itemText, { color: textTheme.text }]}>
           {title}
         </Text>
-      </View>
-      <View style={styles.itemLeft}>
-        {calculateDate > 1 ? (
-          <Text style={[styles.left, { color: textTheme.text }]}>
-            {calculateDate} Days Left
-          </Text>
-        ) : calculateDate === 0 ? (
-          <Text style={[styles.left, { color: textTheme.text }]}>D-Day</Text>
-        ) : Math.abs(calculateDate) > 1 ? (
-          <Text style={[styles.left, { color: textTheme.text }]}>
-            {Math.abs(calculateDate)} Days Ago
-          </Text>
-        ) : calculateDate === 1 ? (
-          <Text style={[styles.left, { color: textTheme.text }]}>
-            {calculateDate} Day Left
-          </Text>
-        ) : (
-          <Text style={[styles.left, { color: textTheme.text }]}>
-            {Math.abs(calculateDate)} Day Ago
-          </Text>
-        )}
+        <View
+          style={{
+            marginBottom: moderateScale(8),
+          }}
+        >
+          {calculateDate > 1 ? (
+            <Text style={[styles.left, { color: textTheme.text }]}>
+              {calculateDate} Days Left
+            </Text>
+          ) : calculateDate === 0 ? (
+            <Text style={[styles.left, { color: textTheme.text }]}>D-Day</Text>
+          ) : Math.abs(calculateDate) > 1 ? (
+            <Text style={[styles.left, { color: textTheme.text }]}>
+              {Math.abs(calculateDate)} Days Ago
+            </Text>
+          ) : calculateDate === 1 ? (
+            <Text style={[styles.left, { color: textTheme.text }]}>
+              {calculateDate} Day Left
+            </Text>
+          ) : (
+            <Text style={[styles.left, { color: textTheme.text }]}>
+              {Math.abs(calculateDate)} Day Ago
+            </Text>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -211,17 +201,15 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
 const styles = StyleSheet.create({
   item: {
     padding: moderateScale(14),
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    alignItems: "center",
+    elevation: 5,
     left: moderateScale(18),
     width: "90.5%",
     height: moderateScale(115),
     borderRadius: moderateScale(20),
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-  itemLeft: {
-    flexDirection: "row",
     justifyContent: "center",
-    marginBottom: moderateScale(5),
   },
   itemText: {
     fontSize: moderateScale(28),

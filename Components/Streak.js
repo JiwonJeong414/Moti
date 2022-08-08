@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from "react-native";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
 import SettingOpenCircle from "./SettingOpenCircle";
@@ -141,7 +141,6 @@ const Streak = ({
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View
             style={{
-              left: moderateScale(285),
               position: "absolute",
               flexDirection: "column",
             }}
@@ -150,10 +149,10 @@ const Streak = ({
               <View hitSlop={10}>
                 <View
                   style={{
-                    right:
+                    marginLeft:
                       Platform.OS === "ios"
-                        ? moderateScale(5)
-                        : moderateScale(32),
+                        ? moderateScale(275)
+                        : moderateScale(250),
                   }}
                 >
                   <SettingOpenCircle />
@@ -166,10 +165,10 @@ const Streak = ({
                   style={{
                     width: moderateScale(50),
                     height: moderateScale(30),
-                    right:
+                    marginLeft:
                       Platform.OS === "ios"
-                        ? moderateScale(18)
-                        : moderateScale(42),
+                        ? moderateScale(260)
+                        : moderateScale(236),
                     backgroundColor: colorTheme.accents,
                     borderRadius: moderateScale(10),
                     justifyContent: "center",
@@ -265,6 +264,7 @@ const styles = StyleSheet.create({
     padding: moderateScale(14),
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    elevation: 5,
     left: moderateScale(18),
     width: "90.5%", // moderateScale(345)
     height: moderateScale(130),

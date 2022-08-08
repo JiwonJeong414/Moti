@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(10),
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    elevation: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

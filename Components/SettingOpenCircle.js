@@ -8,7 +8,6 @@ const SettingOpenCircle = () => {
 
   return (
     <View style={styles.row}>
-      <View style={[styles.circular, { borderColor: colorTheme.accents }]} />
       <View
         style={[
           styles.circular,
@@ -18,7 +17,13 @@ const SettingOpenCircle = () => {
       <View
         style={[
           styles.circular,
-          { marginLeft: moderateScale(3.5), borderColor: colorTheme.accents },
+          { marginLeft: moderateScale(3), borderColor: colorTheme.accents },
+        ]}
+      />
+      <View
+        style={[
+          styles.circular,
+          { marginLeft: moderateScale(3), borderColor: colorTheme.accents },
         ]}
       />
     </View>
@@ -27,13 +32,12 @@ const SettingOpenCircle = () => {
 
 const styles = StyleSheet.create({
   circular: {
-    width: 10,
-    height: 10,
-    borderWidth: 2,
-    borderRadius: 10,
+    width: moderateScale(9),
+    height: moderateScale(9),
+    borderWidth: moderateScale(2),
+    borderRadius: moderateScale(9),
   },
   row: {
-    bottom: 5,
     flexDirection: "row",
     right: Platform.OS === "ios" ? moderateScale(2) : moderateScale(0),
   },
