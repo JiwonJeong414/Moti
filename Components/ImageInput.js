@@ -36,13 +36,13 @@ const ImageInput = ({
     if (!imageUri) selectImage();
     else
       Alert.alert("Delete", "Are you sure you want to delete this image?", [
-        { text: "Yes", onPress: () => onChangeImage(null) },
+        { text: "Yes", onPress: deleteImage },
         { text: "No" },
       ]);
   };
 
   const deleteImage = async () => {
-    await AsyncStorage.deleteItem("Image");
+    await AsyncStorage.removeItem("Image");
     onChangeImage(null);
   };
 
@@ -52,7 +52,7 @@ const ImageInput = ({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
         allowsEditing: true,
-        aspect: [10, 40],
+        aspect: [654, 489],
       });
       console.log(result.uri);
       if (!result.cancelled) {
@@ -68,12 +68,7 @@ const ImageInput = ({
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={container}>
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && (
-          <Image
-            source={require("../assets/image/City.jpg")}
-            style={styles.image}
-          />
-        )}
+        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
       </View>
     </TouchableWithoutFeedback>
   );

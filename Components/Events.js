@@ -16,7 +16,6 @@ import { RootContext } from "../config/RootContext";
 import Modal from "react-native-modal";
 import { List } from "react-native-paper";
 import { AntDesign } from "react-native-vector-icons";
-import ListTest from "./ListTest";
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,

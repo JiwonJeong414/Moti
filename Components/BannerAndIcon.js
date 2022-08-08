@@ -1,20 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-  Keyboard,
-  Button,
-  Modal,
-  TouchableWithoutFeedback,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
 import ProfileInput from "../Components/ProfileInput";
@@ -44,17 +29,19 @@ const BannerAndIcon = () => {
         container={styles.imageContainer}
         asyncStorageName={"Banner"}
       ></ImageInput>
-      <ProfileInput
-        imageUri={profileUri}
-        onChangeImage={(uri) => setProfileUri(uri)}
-        container={[
-          styles.profile,
-          {
-            borderColor: textTheme.text,
-          },
-        ]}
-        asyncStorageName={"Profile"}
-      />
+      <View style={{ alignItems: "center" }}>
+        <ProfileInput
+          imageUri={profileUri}
+          onChangeImage={(uri) => setProfileUri(uri)}
+          container={[
+            styles.profile,
+            {
+              borderColor: textTheme.text,
+            },
+          ]}
+          asyncStorageName={"Profile"}
+        />
+      </View>
     </View>
   );
 };
@@ -65,8 +52,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     position: "absolute",
-    top: moderateScale(206.5),
-    left: moderateScale(131.5),
+    bottom: moderateScale(-40),
     width: moderateScale(112),
     height: moderateScale(112),
     borderRadius: moderateScale(100),
@@ -81,7 +67,6 @@ const styles = StyleSheet.create({
     width: moderateScale(327),
     borderRadius: moderateScale(24),
     marginTop: moderateScale(45),
-    marginLeft: moderateScale(24),
     alignItems: "center",
     backgroundColor: "gray",
     justifyContent: "center",

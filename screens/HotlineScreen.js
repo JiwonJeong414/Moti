@@ -33,8 +33,44 @@ const HotlineScreen = () => {
     return <></>;
   }
 
-  const args = {
-    number: "9492998258", // String value with the number to call
+  const SuicideHotline = {
+    number: "8007848433", // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: true, // Skip the canOpenURL check
+  };
+
+  const GriefSupport = {
+    number: "6503215272", // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: true, // Skip the canOpenURL check
+  };
+
+  const AssaultHotline = {
+    number: "8006564673", // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: true, // Skip the canOpenURL check
+  };
+
+  const SexualitySupport = {
+    number: "8002467743", // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: true, // Skip the canOpenURL check
+  };
+
+  const LifelineHotline = {
+    number: "8002738255", // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: true, // Skip the canOpenURL check
+  };
+
+  const DepressionHotline = {
+    number: "6304829696", // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: true, // Skip the canOpenURL check
+  };
+
+  const SaySomething = {
+    number: "8445", // String value with the number to call
     prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
     skipCanOpen: true, // Skip the canOpenURL check
   };
@@ -58,7 +94,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(SuicideHotline)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -86,7 +122,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(GriefSupport)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -114,7 +150,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(AssaultHotline)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -142,7 +178,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(SexualitySupport)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -170,7 +206,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(LifelineHotline)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -198,7 +234,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(DepressionHotline)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -226,7 +262,7 @@ const HotlineScreen = () => {
           >
             <View style={styles.itemLeft}>
               <TouchableOpacity
-                onPress={() => call(args)}
+                onPress={() => call(SaySomething)}
                 style={{ marginRight: moderateScale(10) }}
               >
                 <FontAwesome5
@@ -252,12 +288,12 @@ const HotlineScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
   clipboard: {
     marginTop: moderateScale(45),
-    left: moderateScale(24),
-    width: moderateScale(330),
-    height: moderateScale(660),
+    width: "87%",
+    height: "90%",
     borderRadius: moderateScale(40),
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -274,32 +310,11 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(5),
     marginBottom: moderateScale(20),
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    paddingLeft: 20,
-    paddingRight: 10,
-    paddingBottom: 10,
-  },
-  addWrapper: {
-    position: "absolute",
-    bottom: 20,
-    left: 330,
-    width: 60,
-    height: 60,
-    backgroundColor: "#FFF",
-    borderRadius: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "black",
-    borderWidth: 3,
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-  },
   item: {
-    borderWidth: 2,
-    padding: 15,
-    width: moderateScale(280),
+    borderWidth: moderateScale(2),
+    padding: moderateScale(15),
+    width: "90%",
+    height: "9.5%",
     borderRadius: moderateScale(10),
     flexDirection: "row",
     alignItems: "center",
@@ -313,22 +328,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
   },
-  square: {
-    width: 24,
-    height: 24,
-    alignItems: "center",
-    borderRadius: 5,
-    marginRight: 15,
-  },
   itemText: {
     fontSize: moderateScale(18),
     fontFamily: "NotoSans_400Regular",
   },
   circular: {
-    width: 12,
-    height: 12,
-    borderWidth: 2,
-    borderRadius: 5,
+    width: moderateScale(11),
+    height: moderateScale(11),
+    borderWidth: moderateScale(2),
+    borderRadius: moderateScale(4.5),
   },
 });
 

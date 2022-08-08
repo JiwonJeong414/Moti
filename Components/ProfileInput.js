@@ -36,13 +36,13 @@ const ProfileInput = ({
     if (!imageUri) selectImage();
     else
       Alert.alert("Delete", "Are you sure you want to delete this image?", [
-        { text: "Yes", onPress: () => onChangeImage(null) },
+        { text: "Yes", onPress: deleteImage },
         { text: "No" },
       ]);
   };
 
   const deleteImage = async () => {
-    await AsyncStorage.deleteItem("Profile");
+    await AsyncStorage.removeItem("Profile");
     onChangeImage(null);
   };
 
@@ -51,6 +51,8 @@ const ProfileInput = ({
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
+        allowsEditing: true,
+        aspect: [224, 224],
       });
       console.log(result.uri);
       if (!result.cancelled) {

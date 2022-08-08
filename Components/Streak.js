@@ -79,15 +79,15 @@ const Streak = ({
     console.log(habits.find((obj) => obj.id === id).streak + 1);
     console.log(habits.find((obj) => obj.id === id).completed);
     console.log(testArray);
-    var tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-    var day = tomorrowDate.getDate();
-    var month = tomorrowDate.getMonth() + 1;
-    var year = tomorrowDate.getFullYear();
+    let tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    let day = tomorrowDate.getDate();
+    let month = tomorrowDate.getMonth() + 1;
+    let year = tomorrowDate.getFullYear();
     console.log(month + "/" + day + "/" + year);
-    var todayDate = new Date();
-    var todayDay = todayDate.getDate();
-    var todayMonth = todayDate.getMonth() + 1;
-    var todayYear = todayDate.getFullYear();
+    let todayDate = new Date();
+    let todayDay = todayDate.getDate();
+    let todayMonth = todayDate.getMonth() + 1;
+    let todayYear = todayDate.getFullYear();
     setLocalStoreDate(todayMonth + "/" + todayDay + "/" + todayYear);
     setLocalTomorrowDate(month + "/" + day + "/" + year);
     testArray[objIndex].storeDate =

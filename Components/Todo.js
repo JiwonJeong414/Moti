@@ -43,7 +43,7 @@ const Todo = ({ widgetTitle }) => {
     setTestData(newDataArray);
   };
 
-  const handleAddTask = (title) => {
+  const handleAddTask = async (title) => {
     setLoading(true);
     setToDoItem(title);
     setTask(null);
@@ -54,10 +54,6 @@ const Todo = ({ widgetTitle }) => {
   const handleModal = () => {
     setTask(null);
     setModalVisible(true);
-  };
-
-  const handleDelete = (item, index) => {
-    deleteToDoItem(item);
   };
 
   return (

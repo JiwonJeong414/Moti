@@ -68,7 +68,9 @@ const HomeScreen = ({ navigation, route }) => {
           right: 0,
         }}
       />
-      <View style={{ backgroundColor: colorTheme.primary }}>
+      <View
+        style={{ backgroundColor: colorTheme.primary, alignItems: "center" }}
+      >
         <BannerAndIcon />
         <SettingModal navigation={navigation} />
         <Quotes />
@@ -86,6 +88,7 @@ const HomeScreen = ({ navigation, route }) => {
                 height: -10,
               },
               shadowOpacity: 0.2,
+              elevation: 1,
             },
           ]}
         >
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dashboard: {
-    width: moderateScale(380),
+    width: "100%",
   },
 });
 

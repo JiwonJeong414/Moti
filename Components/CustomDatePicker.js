@@ -3,9 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
-  Platform,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
 } from "react-native";
@@ -28,14 +25,22 @@ const CustomDatePicker = ({ widgetTitle }) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const retrieveToDoItems = async () => {
+    const retrieveEventItems = async () => {
       let retrieveData = await AsyncStorage.getItem("Events");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setEvents([]);
-      else setEvents(retrieveData);
+      if (retrieveData == null) {
+        firstLoginEvent([
+          { date: "2022-12-25", title: "Christmas", id: Math.random() },
+        ]);
+      } else setEvents(retrieveData);
     };
-    retrieveToDoItems();
+    retrieveEventItems();
   }, []);
+
+  const firstLoginEvent = async (array) => {
+    await AsyncStorage.setItem("Events", JSON.stringify(array));
+    setEvents(array);
+  };
 
   const deleteEventItem = async (item) => {
     let newDataArray = events.filter((obj) => obj.id != item.id);

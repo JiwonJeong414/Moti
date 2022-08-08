@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoadingScreen from "./screens/LoadingScreen";
 import OnBoardingScreen from "./screens/OnBoardingScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -53,7 +52,7 @@ function RootNavigator() {
     const retrieveText = async () => {
       let retrieveData = await AsyncStorage.getItem("Text");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTextColor("black");
+      if (retrieveData == null) setTextColor("white");
       else setTextColor(retrieveData);
     };
     retrieveText();
@@ -79,21 +78,21 @@ function RootNavigator() {
     const retrievePrimary = async () => {
       let retrieveData = await AsyncStorage.getItem("Primary");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setPrimary("#808080");
+      if (retrieveData == null) setPrimary("#2E2C2F");
       else setPrimary(retrieveData);
     };
     retrievePrimary();
     const retrieveNeutral = async () => {
       let retrieveData = await AsyncStorage.getItem("Neutral");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setNeutral("#939597");
+      if (retrieveData == null) setNeutral("#C2BFB5");
       else setNeutral(retrieveData);
     };
     retrieveNeutral();
     const retrieveAccents = async () => {
       let retrieveData = await AsyncStorage.getItem("Accents");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setAccents("#939597");
+      if (retrieveData == null) setAccents("#C2BFB5");
       else setAccents(retrieveData);
     };
     retrieveAccents();
@@ -103,21 +102,69 @@ function RootNavigator() {
     const retrieveHabits = async () => {
       let retrieveData = await AsyncStorage.getItem("Habits");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setHabits([]);
+      let tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+      let day = tomorrowDate.getDate();
+      let month = tomorrowDate.getMonth() + 1;
+      let year = tomorrowDate.getFullYear();
+      let todayDate = new Date();
+      let todayDay = todayDate.getDate();
+      let todayMonth = todayDate.getMonth() + 1;
+      let todayYear = todayDate.getFullYear();
+      if (retrieveData == null)
+        firstLoginHabits([
+          {
+            id: Math.random(),
+            title: "Organize My Room",
+            streak: 2,
+            completed: true,
+            storeDate: todayMonth + "/" + todayDay + "/" + todayYear,
+            tomorrowDate: month + "/" + day + "/" + year,
+          },
+          {
+            id: Math.random(),
+            title: "Drink Water",
+            streak: 0,
+            completed: false,
+            storeDate: todayMonth + "/" + todayDay + "/" + todayYear,
+            tomorrowDate: month + "/" + day + "/" + year,
+          },
+        ]);
       else setHabits(retrieveData);
     };
     retrieveHabits();
     const retrieveTodo = async () => {
       let retrieveData = await AsyncStorage.getItem("ToDoItems");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTestData([]);
+      if (retrieveData == null)
+        firstLoginTodo([
+          { title: "Download Moti App", completed: true, id: Math.random() },
+          {
+            title: "Press the Square to Complete",
+            completed: false,
+            id: Math.random(),
+          },
+          {
+            title: "Swipe Left to Delete",
+            completed: false,
+            id: Math.random(),
+          },
+        ]);
       else setTestData(retrieveData);
     };
     retrieveTodo();
   }, []);
 
+  const firstLoginHabits = async (array) => {
+    await AsyncStorage.setItem("Habits", JSON.stringify(array));
+    setHabits(array);
+  };
+
+  const firstLoginTodo = async (array) => {
+    await AsyncStorage.setItem("ToDoItems", JSON.stringify(array));
+    setTestData(array);
+  };
+
   useEffect(() => {
-    // let isMounted = true;
     const checkIfLoggedIn = async () => {
       let userName = await AsyncStorage.getItem("Name");
       userName = JSON.parse(userName);
@@ -129,9 +176,6 @@ function RootNavigator() {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    // return () => {
-    //   isMounted = false;
-    // };
   }, []);
 
   return (

@@ -267,7 +267,12 @@ const TemplateColors = () => {
     <ScrollView style={styles.container}>
       <View>
         <View style={styles.whiteBackground}>
-          <Text style={[styles.header, { marginRight: 1, marginTop: 15 }]}>
+          <Text
+            style={[
+              styles.header,
+              { marginRight: moderateScale(1), marginTop: moderateScale(14) },
+            ]}
+          >
             Primary
           </Text>
           <View style={[styles.modalBackground, { flexWrap: "wrap" }]}>
@@ -492,7 +497,11 @@ const TemplateColors = () => {
                   mode="contained"
                   color={tempCustomPrimary}
                   onPress={() => handlePrimaryColor(tempCustomPrimary)}
-                  style={{ marginLeft: 220, top: 170, marginTop: 50 }}
+                  style={{
+                    marginLeft: moderateScale(220),
+                    top: moderateScale(160),
+                    marginTop: moderateScale(48),
+                  }}
                 >
                   Select
                 </Button>
@@ -528,7 +537,9 @@ const TemplateColors = () => {
               )}
             </TouchableWithoutFeedback>
           </View>
-          <Text style={[styles.header, { marginRight: 1 }]}>Neutral</Text>
+          <Text style={[styles.header, { marginRight: moderateScale(1) }]}>
+            Neutral
+          </Text>
           <View style={[styles.modalBackground, { flexWrap: "wrap" }]}>
             <TouchableWithoutFeedback
               onPress={() => neutralColorPicked("#939597", false)}
@@ -751,7 +762,11 @@ const TemplateColors = () => {
                   mode="contained"
                   color={tempCustomNeutral}
                   onPress={() => handleNeutralColor(tempCustomNeutral)}
-                  style={{ marginLeft: 220, top: 170, marginTop: 50 }}
+                  style={{
+                    marginLeft: moderateScale(220),
+                    top: moderateScale(160),
+                    marginTop: moderateScale(48),
+                  }}
                 >
                   Select
                 </Button>
@@ -787,7 +802,9 @@ const TemplateColors = () => {
               )}
             </TouchableWithoutFeedback>
           </View>
-          <Text style={[styles.header, { marginRight: 1 }]}>Accents</Text>
+          <Text style={[styles.header, { marginRight: moderateScale(1) }]}>
+            Accents
+          </Text>
           <View style={[styles.modalBackground, { flexWrap: "wrap" }]}>
             <TouchableWithoutFeedback
               onPress={() => accentColorPicked("#939597", false)}
@@ -1010,7 +1027,11 @@ const TemplateColors = () => {
                   mode="contained"
                   color={tempCustom}
                   onPress={() => handleAccentsColor(tempCustom)}
-                  style={{ marginLeft: 220, top: 170, marginTop: 50 }}
+                  style={{
+                    marginLeft: moderateScale(220),
+                    top: moderateScale(160),
+                    marginTop: moderateScale(48),
+                  }}
                 >
                   Select
                 </Button>
@@ -1055,45 +1076,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFEF7",
   },
-  button: {
-    width: 10,
-    height: 40,
-  },
-  icon: {
-    flexDirection: "row-reverse",
-    marginLeft: 20,
-    marginTop: -4,
-  },
   modalBackground: {
     flexDirection: "row",
-    marginLeft: 10,
-    marginTop: 20,
-  },
-  closeButton: {
-    width: 140,
-    height: 55,
-    top: 810,
-    left: 240,
-    borderRadius: 20,
-    backgroundColor: "#553AF6",
-    position: "absolute",
+    marginLeft: moderateScale(9),
+    marginTop: moderateScale(19),
   },
   header: {
-    fontSize: 30,
+    fontSize: moderateScale(28),
     fontWeight: "bold",
   },
   pickedColor: {
-    width: 70,
-    height: 70,
-    borderRadius: 20,
-    marginBottom: 10,
-    marginLeft: 5,
-    marginRight: 5,
+    width: moderateScale(62),
+    height: moderateScale(62),
+    borderRadius: moderateScale(19),
+    marginBottom: moderateScale(9),
+    marginLeft: moderateScale(4.5),
+    marginRight: moderateScale(4.5),
     justifyContent: "center",
     alignItems: "center",
   },
   test: {
-    bottom: 90,
+    bottom: moderateScale(85),
     width: moderateScale(240),
   },
   wheelBackground: {
@@ -1101,7 +1104,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 10,
+    borderRadius: moderateScale(9),
     width: "100%",
     height: moderateScale(420),
     backgroundColor: "#FFF",

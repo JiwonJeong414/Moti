@@ -51,14 +51,12 @@ const Quotes = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.quotes}>
-        <Text style={[styles.words, { color: textTheme.quote }]}>
-          "{item.quote}"
-        </Text>
-        <Text style={[styles.author, { color: textTheme.quote }]}>
-          {item.person}
-        </Text>
-      </View>
+      <Text style={[styles.words, { color: textTheme.quote }]}>
+        "{item.quote}"
+      </Text>
+      <Text style={[styles.author, { color: textTheme.quote }]}>
+        {item.person}
+      </Text>
     </View>
   );
 };
@@ -67,14 +65,12 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: moderateScale(10),
     marginRight: moderateScale(10),
+    alignItems: "center",
   },
   words: {
     fontSize: moderateScale(16),
     fontFamily: "NotoSans_700Bold",
     textAlign: "center",
-  },
-  quotes: {
-    paddingLeft: moderateScale(5),
   },
   author: {
     marginTop: moderateScale(15),

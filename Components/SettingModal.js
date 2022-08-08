@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: "white",
-    padding: 15,
+    padding: moderateScale(14),
     borderColor: "black",
     borderWidth: moderateScale(3),
     width: moderateScale(210),
@@ -168,12 +168,12 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   square: {
-    width: 24,
-    height: 24,
+    width: moderateScale(22),
+    height: moderateScale(22),
     backgroundColor: "#55BCF6",
     opacity: 0.4,
-    borderRadius: 5,
-    marginRight: 15,
+    borderRadius: moderateScale(4),
+    marginRight: moderateScale(13),
   },
   itemText: {
     maxWidth: moderateScale(260),
