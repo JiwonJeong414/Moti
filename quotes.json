@@ -1,17 +1,1002 @@
 [
-    {
-        "id": 1,
-        "quote": "There are two ways of spreading light: to be the candle or the mirror that reflects it.",
-        "person": "Edith Wharton"
-    },
-    {
-        "id": 2,
-        "quote": "When you have a dream, you've got to grab it and never let go.",
-        "person": "Carol Burnett"
-    },
-    {
-        "id": 3,
-        "quote": "You do not find the happy life. You make it.",
-        "person": "Camilla Eyring Kimbal"
-    }
+        {
+            "id": "1",
+            "quote": "There are two ways of spreading light: to be the candle or the mirror that reflects it.",
+            "person": "Edith Wharton"
+        },
+        {
+            "id": "2",
+            "quote": "Camilla Eyring Kimball",
+            "person": "Carol Burnett"
+        },
+        {
+            "id": "3",
+            "quote": "You do not find the happy life. You make it.",
+            "person": "Camilla Eyring Kimbal"
+        },
+        {
+            "id": "4",
+            "quote": "It is during our darkest moments that we must focus to see the light.",
+            "person": "Aristotle"
+        },
+        {
+            "id": "5",
+            "quote": "You do not find the happy life. You make it.",
+            "person": "Camilla Eyring Kimball"
+        },
+        {
+            "id": "6",
+            "quote": "The most wasted of days is one without laughter.",
+            "person": "E.E. Cummings"
+        },
+        {
+            "id": "7",
+            "quote": "Stay close to anything that makes you glad you are alive. ",
+            "person": "Hafez"
+        },
+        {
+            "id": "8",
+            "quote": "Make each day your masterpiece. ",
+            "person": "John Wooden"
+        },
+        {
+            "id": "9",
+            "quote": "Happiness is not by chance, but by choice.",
+            "person": "Jim Rohn"
+        },
+        {
+            "id": "10",
+            "quote": "Life changes very quickly, in a very positive way, if you let it.",
+            "person": "Lindsey Vonn"
+        },
+        {
+            "id": "11",
+            "quote": "Keep your face to the sunshine and you cannot see a shadow. ",
+            "person": "Helen Keller"
+        },
+        {
+            "id": "12",
+            "quote": "Impossible is for the unwilling.",
+            "person": "John Keats"
+        },
+        {
+            "id": "13",
+            "quote": "No pressure, no diamonds. ",
+            "person": "Thomas Carlyle"
+        },
+        {
+            "id": "14",
+            "quote": "Believe you can and you’re halfway there.",
+            "person": "Theodore Roosevelt"
+        },
+        {
+            "id": "15",
+            "quote": "Failure is the condiment that gives success its flavor. ",
+            "person": "Truman Capote"
+        },
+        {
+            "id": "16",
+            "quote": "It is never too late to be what you might have been. ",
+            "person": "George Eliot"
+        },
+        {
+            "id": "17",
+            "quote": "When you have a dream, you’ve got to grab it and never let go.",
+            "person": "Carol Burnett"
+        },
+        {
+            "id": "18",
+            "quote": "You must be the change you wish to see in the world.",
+            "person": "Mahatma Gandhi"
+        },
+        {
+            "id": "19",
+            "quote": "Stay foolish to stay sane. ",
+            "person": "Maxime Lagacé"
+        },
+        {
+            "id": "20",
+            "quote": "Stay hungry. Stay foolish. ",
+            "person": "Steve Jobs"
+        },
+        {
+            "id": "21",
+            "quote": "Whatever you are, be a good one. ",
+            "person": "Abraham Lincoln "
+        },
+        {
+            "id": "22",
+            "quote": "You must do the things you think you cannot do.",
+            "person": "Eleanor Roosevelt"
+        },
+        {
+            "id": "23",
+            "quote": "Wherever you go, go with all your heart. ",
+            "person": "Confucius"
+        },
+        {
+            "id": "24",
+            "quote": "Be faithful to that which exists within yourself.",
+            "person": "André Gide"
+        },
+        {
+            "id": "25",
+            "quote": "Dream big and dare to fail.",
+            "person": "Norman Vaughan"
+        },
+        {
+            "id": "26",
+            "quote": "My mission in life is not merely to survive, but to thrive.",
+            "person": "Maya Angelo"
+        },
+        {
+            "id": "27",
+            "quote": "You are enough just as you are. ",
+            "person": "Meghan Markle"
+        },
+        {
+            "id": "28",
+            "quote": "To be the best, you must be able to handle the worst. ",
+            "person": "Wilson Kanadi"
+        },
+        {
+            "id": "29",
+            "quote": "No matter what you’re going through, there’s a light at the end of the tunnel. ",
+            "person": "Demi Lovato"
+        },
+        {
+            "id": "30",
+            "quote": " Life is like riding a bicycle. To keep your balance, you must keep moving.",
+            "person": "Albert Einstein"
+        },
+        {
+            "id": "31",
+            "quote": "Every moment is a fresh beginning.",
+            "person": "T.S. Eliot "
+        },
+        {
+            "id": "32",
+            "quote": "No guts, no story.",
+            "person": "Chris Brady"
+        },
+        {
+            "id": "33",
+            "quote": "Keep going. Be all in. ",
+            "person": "Bryan Hutchinson"
+        },
+        {
+            "id": "34",
+            "quote": "Leave no stone unturned.",
+            "person": "Euripides"
+        },
+        {
+            "id": "35",
+            "quote": "Nothing is impossible. The word itself says I’m possible! ",
+            "person": "Audrey Hepburn"
+        },
+        {
+            "id": "36",
+            "quote": "It isn’t where you came from. It’s where you’re going that counts. ",
+            "person": "Ella Fitzgerald"
+        },
+        {
+            "id": "37",
+            "quote": "If it matters to you, you’ll find a way. ",
+            "person": "Charlie Gilkey"
+        },
+        {
+            "id": "38",
+            "quote": "Tough times never last, but tough people do.",
+            "person": "Dr. Robert Schuller"
+        },
+        {
+            "id": "39",
+            "quote": "Turn your wounds into wisdom. ",
+            "person": "Oprah Winfrey "
+        },
+        {
+            "id": "40",
+            "quote": "The journey of a thousand miles begins with a single step. ",
+            "person": "Lao Tzu"
+        },
+        {
+            "id": "41",
+            "quote": "If you’re going through hell, keep going.",
+            "person": "Winston Churchill"
+        },
+        {
+            "id": "42",
+            "quote": "Don’t wait, the time will never be just right. ",
+            "person": "Napoleon Hill"
+        },
+        {
+            "id": "43",
+            "quote": "If I cannot do great things, I can do small things in a great way.",
+            "person": "Martin Luther King Jr. "
+        },
+        {
+            "id": "44",
+            "quote": "Life is fragile. We’re not guaranteed a tomorrow so give it everything you’ve got.",
+            "person": "Tim Cook"
+        },
+        {
+            "id": "45",
+            "quote": "The bad news is time flies. The good news is you’re the pilot. ",
+            "person": "Michael Altshuler"
+        },
+        {
+            "id": "46",
+            "quote": "Try to be a rainbow in someone’s cloud. ",
+            "person": "Maya Angelou"
+        },
+        {
+            "id": "47",
+            "quote": "Some people look for a beautiful place. Others make a place beautiful. ",
+            "person": "Hazrat Inayat Khan"
+        },
+        {
+            "id": "48",
+            "quote": "Never let your sense of morals prevent you from doing what is right. ",
+            "person": "Isaac Asimov"
+        },
+        {
+            "id": "49",
+            "quote": "Simplicity is the ultimate sophistication. ",
+            "person": "Leonardo da Vinci"
+        },
+        {
+            "id": "50",
+            "quote": "We have a responsibility to help those around us and help others in need.",
+            "person": "Virginia Williams"
+        },
+        {
+            "id": "51",
+            "quote": "No one is useless in this world who lightens the burdens of others. ",
+            "person": "Charles Dickens"
+        },
+        {
+            "id": "52",
+            "quote": "No one has ever become poor by giving.",
+            "person": "Anne Frank"
+        },
+        {
+            "id": "53",
+            "quote": "Try Again. Fail again. Fail better. ",
+            "person": "Samuel Becket"
+        },
+        {
+            "id": "54",
+            "quote": "The only thing that can grow is the thing you give energy to. ",
+            "person": "Ralph Waldo Emerson"
+        },
+        {
+            "id": "55",
+            "quote": "Good things happen to those who hustle. ",
+            "person": "Anaïs Nin"
+        },
+        {
+            "id": "56",
+            "quote": "No greater gift there is, than a generous heart. ",
+            "person": "Yoda"
+        },
+        {
+            "id": "57",
+            "quote": "Solitary trees, if they grow at all, grow strong.",
+            "person": "Winston Churchill"
+        },
+        {
+            "id": "58",
+            "quote": "A hero is someone who has given his or her life to something bigger than oneself. ",
+            "person": "Joseph Campbell"
+        },
+        {
+            "id": "59",
+            "quote": "You can if you think you can. ",
+            "person": "George Reeves"
+        },
+        {
+            "id": "60",
+            "quote": " Worrying is like paying a debt you don’t owe. ",
+            "person": "Mark Twain"
+        },
+        {
+            "id": "61",
+            "quote": " The wisest mind has something yet to learn.",
+            "person": "George Santanaya"
+        },
+        {
+            "id": "62",
+            "quote": "Get to the point where you get allergic to average! You don’t think average!",
+            "person": "Eric Thomas"
+        },
+        {
+            "id": "63",
+            "quote": "Be yourself; everyone else is already taken. ",
+            "person": "Oscar Wilde"
+        },
+        {
+            "id": "64",
+            "quote": "It’s no use going back to yesterday because I was a different person then.",
+            "person": "Lewis Carroll"
+        },
+        {
+            "id": "65",
+            "quote": "You can’t cross the sea merely by standing and staring at the water. ",
+            "person": "Rabindranath Tagore"
+        },
+        {
+            "id": "66",
+            "quote": "I’d rather be hated for who I am than loved for who I am not.",
+            "person": "Kurt Cobain"
+        },
+        {
+            "id": "67",
+            "quote": "We can do anything we want to if we stick to it long enough. ",
+            "person": "Helen Keller"
+        },
+        {
+            "id": "68",
+            "quote": "Don’t judge each day by the harvest you reap but by the seeds that you plant.",
+            "person": "Robert Louis Stevenson"
+        },
+        {
+            "id": "69",
+            "quote": "I don’t think of all the misery, but of the beauty that still remains.",
+            "person": "Anne Frank"
+        },
+        {
+            "id": "70",
+            "quote": "In the middle of every difficulty lies opportunity.",
+            "person": "Albert Einstein"
+        },
+        {
+            "id": "71",
+            "quote": "He who has a why to live can bear almost any how.",
+            "person": "Friedrich Nietzsche"
+        },
+        {
+            "id": "72",
+            "quote": "If you don’t like the road you’re walking, start paving another one.",
+            "person": "Dolly Parton"
+        },
+        {
+            "id": "73",
+            "quote": "Persistence guarantees that results are inevitable.",
+            "person": " Paramahansa Yogananda"
+        },
+        {
+            "id": "74",
+            "quote": "Life isn’t about finding yourself. Life is about creating yourself.",
+            "person": "George Bernard Shaw"
+        },
+        {
+            "id": "75",
+            "quote": "Dwell on the beauty of life. Watch the stars, and see yourself running with them. ",
+            "person": "Marcus Aurelius"
+        },
+        {
+            "id": "76",
+            "quote": "Hate cannot drive out hate: only love can do that. ",
+            "person": "Martin Luther King Jr"
+        },
+        {
+            "id": "77",
+            "quote": "There is no saint without a past, no sinner without a future.",
+            "person": "Augustine of Hippo"
+        },
+        {
+            "id": "78",
+            "quote": "Always do what you are afraid to do. ",
+            "person": "Ralph Waldo Emerson"
+        },
+        {
+            "id": "79",
+            "quote": "Every noble work is at first impossible.",
+            "person": "Thomas Carlyle"
+        },
+        {
+            "id": "80",
+            "quote": "If you can dream it, you can do it. ",
+            "person": "Walt Disney"
+        },
+        {
+            "id": "81",
+            "quote": "Defeat may serve as well as victory to shake the soul and let the glory out. ",
+            "person": "Edwin Markham"
+        },
+        {
+            "id": "82",
+            "quote": "Rise above the storm and you will find the sunshine. ",
+            "person": "Mario Fernández"
+        },
+        {
+            "id": "83",
+            "quote": "Do what you feel in your heart to be right for you’ll be criticized anyway. ",
+            "person": "Eleanor Roosevelt"
+        },
+        {
+            "id": "84",
+            "quote": "Mastering others is strength. Mastering yourself is true power. ",
+            "person": "Lao Tzu"
+        },
+        {
+            "id": "85",
+            "quote": "Pain is temporary. Quitting lasts forever. ",
+            "person": "Lance Armstrong"
+        },
+        {
+            "id": "86",
+            "quote": "The bird a nest, the spider a web, man friendship. ",
+            "person": "William Blake"
+        },
+        {
+            "id": "87",
+            "quote": "When one door of happiness closes, another opens. ",
+            "person": "Helen Keller"
+        },
+        {
+            "id": "88",
+            "quote": "The question is not what you look at, but what you see.",
+            "person": "Henry David Thorea"
+        },
+        {
+            "id": "89",
+            "quote": "It is not the mountain we conquer but ourselves.",
+            "person": "Edmund Hillary"
+        },
+        {
+            "id": "90",
+            "quote": "Begin anywhere. ",
+            "person": "John Cage"
+        },
+        {
+            "id": "91",
+            "quote": "Have faith in yourself and in the future. ",
+            "person": "Ted Kennedy"
+        },
+        {
+            "id": "92",
+            "quote": "Despite the forecast, live like it’s spring. ",
+            "person": "Lily Pulitzer"
+        },
+        {
+            "id": "93",
+            "quote": "Do it Now! ",
+            "person": "Napoleon Hill"
+        },
+        {
+            "id": "94",
+            "quote": "The best way to prepare for life is to begin to live. ",
+            "person": "Elbert Hubbar"
+        },
+        {
+            "id": "95",
+            "quote": "No great thing is created suddenly. ",
+            "person": "  Epictetus"
+        },
+        {
+            "id": "96",
+            "quote": "And in the end, it’s not the years in your life that count. It is the life in your years. ",
+            "person": "Abraham Lincoln"
+        },
+        {
+            "id": "97",
+            "quote": "Life is really simple, but we insist on making it complicated.",
+            "person": " Confucius"
+        },
+        {
+            "id": "98",
+            "quote": "Life can only be understood backwards, but it must be lived forward. ",
+            "person": "Soren Kierkegaard"
+        },
+        {
+            "id": "99",
+            "quote": "Man doesn’t know what he is capable of until he is asked. ",
+            "person": "Kofi Annan"
+        },
+        {
+            "id": "100",
+            "quote": "Courage is fear that has said its prayers. ",
+            "person": "Dorothy Bernard"
+        },
+        {
+            "id": "101",
+            "quote": "Life is as easy or as hard as you think it is.",
+            "person": "Jonathan Lockwood Huie"
+        },
+        {
+            "id": "102",
+            "quote": "Live your dreams.",
+            "person": " Les Brown"
+        },
+        {
+            "id": "103",
+            "quote": "The true vocation of man is to find his way for himself. ",
+            "person": "Hermann Hesse"
+        },
+        {
+            "id": "104",
+            "quote": "A life of sacrifice is the pinnacle of art, and is full of true joy.",
+            "person": " Mahatma Gandhi"
+        },
+        {
+            "id": "105",
+            "quote": "No wind favors he who has no destined port. ",
+            "person": "Montaigne"
+        },
+        {
+            "id": "106",
+            "quote": "It’s not what you look at that matters, it’s what you see.",
+            "person": " Henry David Thoreau"
+        },
+        {
+            "id": "107",
+            "quote": "Only a life lived for others is a life worthwhile. ",
+            "person": "Albert Einstein"
+        },
+        {
+            "id": "108",
+            "quote": "To know oneself, one should assert oneself.",
+            "person": "Albert Camus"
+        },
+        {
+            "id": "109",
+            "quote": "Men do less than they ought unless they do all they can.",
+            "person": "Thomas Carlyle"
+        },
+        {
+            "id": "110",
+            "quote": "People living deeply have no fear of death. ",
+            "person": "Anais Nin"
+        },
+        {
+            "id": "111",
+            "quote": "A clever man commits no minor blunders.",
+            "person": "Johann Wolfgang von Goethe"
+        },
+        {
+            "id": "112",
+            "quote": "Be not afraid of going slowly, be afraid only of standing still. ",
+            "person": "Chinese Proverb"
+        },
+        {
+            "id": "113",
+            "quote": "If I’m gonna tell a real story, I’m gonna start with my name. ",
+            "person": "Kendrick Lamar"
+        },
+        {
+            "id": "114",
+            "quote": "Wake up with determination. Go to bed with satisfaction.",
+            "person": "George Horace Lorimer"
+        },
+        {
+            "id": "115",
+            "quote": "All limitations are selfimposed. ",
+            "person": "Oliver Wendell Holmes"
+        },
+        {
+            "id": "116",
+            "quote": "When you make a choice, you change the future.",
+            "person": "Deepak Chopra"
+        },
+        {
+            "id": "117",
+            "quote": "Determine your priorities and focus on them. ",
+            "person": "Eileen McDargh"
+        },
+        {
+            "id": "118",
+            "quote": "Words are your paintbrush, and your life is the canvas. You can paint whatever you want to paint.",
+            "person": "Miguel Ruiz"
+        },
+        {
+            "id": "119",
+            "quote": "Trees that are slow to grow bear the best fruit.",
+            "person": "Moliere"
+        },
+        {
+            "id": "120",
+            "quote": "Luck is a matter of preparation meeting opportunity. ",
+            "person": "Oprah Winfrey"
+        },
+        {
+            "id": "121",
+            "quote": "Let the beauty of what you love be what you do. ",
+            "person": "Rumi"
+        },
+        {
+            "id": "122",
+            "quote": "Be sure what you want and be sure about yourself.",
+            "person": "Adriana Lima"
+        },
+        {
+            "id": "123",
+            "quote": "If you tell the truth you don’t have to remember anything. ",
+            "person": "Mark Twain"
+        },
+        {
+            "id": "124",
+            "quote": "Reexamine all you have been told. Dismiss what insults your soul.",
+            "person": "Walt Whitman"
+        },
+        {
+            "id": "125",
+            "quote": "Have enough courage to start and enough heart to finish. ",
+            "person": "Jessica N. S. Yourko"
+        },
+        {
+            "id": "126",
+            "quote": "With our thoughts, we make the world. ",
+            "person": "Buddhist proverb"
+        },
+        {
+            "id": "127",
+            "quote": "Be so good they can’t ignore you. ",
+            "person": "Steve Martin"
+        },
+        {
+            "id": "128",
+            "quote": "If opportunity doesn’t knock, build a door.",
+            "person": "Milton Berle"
+        },
+        {
+            "id": "129",
+            "quote": "Don’t you know your imperfections is a blessing?",
+            "person": " Kendrick Lamar"
+        },
+        {
+            "id": "130",
+            "quote": "Who you are tomorrow begins with what you do today.",
+            "person": " Tim Fargo"
+        },
+        {
+            "id": "131",
+            "quote": "Happiness depends upon ourselves.",
+            "person": " Aristotle"
+        },
+        {
+            "id": "132",
+            "quote": "You can’t have everything. Where would you put it? ",
+            "person": "Steven Wright"
+        },
+        {
+            "id": "133",
+            "quote": "Tough times never last but tough people do.",
+            "person": " Robert H. Schiuller"
+        },
+        {
+            "id": "134",
+            "quote": "Magic always happens when you direct your inner powers to the object you want to change.",
+            "person": "Bangambiki Habyarimana"
+        },
+        {
+            "id": "135",
+            "quote": "I could agree with you but then we’d both be wrong. ",
+            "person": "Harvey Specter"
+        },
+        {
+            "id": "136",
+            "quote": "The only impossible journey is the one you never begin.",
+            "person": "Tony Robbins"
+        },
+        {
+            "id": "137",
+            "quote": "Yesterday you said tomorrow. Just do it.",
+            "person": " Nike"
+        },
+        {
+            "id": "138",
+            "quote": "Those at the top of the mountain didn’t fall there.",
+            "person": "Marcus Washling"
+        },
+        {
+            "id": "139",
+            "quote": "There is no substitute for hard work. ",
+            "person": "Thomas Edison"
+        },
+        {
+            "id": "140",
+            "quote": "Mostly, the world sees you the way you see yourself.",
+            "person": "Lisa Nichols"
+        },
+        {
+            "id": "141",
+            "quote": "The meaning of life is to give life meaning. ",
+            "person": "Ken Hudgins"
+        },
+        {
+            "id": "142",
+            "quote": "The elevator to success is out of order. You’ll have to use the stairs, one step at a time. ",
+            "person": "Joe Girard"
+        },
+        {
+            "id": "143",
+            "quote": "Live as if you were to die tomorrow. Learn as if you were to live forever. ",
+            "person": "Mahatma Gandhi"
+        },
+        {
+            "id": "144",
+            "quote": "We accept the love we think we deserve. ",
+            "person": "Stephen Chbosky"
+        },
+        {
+            "id": "145",
+            "quote": "Imperfection is beauty, madness is genius and it’s better to be absolutely ridiculous than absolutely boring. ",
+            "person": "Marilyn Monroe"
+        },
+        {
+            "id": "146",
+            "quote": "We are all in the gutter, but some of us are looking at the stars. ",
+            "person": "Oscar Wilde"
+        },
+        {
+            "id": "147",
+            "quote": "There is no greater agony than bearing an untold story inside you.",
+            "person": "Maya Angelou"
+        },
+        {
+            "id": "148",
+            "quote": " Everything you can imagine is real. ",
+            "person": "Pablo Picasso"
+        },
+        {
+            "id": "149",
+            "quote": "Do what you can, with what you have, where you are. ",
+            "person": "Theodore Roosevelt"
+        },
+        {
+            "id": "150",
+            "quote": "It’s the possibility of having a dream come true that makes life interesting.",
+            "person": " Paulo Coelho"
+        },
+        {
+            "id": "151",
+            "quote": "May you live every day of your life.",
+            "person": "Jonathan Swift"
+        },
+        {
+            "id": "152",
+            "quote": "Life is too short to waste your time on people who don’t respect, appreciate, and value you. ",
+            "person": "Roy T. Bennett"
+        },
+        {
+            "id": "153",
+            "quote": "Two wrongs don’t make a right, but they make a good excuse.",
+            "person": "Thomas Szasz"
+        },
+        {
+            "id": "154",
+            "quote": "When in doubt, throw doubt out and have a little faith….",
+            "person": "E.A. Bucchianeri"
+        },
+        {
+            "id": "155",
+            "quote": "Don’t worry about the challenges. Get excited about the rewards of crushing them. ",
+            "person": "Hiral Nagda"
+        },
+        {
+            "id": "156",
+            "quote": "Keep going. Is not as difficult as you feel it is. Don’t give up. ",
+            "person": "Brandon Sanderson"
+        },
+        {
+            "id": "157",
+            "quote": " I may stumble. I may fall. I may cry. But I’ll NEVER give up! Tomorrow, I rise again. Steve Maraboli",
+            "person": "Steve Maraboli"
+        },
+        {
+            "id": "158",
+            "quote": "If my life is going to mean anything, I have to live it myself.",
+            "person": "Rick Riordan"
+        },
+        {
+            "id": "159",
+            "quote": "Keep going like there’s a big rock rolling behind you. Never stop until you find ways to dodge it! ",
+            "person": "I’m salmiah"
+        },
+        {
+            "id": "160",
+            "quote": "There are a thousand reasons to live this life, every one of them is sufficient. ",
+            "person": "Marilynne Robinson"
+        },
+        {
+            "id": "161",
+            "quote": "If beautiful lilies bloom in ugly waters, you too can blossom in ugly situations. ",
+            "person": "Matshona Dhliwayo"
+        },
+        {
+            "id": "162",
+            "quote": "Concern yourself not with what you tried and failed in, but with what is still possible to do. ",
+            "person": "Hillary Rodham Clinton"
+        },
+        {
+            "id": "163",
+            "quote": "Isn’t it nice to think that tomorrow is a new day with no mistakes in it yet?",
+            "person": "L.M. Montgomery"
+        },
+        {
+            "id": "164",
+            "quote": "Even a mistake may turn out to be the one thing necessary to a worthwhile achievement. ",
+            "person": "Henry Ford"
+        },
+        {
+            "id": "165",
+            "quote": "Enjoy the little things, for one day you may look back and realize they were the big things. ",
+            "person": "Robert Breauit"
+        },
+        {
+            "id": "166",
+            "quote": "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. ",
+            "person": "Christian D. Larson"
+        },
+        {
+            "id": "167",
+            "quote": "Our greatest glory is not in never falling, but in rising every time we fall. ",
+            "person": "Confucius"
+        },
+        {
+            "id": "168",
+            "quote": "Dream big, stay positive, work hard, and enjoy the journey. ",
+            "person": "Urijah Faber"
+        },
+        {
+            "id": "169",
+            "quote": "Nothing is impossible to a willing heart. ",
+            "person": "John Heywood"
+        },
+        {
+            "id": "170",
+            "quote": "Pain is inevitable. Suffering is optional.",
+            "person": "Haruki Murakam"
+        },
+        {
+            "id": "171",
+            "quote": "Don’t get so busy making a living that you forget to make a life. ",
+            "person": "Dolly Parton"
+        },
+        {
+            "id": "172",
+            "quote": "As soon as you trust yourself, you will know how to live. ",
+            "person": "Johann Wolfgang von Goethe"
+        },
+        {
+            "id": "173",
+            "quote": "My life is my message. ",
+            "person": "Mahatma Gandhi"
+        },
+        {
+            "id": "174",
+            "quote": "Nothing can dim the light which shines from within. ",
+            "person": "Maya Angelou"
+        },
+        {
+            "id": "175",
+            "quote": "Never regret anything that made you smile. ",
+            "person": "Mark Twain"
+        },
+        {
+            "id": "176",
+            "quote": "You receive from the world what you give to the world. ",
+            "person": "Oprah Winfrey"
+        },
+        {
+            "id": "177",
+            "quote": " Everything has beauty, but not everyone sees it. ",
+            "person": "Confucius"
+        },
+        {
+            "id": "178",
+            "quote": "In a gentle way, you can shake the world. ",
+            "person": "Mahatma Gandhi"
+        },
+        {
+            "id": "179",
+            "quote": "Aim for the moon. If you miss, you may hit a star. ",
+            "person": "W. Clement Stone"
+        },
+        {
+            "id": "180",
+            "quote": "All progress takes place outside of your comfort zone. ",
+            "person": "Michael John Bobak"
+        },
+        {
+            "id": "181",
+            "quote": "It always seems impossible until it’s done. ",
+            "person": "Nelson Mandela"
+        },
+        {
+            "id": "182",
+            "quote": "None but ourselves can free our minds.",
+            "person": "Bob Marley"
+        },
+        {
+            "id": "183",
+            "quote": "I don’t need it to be easy, I need it to be worth it. ",
+            "person": "Lil Wayne"
+        },
+        {
+            "id": "184",
+            "quote": "In the middle of difficulty lies opportunity. ",
+            "person": "Albert Einstein"
+        },
+        {
+            "id": "185",
+            "quote": "If you love life, don’t waste time, for time is what life is made up of. ",
+            "person": "Bruce Lee"
+        },
+        {
+            "id": "186",
+            "quote": "He that can have patience can have what he will. ",
+            "person": "Benjamin Franklin"
+        },
+        {
+            "id": "187",
+            "quote": "Life becomes easier and more beautiful when we can see the good in other people.",
+            "person": "Roy T. Bennett"
+        },
+        {
+            "id": "188",
+            "quote": "Don’t quit. Suffer now and live the rest of your life as a champion. ",
+            "person": "Muhammad Ali"
+        },
+        {
+            "id": "189",
+            "quote": "It’s not whether you get knocked down; it’s whether you get up. ",
+            "person": "Vince Lombardi"
+        },
+        {
+            "id": "190",
+            "quote": "The only real mistake is the one from which we learn nothing. ",
+            "person": "Henry Ford"
+        },
+        {
+            "id": "191",
+            "quote": "Surround yourself with only people who are going to lift you higher. ",
+            "person": "Oprah Winfrey"
+        },
+        {
+            "id": "192",
+            "quote": "As we are liberated from our own fear, our presence automatically liberates others. ",
+            "person": "Marianne Williamson"
+        },
+        {
+            "id": "193",
+            "quote": "Keep your face always toward the sunshine, and shadows will fall behind you.",
+            "person": "Walt Whitman"
+        },
+        {
+            "id": "194",
+            "quote": "There is nothing impossible to they who will try.",
+            "person": "Alexander the Great"
+        },
+        {
+            "id": "195",
+            "quote": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            "person": "Winston Churchill"
+        },
+        {
+            "id": "196",
+            "quote": "You define your own life. Don’t let other people write your script.",
+            "person": "Oprah Winfrey"
+        },
+        {
+            "id": "197",
+            "quote": "You are never too old to set another goal or to dream a new dream.",
+            "person": "Malala Yousafzai"
+        },
+        {
+            "id": "198",
+            "quote": "Spread love everywhere you go.",
+            "person": "Mother Teresa"
+        },
+        {
+            "id": "199",
+            "quote": "You can be everything. You can be the infinite amount of things that people are.",
+            "person": "Kesh"
+        },
+        {
+            "id": "200",
+            "quote": "Belief creates the actual fact.",
+            "person": "William James"
+        }
 ]

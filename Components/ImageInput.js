@@ -68,7 +68,12 @@ const ImageInput = ({
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={container}>
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && (
+          <Image
+            source={require("../assets/image/City.jpg")}
+            style={styles.image}
+          />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );

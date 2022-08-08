@@ -20,7 +20,6 @@ import {
 } from "@expo-google-fonts/noto-sans";
 import { moderateScale } from "react-native-size-matters";
 import { IconButton } from "react-native-paper";
-import Tasktest from "../Components/Tasktest";
 
 const HotlineScreen = () => {
   const { colorTheme, textTheme } = React.useContext(RootContext);

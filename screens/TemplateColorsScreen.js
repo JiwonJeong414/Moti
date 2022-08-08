@@ -1103,7 +1103,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     width: "100%",
-    height: "55%",
+    height: moderateScale(420),
     backgroundColor: "#FFF",
   },
   whiteBackground: {

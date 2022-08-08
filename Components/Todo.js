@@ -20,7 +20,6 @@ import GestureRecognizer, {
   swipeDirections,
 } from "react-native-swipe-gestures";
 import ListItemDeleteAction from "./ListItemDeleteAction";
-import TaskTestTwo from "./TaskTestTwo";
 import { RootContext } from "../config/RootContext";
 
 const Todo = ({ widgetTitle }) => {
@@ -189,8 +188,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    width: "80%",
-    height: "30%",
+    width: moderateScale(270),
+    height: moderateScale(240),
     backgroundColor: "#FFF",
   },
   addTodo: {

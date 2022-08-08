@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Button,
   TextInput,
+  Platform,
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -30,19 +31,18 @@ const OnBoardingScreen = ({ navigation, route }) => {
     setOnboard(true);
   };
 
-  // let [fontsLoaded] = useFonts({
-  //   NotoSans_400Regular,
-  //   NotoSans_700Bold,
-  // });
-
-  // if (!fontsLoaded) {
-  //   return <></>;
-  // }
-
   return (
     <View style={styles.container}>
       <View style={styles.green}></View>
-      <Image source={require("../assets/image/night.png")} />
+      <Image
+        source={require("../assets/image/motibackground.png")}
+        style={{
+          width: moderateScale(112),
+          height: moderateScale(125),
+          position: "absolute",
+          top: moderateScale(178),
+        }}
+      />
       <Text style={styles.text}>What is your name?</Text>
       <View style={styles.textInput}>
         <TextInput
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: moderateScale(20),
   },
   textInput: {
     position: "absolute",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: moderateScale(16),
-    fontFamily: "Verdana",
+    fontFamily: Platform.OS === "ios" ? "Verdana" : "notoserif",
   },
   confirm: {
     position: "absolute",
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   next: {
     fontSize: moderateScale(16),
-    fontFamily: "Verdana",
+    fontFamily: Platform.OS === "ios" ? "Verdana" : "notoserif",
     color: "white",
   },
 });

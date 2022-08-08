@@ -47,7 +47,7 @@ const Quotes = () => {
     return <></>;
   }
 
-  let item = quotesData.find((item) => item.id === idNumber);
+  let item = quotesData.find((item) => item.id === "" + idNumber);
 
   return (
     <View style={styles.container}>

@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 
 function ListItemDeleteAction({ onPress }) {
-  const { colorTheme } = React.useContext(RootContext);
+  const { colorTheme, textTheme } = React.useContext(RootContext);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
@@ -20,7 +20,7 @@ function ListItemDeleteAction({ onPress }) {
         <MaterialCommunityIcons
           name="trash-can"
           size={moderateScale(35)}
-          color={colorTheme.accents}
+          color={textTheme.text}
           style={{ top: moderateScale(10), right: moderateScale(5) }}
         />
       </View>

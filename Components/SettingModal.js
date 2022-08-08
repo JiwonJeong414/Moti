@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: moderateScale(10),
-    width: "80%",
-    height: "35%",
+    width: moderateScale(260),
+    height: moderateScale(280),
     backgroundColor: "#FFF",
   },
   item: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   itemText: {
-    maxWidth: "80%",
+    maxWidth: moderateScale(260),
     fontFamily: "NotoSans_400Regular",
   },
   circular: {

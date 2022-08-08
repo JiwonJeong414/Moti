@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
 import ProfileInput from "../Components/ProfileInput";
 import { moderateScale } from "react-native-size-matters";
+import { RootContext } from "../config/RootContext";
 
 const BannerAndIcon = () => {
   const [imageUri, setImageUri] = useState();
@@ -33,6 +34,8 @@ const BannerAndIcon = () => {
     requestPermision();
   }, []);
 
+  const { textTheme } = React.useContext(RootContext);
+
   return (
     <View style={styles.container}>
       <ImageInput
@@ -44,7 +47,12 @@ const BannerAndIcon = () => {
       <ProfileInput
         imageUri={profileUri}
         onChangeImage={(uri) => setProfileUri(uri)}
-        container={styles.profile}
+        container={[
+          styles.profile,
+          {
+            borderColor: textTheme.text,
+          },
+        ]}
         asyncStorageName={"Profile"}
       />
     </View>

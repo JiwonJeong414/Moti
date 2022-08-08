@@ -51,11 +51,13 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
     const selectedDate = text.split("-");
     let addedDate = 0;
     addedDate = Math.floor(Number(selectedDate[0]) / 4) * 1461;
+    console.log("1: " + addedDate);
     let isLeapYear = false;
-    console.log("adsfasdf" + addedDate);
+    console.log("2: " + addedDate);
     if (Number(selectedDate[0]) % 4 === 0) isLeapYear = true;
-    if (!isLeapYear) addedDate += (Number(selectedDate[0]) % 4) * 365;
-    console.log(isLeapYear);
+    if (Number(selectedDate[0]) % 4 === 1) addedDate += 366;
+    if (Number(selectedDate[0]) % 4 === 2) addedDate += 731;
+    if (Number(selectedDate[0]) % 4 === 3) addedDate += 1096;
     // 31
     if (Number(selectedDate[1]) - 1 === 1) addedDate += 31;
     // 28 or 29
@@ -109,7 +111,9 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
     else if (Number(selectedDate[1]) - 1 === 11 && isLeapYear === true)
       addedDate += 335;
     // 31 (now add days)
+    console.log("3: " + addedDate);
     addedDate += Number(selectedDate[2]);
+    console.log("4: " + addedDate);
     return addedDate;
   };
 
@@ -242,15 +246,6 @@ const styles = StyleSheet.create({
   modalBackground: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  modalHeader: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    width: "16%",
-    height: "4%",
-    left: moderateScale(145),
   },
 });
 

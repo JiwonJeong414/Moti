@@ -22,7 +22,6 @@ import Modal from "react-native-modal";
 import Habits from "../Components/Habits";
 import SettingModal from "../Components/SettingModal";
 import { Button, IconButton, TextInput } from "react-native-paper";
-import Tasktest from "../Components/Tasktest";
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,
@@ -83,6 +82,10 @@ const HomeScreen = ({ navigation, route }) => {
               backgroundColor: colorTheme.neutral,
               borderTopLeftRadius: moderateScale(49),
               borderTopRightRadius: moderateScale(49),
+              shadowOffset: {
+                height: -10,
+              },
+              shadowOpacity: 0.2,
             },
           ]}
         >
@@ -122,36 +125,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    paddingLeft: 20,
-    paddingRight: 10,
-    paddingBottom: 10,
-  },
   groupRow: {
     flexDirection: "row",
   },
   modalBackground: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  modalHeader: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-    paddingLeft: 16,
-    borderRadius: 10,
-    width: "80%",
-    height: "30%",
-    backgroundColor: "#FFF",
-  },
-  addTodo: {
-    fontSize: 20,
-    fontWeight: "bold",
   },
   dashboard: {
     width: moderateScale(380),

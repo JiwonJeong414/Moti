@@ -63,10 +63,12 @@ const Streak = ({
     setLocalStreak(localStreak + 1);
     if (localStreak + 1 === 3) {
       Alert.alert("Congratulations! You hit a 3-day streak!");
-    } else if (localStreak + 1 === 10) {
-      Alert.alert("Congratulations! You hit a 10-day streak!");
-    } else if (localStreak + 1 === 20) {
-      Alert.alert("Congratulations! You hit a 20-day streak!");
+    } else if (localStreak + 1 === 7) {
+      Alert.alert("Congratulations! You hit a 7-day streak!");
+    } else if (localStreak + 1 === 100) {
+      Alert.alert("Congratulations! You hit a 100-day streak!");
+    } else if (localStreak + 1 === 365) {
+      Alert.alert("Congratulations! You hit a 365-day streak!");
     }
     let testArray = habits;
     let objIndex = testArray.findIndex((obj) => obj.id === id);

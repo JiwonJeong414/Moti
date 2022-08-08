@@ -22,7 +22,7 @@ const TextColorScreen = () => {
   };
 
   const handleQuoteCheck = async (name) => {
-    await AsyncStorage.setItem("Text", JSON.stringify(name));
+    await AsyncStorage.setItem("Quotes", JSON.stringify(name));
     setQuoteColor(name);
     let textTheme = {
       text: textColor,

@@ -165,8 +165,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    width: "80%",
-    height: "30%",
+    width: moderateScale(270),
+    height: moderateScale(240),
     backgroundColor: "#FFF",
   },
   modal: {

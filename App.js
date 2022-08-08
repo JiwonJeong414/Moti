@@ -79,7 +79,7 @@ function RootNavigator() {
     const retrievePrimary = async () => {
       let retrieveData = await AsyncStorage.getItem("Primary");
       retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setPrimary("#939597");
+      if (retrieveData == null) setPrimary("#808080");
       else setPrimary(retrieveData);
     };
     retrievePrimary();
