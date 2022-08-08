@@ -126,24 +126,23 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
         },
       ]}
     >
-      <View style={{ flexDirection: "row-reverse" }}>
+      <View style={{ alignSelf: "flex-end" }}>
         <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
           <View hitSlop={10}>
-            <View style={{}}>
-              <SettingOpenCircle />
-            </View>
+            <SettingOpenCircle />
           </View>
         </TouchableOpacity>
         {deleteVisible === true ? (
           <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
             <View
               style={{
+                position: "absolute",
                 width: moderateScale(50),
                 height: moderateScale(30),
-                marginLeft:
-                  Platform.OS === "ios"
-                    ? moderateScale(260)
-                    : moderateScale(236),
+                top:
+                  Platform.OS === "ios" ? moderateScale(7) : moderateScale(11),
+                right:
+                  Platform.OS === "ios" ? moderateScale(-4) : moderateScale(-8),
                 backgroundColor: colorTheme.accents,
                 borderRadius: moderateScale(10),
                 justifyContent: "center",
@@ -207,16 +206,17 @@ const styles = StyleSheet.create({
     elevation: 5,
     left: moderateScale(18),
     width: "90.5%",
-    height: moderateScale(115),
     borderRadius: moderateScale(20),
     justifyContent: "center",
   },
   itemText: {
+    textAlign: "center",
     fontSize: moderateScale(28),
     fontFamily: "NotoSans_700Bold",
     paddingBottom: moderateScale(4),
   },
   left: {
+    textAlign: "center",
     fontSize: moderateScale(23),
     fontFamily: "NotoSans_400Regular",
   },

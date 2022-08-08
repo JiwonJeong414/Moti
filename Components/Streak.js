@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Platform,
   Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -137,62 +138,47 @@ const Streak = ({
 
   return (
     <View style={[styles.item, { backgroundColor: colorTheme.primary }]}>
-      <View style={styles.itemLeft}>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <View
-            style={{
-              position: "absolute",
-              flexDirection: "column",
-            }}
-          >
-            <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
-              <View hitSlop={10}>
-                <View
-                  style={{
-                    marginLeft:
-                      Platform.OS === "ios"
-                        ? moderateScale(275)
-                        : moderateScale(250),
-                  }}
-                >
-                  <SettingOpenCircle />
-                </View>
-              </View>
-            </TouchableOpacity>
-            {deleteVisible === true ? (
-              <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
-                <View
-                  style={{
-                    width: moderateScale(50),
-                    height: moderateScale(30),
-                    marginLeft:
-                      Platform.OS === "ios"
-                        ? moderateScale(260)
-                        : moderateScale(236),
-                    backgroundColor: colorTheme.accents,
-                    borderRadius: moderateScale(10),
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "NotoSans_400Regular",
-                      color: textTheme.text,
-                    }}
-                  >
-                    Delete
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            ) : (
-              <></>
-            )}
+      <View style={{ alignSelf: "flex-end" }}>
+        <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
+          <View hitSlop={10}>
+            <SettingOpenCircle />
           </View>
-          <Text style={[styles.itemText, { color: textTheme.text }]}>
-            {title}
-          </Text>
-        </View>
+        </TouchableOpacity>
+        {deleteVisible === true ? (
+          <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
+            <View
+              style={{
+                position: "absolute",
+                width: moderateScale(50),
+                height: moderateScale(30),
+                top:
+                  Platform.OS === "ios" ? moderateScale(7) : moderateScale(11),
+                right:
+                  Platform.OS === "ios" ? moderateScale(-4) : moderateScale(-8),
+                backgroundColor: colorTheme.accents,
+                borderRadius: moderateScale(10),
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "NotoSans_400Regular",
+                  color: textTheme.text,
+                }}
+              >
+                Delete
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        ) : (
+          <></>
+        )}
+      </View>
+      <View style={{ flexDirection: "column" }}>
+        <Text style={[styles.itemText, { color: textTheme.text }]}>
+          {title}
+        </Text>
         <View
           style={{
             alignItems: "center",
@@ -267,15 +253,13 @@ const styles = StyleSheet.create({
     elevation: 5,
     left: moderateScale(18),
     width: "90.5%", // moderateScale(345)
-    height: moderateScale(130),
     borderRadius: moderateScale(20),
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: moderateScale(25),
   },
-  itemLeft: {
-    flexDirection: "column",
-  },
   itemText: {
+    textAlign: "center",
     fontSize: moderateScale(27),
     fontFamily: "NotoSans_700Bold",
   },

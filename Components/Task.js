@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     marginRight: moderateScale(15),
   },
   itemText: {
-    maxWidth: "100%",
+    maxWidth: "85%",
     fontSize: moderateScale(16),
     fontFamily: "NotoSans_400Regular",
   },
