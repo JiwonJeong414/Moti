@@ -1,26 +1,17 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import HotlineScreen from "../screens/HotlineScreen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { moderateScale } from "react-native-size-matters";
 import {
   MaterialCommunityIcons,
-  Entypo,
   Feather,
   FontAwesome5,
 } from "@expo/vector-icons";
 import TemplateColorsScreen from "../screens/TemplateColorsScreen";
 import { RootContext } from "../config/RootContext";
-import Modal from "react-native-modal";
 import TextColorScreen from "../screens/TextColorScreen";
 
 const BottomTab = createMaterialBottomTabNavigator();

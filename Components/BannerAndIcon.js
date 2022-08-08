@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "../Components/ImageInput";
 import ProfileInput from "../Components/ProfileInput";

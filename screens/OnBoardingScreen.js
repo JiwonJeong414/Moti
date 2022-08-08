@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Button,
   TextInput,
   Platform,
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import HomeScreen from "../screens/HomeScreen";
 import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
-import {
-  NotoSans_400Regular,
-  NotoSans_700Bold,
-  useFonts,
-} from "@expo-google-fonts/noto-sans";
 
 const OnBoardingScreen = ({ navigation, route }) => {
   const [text, setText] = useState();
@@ -37,13 +27,20 @@ const OnBoardingScreen = ({ navigation, route }) => {
       <Image
         source={require("../assets/image/motibackground.png")}
         style={{
-          width: moderateScale(112),
-          height: moderateScale(125),
+          width: moderateScale(112 * 1.5),
+          height: moderateScale(125 * 1.5),
           position: "absolute",
-          top: moderateScale(178),
+          top: moderateScale(140),
         }}
       />
-      <Text style={styles.text}>What is your name?</Text>
+      <Text
+        style={[
+          styles.text,
+          { top: Platform.OS === "android" ? moderateScale(160) : 0 },
+        ]}
+      >
+        What is your name?
+      </Text>
       <View style={styles.textInput}>
         <TextInput
           autoCorrect={false}
@@ -70,21 +67,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  green: {
-    position: "absolute",
-    top: moderateScale(193.5),
-    left: moderateScale(131.5),
-    width: moderateScale(40),
-  },
   text: {
     fontWeight: "bold",
     fontSize: moderateScale(20),
   },
   textInput: {
     position: "absolute",
-    top: moderateScale(444),
+    top: Platform.OS === "ios" ? moderateScale(444) : moderateScale(400),
     left: moderateScale(24),
-    width: moderateScale(327),
+    width: "86%",
     height: moderateScale(52),
     backgroundColor: "#FFFFFF",
     borderColor: "gray",
@@ -99,9 +90,9 @@ const styles = StyleSheet.create({
   },
   confirm: {
     position: "absolute",
-    top: moderateScale(516),
+    top: Platform.OS === "ios" ? moderateScale(516) : moderateScale(470),
     left: moderateScale(24),
-    width: moderateScale(327),
+    width: "86%",
     height: moderateScale(52),
     borderRadius: moderateScale(40),
     backgroundColor: "#6524FF",

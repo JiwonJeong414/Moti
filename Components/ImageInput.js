@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -54,7 +54,7 @@ const ImageInput = ({
         allowsEditing: true,
         aspect: [654, 489],
       });
-      console.log(result.uri);
+      // console.log(result.uri);
       if (!result.cancelled) {
         await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
         onChangeImage(result.uri);

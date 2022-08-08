@@ -3,16 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
 } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import Completed from "../Components/Completed";
 import { moderateScale } from "react-native-size-matters";
-import { Button } from "react-native-paper";
 import { RootContext } from "../config/RootContext";
 import SettingOpenCircle from "./SettingOpenCircle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -72,18 +68,18 @@ const Streak = ({
     }
     let testArray = habits;
     let objIndex = testArray.findIndex((obj) => obj.id === id);
-    console.log("Before Update: ", testArray[objIndex]);
+    // console.log("Before Update: ", testArray[objIndex]);
     testArray[objIndex].streak += 1;
     testArray[objIndex].completed = true;
-    console.log("After Update: ", testArray[objIndex]);
-    console.log(habits.find((obj) => obj.id === id).streak + 1);
-    console.log(habits.find((obj) => obj.id === id).completed);
-    console.log(testArray);
+    // console.log("After Update: ", testArray[objIndex]);
+    // console.log(habits.find((obj) => obj.id === id).streak + 1);
+    // console.log(habits.find((obj) => obj.id === id).completed);
+    // console.log(testArray);
     let tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
     let day = tomorrowDate.getDate();
     let month = tomorrowDate.getMonth() + 1;
     let year = tomorrowDate.getFullYear();
-    console.log(month + "/" + day + "/" + year);
+    // console.log(month + "/" + day + "/" + year);
     let todayDate = new Date();
     let todayDay = todayDate.getDate();
     let todayMonth = todayDate.getMonth() + 1;
@@ -106,7 +102,7 @@ const Streak = ({
     let todayMonth = todayDate.getMonth() + 1;
     let todayYear = todayDate.getFullYear();
     let today = todayMonth + "/" + todayDay + "/" + todayYear;
-    console.log("id stored date: " + testArray[objIndex].storeDate);
+    // console.log("id stored date: " + testArray[objIndex].storeDate);
     if (today === testArray[objIndex].tomorrowDate) {
       testArray[objIndex].completed = false;
       setLocalCompleted(false);
@@ -123,7 +119,7 @@ const Streak = ({
       setLocalStoreDate();
       setLocalStreak(0);
     }
-    console.log(testArray);
+    // console.log(testArray);
     const set = async () => {
       setHabits(testArray);
       await AsyncStorage.setItem("Habits", JSON.stringify(testArray));
@@ -151,7 +147,18 @@ const Streak = ({
             }}
           >
             <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
-              <SettingOpenCircle />
+              <View hitSlop={10}>
+                <View
+                  style={{
+                    right:
+                      Platform.OS === "ios"
+                        ? moderateScale(5)
+                        : moderateScale(32),
+                  }}
+                >
+                  <SettingOpenCircle />
+                </View>
+              </View>
             </TouchableOpacity>
             {deleteVisible === true ? (
               <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
@@ -159,7 +166,10 @@ const Streak = ({
                   style={{
                     width: moderateScale(50),
                     height: moderateScale(30),
-                    right: moderateScale(15),
+                    right:
+                      Platform.OS === "ios"
+                        ? moderateScale(18)
+                        : moderateScale(42),
                     backgroundColor: colorTheme.accents,
                     borderRadius: moderateScale(10),
                     justifyContent: "center",
@@ -252,12 +262,11 @@ const Streak = ({
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "#FFF",
     padding: moderateScale(14),
     shadowOpacity: 0.3,
     shadowRadius: 4,
     left: moderateScale(18),
-    width: moderateScale(345),
+    width: "90.5%", // moderateScale(345)
     height: moderateScale(130),
     borderRadius: moderateScale(20),
     justifyContent: "space-between",
@@ -277,7 +286,7 @@ const styles = StyleSheet.create({
   },
   accomplished: {
     fontSize: moderateScale(20),
-    marginTop: 10,
+    marginTop: moderateScale(9),
     fontFamily: "NotoSans_700Bold",
   },
 });

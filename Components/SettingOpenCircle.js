@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
 
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   row: {
     bottom: 5,
     flexDirection: "row",
+    right: Platform.OS === "ios" ? moderateScale(2) : moderateScale(0),
   },
 });
 

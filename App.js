@@ -1,11 +1,9 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
+import React, { useState, useEffect, createContext } from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OnBoardingScreen from "./screens/OnBoardingScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import BottomTabNavigator, {
   HomeTabNavigator,
 } from "./navigation/LoginNavigator";

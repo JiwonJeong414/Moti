@@ -1,25 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Platform,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Alert,
-} from "react-native";
-import { BlurView } from "expo-blur";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import DatePicker from "react-native-neat-date-picker";
-import Events from "./Events";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
 import Streak from "../Components/Streak";
-import SettingOpenCircle from "./SettingOpenCircle";
-import { AntDesign } from "@expo/vector-icons";
-import Completed from "../Components/Completed";
 import { RootContext } from "../config/RootContext";
 
 const Habits = ({ widgetTitle }) => {

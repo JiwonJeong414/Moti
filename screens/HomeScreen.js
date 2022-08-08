@@ -1,27 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Dimensions,
-  Animated,
-} from "react-native";
-import Task from "../Components/Task";
+import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Todo from "../Components/Todo";
 import CustomDatePicker from "../Components/CustomDatePicker";
 import Quotes from "../Components/Quotes";
 import BannerAndIcon from "../Components/BannerAndIcon";
 import { RootContext } from "../config/RootContext";
-import ListItemDeleteAction from "../Components/ListItemDeleteAction";
 import { moderateScale } from "react-native-size-matters";
-import Modal from "react-native-modal";
 import Habits from "../Components/Habits";
 import SettingModal from "../Components/SettingModal";
-import { Button, IconButton, TextInput } from "react-native-paper";
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,
@@ -31,10 +18,6 @@ import {
 const HomeScreen = ({ navigation, route }) => {
   const [myName, setMyName] = useState();
   const { onboarded, colorTheme, textTheme } = React.useContext(RootContext);
-  const [task, setTask] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [testData, setTestData] = useState([]);
 
   const fullHeight = Dimensions.get("window").height;
 
@@ -119,7 +102,7 @@ const styles = StyleSheet.create({
     paddingTop: moderateScale(24),
   },
   divider: {
-    width: moderateScale(327),
+    width: "87%", // moderateScale(327)
     left: moderateScale(24),
     height: moderateScale(1),
     backgroundColor: "gray",

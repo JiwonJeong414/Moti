@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import quotes from "../quotes.json";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import { moderateScale } from "react-native-size-matters";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   NotoSans_400Regular,

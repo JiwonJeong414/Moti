@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -54,7 +54,7 @@ const ProfileInput = ({
         allowsEditing: true,
         aspect: [224, 224],
       });
-      console.log(result.uri);
+      // console.log(result.uri);
       if (!result.cancelled) {
         await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
         onChangeImage(result.uri);

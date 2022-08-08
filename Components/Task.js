@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { moderateScale } from "react-native-size-matters";
 import {
@@ -13,7 +7,7 @@ import {
   NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/noto-sans";
-import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import ListItemDeleteAction from "./ListItemDeleteAction";
 import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -33,7 +27,6 @@ const Task = ({ text, item, completed, id, deleteitem }) => {
       retrieveData = JSON.parse(retrieveData);
       let objIndex = retrieveData.findIndex((obj) => obj.id === id);
       setCompletedVisible(retrieveData[objIndex].completed);
-      console.log(retrieveData);
     };
     retrieveTodoItems();
   }, []);
@@ -44,7 +37,6 @@ const Task = ({ text, item, completed, id, deleteitem }) => {
     testArray[objIndex].completed = !completedVisible;
     setCompletedVisible(!completedVisible);
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(testArray));
-    console.log(testArray);
   };
 
   if (!fontsLoaded) {
@@ -68,27 +60,29 @@ const Task = ({ text, item, completed, id, deleteitem }) => {
       >
         <View style={styles.itemLeft}>
           <TouchableWithoutFeedback onPress={handleComplete}>
-            <View
-              style={[
-                styles.square,
-                {
-                  borderColor: colorTheme.accents,
-                },
-              ]}
-            >
-              {completedVisible === true ? (
-                <AntDesign
-                  name="close"
-                  size={moderateScale(23)}
-                  style={{
-                    color: colorTheme.neutral,
-                    right: moderateScale(2),
-                    bottom: moderateScale(2),
-                  }}
-                />
-              ) : (
-                <></>
-              )}
+            <View hitSlop={10}>
+              <View
+                style={[
+                  styles.square,
+                  {
+                    borderColor: colorTheme.accents,
+                  },
+                ]}
+              >
+                {completedVisible === true ? (
+                  <AntDesign
+                    name="close"
+                    size={moderateScale(23)}
+                    style={{
+                      color: colorTheme.neutral,
+                      right: moderateScale(2),
+                      bottom: moderateScale(2),
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </View>
             </View>
           </TouchableWithoutFeedback>
           {completedVisible === true ? (
@@ -123,7 +117,7 @@ const styles = StyleSheet.create({
     padding: moderateScale(14),
     left: moderateScale(18),
     top: moderateScale(9),
-    width: moderateScale(345),
+    width: "90.5%",
     borderRadius: moderateScale(10),
     shadowOpacity: 0.3,
     shadowRadius: 4,

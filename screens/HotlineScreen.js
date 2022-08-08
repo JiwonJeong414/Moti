@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Button,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  TextInput,
   TouchableOpacity,
-  ScrollView,
+  Platform,
 } from "react-native";
-import { Entypo, Feather, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 import call from "react-native-phone-call";
 import {
@@ -19,7 +15,6 @@ import {
   useFonts,
 } from "@expo-google-fonts/noto-sans";
 import { moderateScale } from "react-native-size-matters";
-import { IconButton } from "react-native-paper";
 
 const HotlineScreen = () => {
   const { colorTheme, textTheme } = React.useContext(RootContext);
@@ -79,7 +74,15 @@ const HotlineScreen = () => {
     <View style={[styles.container, { backgroundColor: colorTheme.primary }]}>
       <View style={[styles.clipboard, { backgroundColor: colorTheme.neutral }]}>
         <View style={{ alignItems: "center" }}>
-          <Text style={[styles.hotline, { color: textTheme.text }]}>
+          <Text
+            style={{
+              color: textTheme.text,
+              marginTop:
+                Platform.OS === "ios" ? moderateScale(20) : moderateScale(10),
+              fontSize: moderateScale(35),
+              fontFamily: "NotoSans_700Bold",
+            }}
+          >
             HOTLINE
           </Text>
           <View style={styles.divider}></View>
@@ -291,9 +294,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   clipboard: {
-    marginTop: moderateScale(45),
+    marginTop: Platform.OS === "ios" ? moderateScale(45) : moderateScale(25),
     width: "87%",
-    height: "90%",
+    height: Platform.OS === "ios" ? moderateScale(645) : moderateScale(595),
     borderRadius: moderateScale(40),
     shadowOpacity: 0.3,
     shadowRadius: 4,

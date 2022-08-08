@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-  ActivityIndicator,
-  Dimensions,
-} from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Task from "./Task";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
-import { Swipeable } from "react-native-gesture-handler";
-import GestureRecognizer, {
-  swipeDirections,
-} from "react-native-swipe-gestures";
-import ListItemDeleteAction from "./ListItemDeleteAction";
 import { RootContext } from "../config/RootContext";
 
 const Todo = ({ widgetTitle }) => {
   const [task, setTask] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { testData, setTestData, textTheme } = React.useContext(RootContext);
 
   const setToDoItem = async (title) => {
@@ -44,10 +28,8 @@ const Todo = ({ widgetTitle }) => {
   };
 
   const handleAddTask = async (title) => {
-    setLoading(true);
     setToDoItem(title);
     setTask(null);
-    setLoading(false);
     setModalVisible(false);
   };
 
@@ -57,112 +39,88 @@ const Todo = ({ widgetTitle }) => {
   };
 
   return (
-    <>
-      {loading ? (
-        <ActivityIndicator
+    <View style={styles.container}>
+      <View style={styles.groupRow}>
+        <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
+          {widgetTitle}
+        </Text>
+        <IconButton
+          icon="sticker-plus"
+          onPress={handleModal}
+          color={textTheme.text}
           style={{
-            zIndex: 999,
-            position: "absolute",
-            width: Dimensions.get("window").width,
-            height: Dimensions.get("window").height,
-            backgroundColor: "lightgray",
-            opacity: 0.3,
+            right: moderateScale(15),
+            top: moderateScale(2),
           }}
-          animating={loading}
-          color={"black"}
         />
+      </View>
+      <Modal
+        isVisible={modalVisible}
+        animationIn="bounceIn"
+        animationOut="bounceOut"
+        useNativeDriver
+        hideModalContentWhileAnimating
+        onBackdropPress={() => setModalVisible(false)}
+        style={styles.modalBackground}
+      >
+        <View style={styles.modalHeader}>
+          <View style={styles.modal}>
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "NotoSans_400Regular",
+                fontSize: moderateScale(20),
+              }}
+            >
+              Add Task
+            </Text>
+          </View>
+          <TextInput
+            label="Task Title"
+            mode="outlined"
+            style={{ width: moderateScale(190) }}
+            value={task}
+            activeOutlineColor="#55BCF6"
+            onChangeText={(text) => setTask(text)}
+          />
+          <Button
+            mode="contained"
+            onPress={() => handleAddTask(task)}
+            style={{
+              position: "absolute",
+              left: moderateScale(200),
+              top: moderateScale(190),
+              backgroundColor: "#55BCF6",
+            }}
+          >
+            Add
+          </Button>
+        </View>
+      </Modal>
+      {testData != null ? (
+        testData.map((item) => {
+          return (
+            <TouchableWithoutFeedback key={item.id}>
+              <Task
+                text={item.title}
+                item={item}
+                completed={item.completed}
+                id={item.id}
+                deleteitem={deleteToDoItem}
+              />
+            </TouchableWithoutFeedback>
+          );
+        })
       ) : (
         <></>
       )}
-      <View style={styles.container}>
-        <View style={styles.groupRow}>
-          <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
-            {widgetTitle}
-          </Text>
-          <IconButton
-            icon="sticker-plus"
-            onPress={handleModal}
-            color={textTheme.text}
-            style={{
-              right: moderateScale(15),
-              top: moderateScale(2),
-            }}
-          />
-        </View>
-        <Modal
-          isVisible={modalVisible}
-          animationIn="bounceIn"
-          animationOut="bounceOut"
-          useNativeDriver
-          hideModalContentWhileAnimating
-          onBackdropPress={() => setModalVisible(false)}
-          style={styles.modalBackground}
-        >
-          <View style={styles.modalHeader}>
-            <View style={styles.modal}>
-              <Text
-                style={{
-                  color: "white",
-                  fontFamily: "NotoSans_400Regular",
-                  fontSize: moderateScale(20),
-                }}
-              >
-                Add Task
-              </Text>
-            </View>
-            <TextInput
-              label="Task Title"
-              mode="outlined"
-              style={{ width: moderateScale(190) }}
-              value={task}
-              activeOutlineColor="#55BCF6"
-              onChangeText={(text) => setTask(text)}
-            />
-            <Button
-              mode="contained"
-              onPress={() => handleAddTask(task)}
-              style={{
-                position: "absolute",
-                left: moderateScale(200),
-                top: moderateScale(190),
-                backgroundColor: "#55BCF6",
-              }}
-            >
-              Add
-            </Button>
-          </View>
-        </Modal>
-        {testData != null ? (
-          testData.map((item) => {
-            return (
-              <TouchableWithoutFeedback key={item.id}>
-                <Task
-                  text={item.title}
-                  item={item}
-                  completed={item.completed}
-                  id={item.id}
-                  deleteitem={deleteToDoItem}
-                />
-              </TouchableWithoutFeedback>
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  addButton: {
-    width: 24,
-    height: 24,
-    borderRadius: 40,
-    backgroundColor: "dodgerblue",
   },
   sectionTitle: {
     fontSize: moderateScale(22),
@@ -187,10 +145,6 @@ const styles = StyleSheet.create({
     width: moderateScale(270),
     height: moderateScale(240),
     backgroundColor: "#FFF",
-  },
-  addTodo: {
-    fontSize: 20,
-    fontWeight: "bold",
   },
   modal: {
     position: "absolute",

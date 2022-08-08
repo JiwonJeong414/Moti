@@ -3,23 +3,14 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-  Keyboard,
   ScrollView,
-  TouchableHighlight,
   TouchableWithoutFeedback,
 } from "react-native";
 import Completed from "../Components/Completed";
 import ColorPicker from "react-native-wheel-color-picker";
 import Modal from "react-native-modal";
-import { EventRegister } from "react-native-event-listeners";
-import { MaterialCommunityIcons, Entypo, AntDesign } from "@expo/vector-icons";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import { AntDesign } from "@expo/vector-icons";
+import { moderateScale } from "react-native-size-matters";
 import { Button } from "react-native-paper";
 import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -89,7 +80,7 @@ const TemplateColors = () => {
       colorTheme.primary = "#C2BFB5";
     } else {
       isCustom = true;
-      console.log("primary: " + primary);
+      // console.log("primary: " + primary);
       setCustomColorPrimary(primary);
     }
     if (isCustom === false) {
@@ -141,7 +132,7 @@ const TemplateColors = () => {
       colorTheme.neutral = "#C2BFB5";
     } else {
       isCustom = true;
-      console.log("neutral: " + neutral);
+      // console.log("neutral: " + neutral);
       setCustomColorNeutral(neutral);
     }
     if (isCustom === false) {
@@ -193,7 +184,7 @@ const TemplateColors = () => {
       colorTheme.accents = "#C2BFB5";
     } else {
       isCustom = true;
-      console.log("accents: " + accents);
+      // console.log("accents: " + accents);
       setCustomColor(accents);
     }
     if (isCustom === false) {
@@ -1086,7 +1077,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   pickedColor: {
-    width: moderateScale(62),
+    width: "17%",
     height: moderateScale(62),
     borderRadius: moderateScale(19),
     marginBottom: moderateScale(9),

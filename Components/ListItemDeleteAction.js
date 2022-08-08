@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 
 function ListItemDeleteAction({ onPress }) {
-  const { colorTheme, textTheme } = React.useContext(RootContext);
+  const { textTheme } = React.useContext(RootContext);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>

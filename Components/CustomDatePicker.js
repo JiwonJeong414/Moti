@@ -71,7 +71,6 @@ const CustomDatePicker = ({ widgetTitle }) => {
         ...events,
         { date: date, title: title, id: Math.random() },
       ];
-      console.log(newData);
       await AsyncStorage.setItem("Events", JSON.stringify(newData));
       setEvents(newData);
       setTitle(null);
