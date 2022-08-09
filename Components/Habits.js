@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     position: "absolute",
-    width: "100%",
+    width: "100.4%",
     justifyContent: "center",
     alignItems: "center",
     height: moderateScale(50),

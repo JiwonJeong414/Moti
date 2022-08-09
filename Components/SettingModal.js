@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     position: "absolute",
-    width: "100%",
+    width: "100.4%",
     justifyContent: "center",
     alignItems: "center",
     height: moderateScale(40),
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     marginRight: moderateScale(13),
   },
   itemText: {
-    maxWidth: moderateScale(260),
+    maxWidth: "80%",
     fontFamily: "NotoSans_400Regular",
   },
   circular: {

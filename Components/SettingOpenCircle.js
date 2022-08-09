@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    right: Platform.OS === "ios" ? moderateScale(2) : moderateScale(0),
   },
 });
 

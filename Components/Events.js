@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import SettingOpenCircle from "./SettingOpenCircle";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
+import { IconButton } from "react-native-paper";
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,
@@ -18,7 +12,6 @@ import {
 
 const Event = ({ date, index, length, title, deleteItem, item }) => {
   const { colorTheme, textTheme } = React.useContext(RootContext);
-  const [deleteVisible, setDeleteVisible] = useState(false);
   const [localdate, setLocaldate] = useState(date);
   const [calculateDate, setCalculateDate] = useState();
 
@@ -112,6 +105,13 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
 
   const margin = index + 1 === length ? moderateScale(4) : moderateScale(20);
 
+  const handleDelete = (item) => {
+    Alert.alert("Delete", "Are you sure you want to delete this event?", [
+      { text: "Yes", onPress: () => deleteItem(item) },
+      { text: "No" },
+    ]);
+  };
+
   if (!fontsLoaded) {
     return <></>;
   }
@@ -127,41 +127,9 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
       ]}
     >
       <View style={{ alignSelf: "flex-end" }}>
-        <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
-          <View hitSlop={10}>
-            <SettingOpenCircle />
-          </View>
+        <TouchableOpacity onPress={() => handleDelete(item)} hitSlop={40}>
+          <SettingOpenCircle />
         </TouchableOpacity>
-        {deleteVisible === true ? (
-          <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
-            <View
-              style={{
-                position: "absolute",
-                width: moderateScale(50),
-                height: moderateScale(30),
-                top:
-                  Platform.OS === "ios" ? moderateScale(7) : moderateScale(11),
-                right:
-                  Platform.OS === "ios" ? moderateScale(-4) : moderateScale(-8),
-                backgroundColor: colorTheme.accents,
-                borderRadius: moderateScale(10),
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "NotoSans_400Regular",
-                  color: textTheme.text,
-                }}
-              >
-                Delete
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        ) : (
-          <></>
-        )}
       </View>
       <View style={{ flexDirection: "column" }}>
         <Text style={[styles.itemText, { color: textTheme.text }]}>

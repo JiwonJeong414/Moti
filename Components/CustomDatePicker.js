@@ -259,36 +259,12 @@ const styles = StyleSheet.create({
     paddingLeft: moderateScale(18),
     paddingRight: moderateScale(9),
   },
-  title: {
-    width: 200,
-    height: 40,
-    backgroundColor: "tomato",
-    borderColor: "black",
-    borderWidth: 4,
-    marginBottom: 10,
-  },
-  date: {
-    width: 200,
-    height: 40,
-    backgroundColor: "tomato",
-    borderColor: "black",
-    borderWidth: 4,
-  },
   row: {
     flexDirection: "row",
   },
   modalBackground: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  closeButton: {
-    width: 140,
-    height: 55,
-    top: 190,
-    left: 150,
-    borderRadius: 20,
-    backgroundColor: "#553AF6",
-    position: "absolute",
   },
   modalHeader: {
     flexDirection: "column",
@@ -301,7 +277,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     position: "absolute",
-    width: "100%",
+    width: "100.4%",
     justifyContent: "center",
     alignItems: "center",
     height: moderateScale(50),

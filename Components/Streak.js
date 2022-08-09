@@ -128,9 +128,14 @@ const Streak = ({
     set();
   }, []);
 
-  // asyncstorage habit + title (cause having 2 of the same habit will be wierd)
-
   const [deleteVisible, setDeleteVisible] = useState(false);
+
+  const handleDelete = (item) => {
+    Alert.alert("Delete", "Are you sure you want to delete this habit?", [
+      { text: "Yes", onPress: () => deleteItem(item) },
+      { text: "No" },
+    ]);
+  };
 
   if (!fontsLoaded) {
     return <></>;
@@ -139,41 +144,9 @@ const Streak = ({
   return (
     <View style={[styles.item, { backgroundColor: colorTheme.primary }]}>
       <View style={{ alignSelf: "flex-end" }}>
-        <TouchableOpacity onPress={() => setDeleteVisible(!deleteVisible)}>
-          <View hitSlop={10}>
-            <SettingOpenCircle />
-          </View>
+        <TouchableOpacity onPress={() => handleDelete(item)} hitSlop={40}>
+          <SettingOpenCircle />
         </TouchableOpacity>
-        {deleteVisible === true ? (
-          <TouchableWithoutFeedback onPress={() => deleteItem(item)}>
-            <View
-              style={{
-                position: "absolute",
-                width: moderateScale(50),
-                height: moderateScale(30),
-                top:
-                  Platform.OS === "ios" ? moderateScale(7) : moderateScale(11),
-                right:
-                  Platform.OS === "ios" ? moderateScale(-4) : moderateScale(-8),
-                backgroundColor: colorTheme.accents,
-                borderRadius: moderateScale(10),
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "NotoSans_400Regular",
-                  color: textTheme.text,
-                }}
-              >
-                Delete
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        ) : (
-          <></>
-        )}
       </View>
       <View style={{ flexDirection: "column" }}>
         <Text style={[styles.itemText, { color: textTheme.text }]}>
@@ -191,6 +164,8 @@ const Streak = ({
             style={{
               fontSize: moderateScale(25),
               marginRight: moderateScale(10),
+              textAlign: "center",
+              maxWidth: "90%",
               color: textTheme.text,
             }}
           >
