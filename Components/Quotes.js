@@ -29,7 +29,7 @@ const Quotes = () => {
     const retrieveQuoteID = async () => {
       let retrieveQuoteID = await AsyncStorage.getItem("Number");
       retrieveQuoteID = JSON.parse(retrieveQuoteID);
-      if (retrieveQuoteID === quotesData.length) handleIdNumber(0);
+      if (retrieveQuoteID == quotesData.length) handleIdNumber(0);
       else handleIdNumber(retrieveQuoteID);
     };
     retrieveQuoteID();
@@ -41,7 +41,7 @@ const Quotes = () => {
     return <></>;
   }
 
-  let item = quotesData.find((item) => item.id === "" + idNumber);
+  let item = quotesData.find((item) => item.id == idNumber);
 
   return (
     <View style={styles.container}>

@@ -131,7 +131,7 @@ const Streak = ({
   const [deleteVisible, setDeleteVisible] = useState(false);
 
   const handleDelete = (item) => {
-    Alert.alert("Delete", "Are you sure you want to delete this habit?", [
+    Alert.alert("Delete", "Do you want to delete this habit?", [
       { text: "Yes", onPress: () => deleteItem(item) },
       { text: "No" },
     ]);

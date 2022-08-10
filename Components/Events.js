@@ -106,7 +106,7 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
   const margin = index + 1 === length ? moderateScale(4) : moderateScale(20);
 
   const handleDelete = (item) => {
-    Alert.alert("Delete", "Are you sure you want to delete this event?", [
+    Alert.alert("Delete", "Do you want to delete this event?", [
       { text: "Yes", onPress: () => deleteItem(item) },
       { text: "No" },
     ]);

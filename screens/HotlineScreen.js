@@ -163,7 +163,7 @@ const HotlineScreen = () => {
                 />
               </TouchableOpacity>
               <Text style={[styles.itemText, { color: textTheme.text }]}>
-                Assualt Hotline
+                Assault Hotline
               </Text>
             </View>
             <View
