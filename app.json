@@ -23,8 +23,8 @@
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.jiwonjeong414.moti",
-      "versionCode": 2
+      "package": "com.jiwonjeong.moti",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"
