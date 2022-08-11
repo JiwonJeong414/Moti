@@ -11,7 +11,7 @@ const BannerAndIcon = () => {
   const [profileUri, setProfileUri] = useState();
 
   const requestPermision = async () => {
-    const { granted } = await ImagePicker.requestCameraPermissionsAsync();
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!granted) alert("You need to enable permission to access the library.");
   };
 

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "expo-app",
-    "slug": "expo-app",
-    "version": "1.0.0",
+    "name": "Moti Dashboard",
+    "slug": "Moti-Dashboard",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,9 +18,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.jiwonjeong414.moti",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.1",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "This app lets you browse and edit photos from your library"
+      }
     },
     "android": {
       "package": "com.jiwonjeong.moti",

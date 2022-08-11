@@ -28,8 +28,7 @@ const ProfileInput = ({
   }, []);
 
   const requestPermision = async () => {
-    const { granted } = await ImagePicker.requestCameraPermissionsAsync();
-    if (!granted) alert("You need to enable permission to access the library.");
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
   };
 
   const handlePress = () => {
