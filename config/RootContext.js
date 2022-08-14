@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 export const RootContext = React.createContext({
   onbarded: false,
@@ -11,4 +12,5 @@ export const RootContext = React.createContext({
   setHabits: () => {},
   testData: [],
   setTestData: () => {},
+  continuousDate: moment().format("YYYY/MM/DD"),
 });

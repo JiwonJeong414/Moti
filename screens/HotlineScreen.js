@@ -66,7 +66,7 @@ const HotlineScreen = () => {
   };
 
   const SaySomething = {
-    number: "8445", // String value with the number to call
+    number: "8445723663", // String value with the number to call
     prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
     skipCanOpen: true, // Skip the canOpenURL check
   };

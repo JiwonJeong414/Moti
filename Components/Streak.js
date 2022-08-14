@@ -18,6 +18,7 @@ import {
   NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/noto-sans";
+import moment from "moment";
 
 const Streak = ({
   title,
@@ -34,7 +35,7 @@ const Streak = ({
   const [localStoreDate, setLocalStoreDate] = useState(storeDate);
   const [localTomorrowDate, setLocalTomorrowDate] = useState(tomorrowDate);
 
-  const { colorTheme, habits, setHabits, textTheme } =
+  const { colorTheme, habits, setHabits, textTheme, continuousDate } =
     React.useContext(RootContext);
 
   let [fontsLoaded] = useFonts({
@@ -67,68 +68,53 @@ const Streak = ({
     } else if (localStreak + 1 === 365) {
       Alert.alert("Congratulations! You hit a 365-day streak!");
     }
-    let testArray = habits;
-    let objIndex = testArray.findIndex((obj) => obj.id === id);
-    // console.log("Before Update: ", testArray[objIndex]);
-    testArray[objIndex].streak += 1;
-    testArray[objIndex].completed = true;
-    // console.log("After Update: ", testArray[objIndex]);
-    // console.log(habits.find((obj) => obj.id === id).streak + 1);
-    // console.log(habits.find((obj) => obj.id === id).completed);
-    // console.log(testArray);
-    let tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-    let day = tomorrowDate.getDate();
-    let month = tomorrowDate.getMonth() + 1;
-    let year = tomorrowDate.getFullYear();
-    // console.log(month + "/" + day + "/" + year);
-    let todayDate = new Date();
-    let todayDay = todayDate.getDate();
-    let todayMonth = todayDate.getMonth() + 1;
-    let todayYear = todayDate.getFullYear();
-    setLocalStoreDate(todayMonth + "/" + todayDay + "/" + todayYear);
-    setLocalTomorrowDate(month + "/" + day + "/" + year);
-    testArray[objIndex].storeDate =
-      todayMonth + "/" + todayDay + "/" + todayYear;
-    testArray[objIndex].tomorrowDate = month + "/" + day + "/" + year;
-    setHabits(testArray);
-    await AsyncStorage.setItem("Habits", JSON.stringify(testArray));
+    let habitsArray = habits;
+    let objIndex = habitsArray.findIndex((obj) => obj.id === id);
+    habitsArray[objIndex].streak += 1;
+    habitsArray[objIndex].completed = true;
+    let todayDate = moment().format("YYYY/MM/DD");
+    let tomorrowDate = moment().add(1, "d").format("YYYY/MM/DD");
+    setLocalStoreDate(todayDate);
+    setLocalTomorrowDate(tomorrowDate);
+    habitsArray[objIndex].storeDate = todayDate;
+    habitsArray[objIndex].tomorrowDate = tomorrowDate;
+    setHabits(habitsArray);
+    await AsyncStorage.setItem("Habits", JSON.stringify(habitsArray));
     // alert when reached milestone
   };
 
   useEffect(() => {
-    let testArray = habits;
-    let objIndex = testArray.findIndex((obj) => obj.id === id);
-    let todayDate = new Date();
-    let todayDay = todayDate.getDate();
-    let todayMonth = todayDate.getMonth() + 1;
-    let todayYear = todayDate.getFullYear();
-    let today = todayMonth + "/" + todayDay + "/" + todayYear;
-    // console.log("id stored date: " + testArray[objIndex].storeDate);
-    if (today === testArray[objIndex].tomorrowDate) {
-      testArray[objIndex].completed = false;
+    let habitsArray = habits;
+    let objIndex = habitsArray.findIndex((obj) => obj.id === id);
+    let todayDate = moment().format("YYYY/MM/DD");
+    console.log(habitsArray);
+    // console.log("id stored date: " + habitsArray[objIndex].storeDate);
+    if (todayDate === habitsArray[objIndex].tomorrowDate) {
+      habitsArray[objIndex].completed = false;
       setLocalCompleted(false);
     } else if (
-      testArray[objIndex].storeDate != undefined &&
-      today !== testArray[objIndex].storeDate
+      habitsArray[objIndex].storeDate !== "" &&
+      todayDate !== habitsArray[objIndex].storeDate
     ) {
-      testArray[objIndex].tomorrowDate = "";
-      testArray[objIndex].storeDate = "";
-      testArray[objIndex].streak = 0;
-      testArray[objIndex].completed = false;
+      // Alert.alert(
+      //   "Oh no! You missed a day and lost your streak for " +
+      //     habitsArray[objIndex].title
+      // );
+      habitsArray[objIndex].tomorrowDate = "";
+      habitsArray[objIndex].storeDate = "";
+      habitsArray[objIndex].streak = 0;
+      habitsArray[objIndex].completed = false;
       setLocalCompleted(false);
       setLocalTomorrowDate();
       setLocalStoreDate();
       setLocalStreak(0);
     }
-    // console.log(testArray);
     const set = async () => {
-      setHabits(testArray);
-      await AsyncStorage.setItem("Habits", JSON.stringify(testArray));
+      setHabits(habitsArray);
+      await AsyncStorage.setItem("Habits", JSON.stringify(habitsArray));
     };
     set();
-  }, []);
-
-  const [deleteVisible, setDeleteVisible] = useState(false);
+  }, [continuousDate]);
 
   const handleDelete = (item) => {
     Alert.alert("Delete", "Do you want to delete this habit?", [

@@ -10,6 +10,7 @@ import BottomTabNavigator, {
 import { RootContext } from "./config/RootContext";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ActivityIndicator } from "react-native-paper";
+import moment from "moment";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,20 @@ function RootNavigator() {
   const [quoteColor, setQuoteColor] = useState();
   const [habits, setHabits] = useState([]);
   const [testData, setTestData] = useState([]);
+  const [continuousDate, setContinuousDate] = useState(
+    moment().format("YYYY/MM/DD")
+  );
+
+  useEffect(() => {
+    let date = moment().format("YYYY/MM/DD");
+    setInterval(() => {
+      date = moment().format("YYYY/MM/DD");
+      if (date !== continuousDate) {
+        console.log(date + "  " + continuousDate);
+        setContinuousDate(date);
+      }
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     let colorTheme = {
@@ -189,6 +204,7 @@ function RootNavigator() {
         setHabits: setHabits,
         testData: testData,
         setTestData: setTestData,
+        continuousDate: continuousDate,
       }}
     >
       {loading === true ? (

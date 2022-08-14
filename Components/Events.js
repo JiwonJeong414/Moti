@@ -9,9 +9,11 @@ import {
   NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/noto-sans";
+import moment from "moment";
 
 const Event = ({ date, index, length, title, deleteItem, item }) => {
-  const { colorTheme, textTheme } = React.useContext(RootContext);
+  const { colorTheme, textTheme, continuousDate } =
+    React.useContext(RootContext);
   const [localdate, setLocaldate] = useState(date);
   const [calculateDate, setCalculateDate] = useState();
 
@@ -21,17 +23,14 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
   });
 
   useEffect(() => {
-    let today = new Date();
+    let today = moment().format("YYYY-MM-DD");
     // setinterval to calculate date every 1 second or just pull to refresh
-    let day = today.getDate();
-    let month = today.getMonth();
-    let year = today.getFullYear();
-    let myToday = calculate(year + "-" + (month + 1) + "-" + day);
+    let myToday = calculate(today);
     let myDate = calculate(localdate);
     // console.log("myToday: " + myToday);
     // console.log("myDate: " + myDate);
     setCalculateDate(myDate - myToday);
-  }, []);
+  }, [continuousDate]);
 
   const calculate = (text) => {
     const selectedDate = text.split("-");

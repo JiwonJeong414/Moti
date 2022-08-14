@@ -6,7 +6,6 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from "react-native";
-import { BlurView } from "expo-blur";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-neat-date-picker";
