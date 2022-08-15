@@ -20,28 +20,28 @@ import {
 } from "@expo-google-fonts/noto-sans";
 import moment from "moment";
 
-const Streak = ({
-  title,
-  deleteItem,
-  streak,
-  completed,
-  storeDate,
-  tomorrowDate,
-  id,
-  item,
-}) => {
+const Streak = ({ title, deleteItem, streak, completed, id, item }) => {
   const [localStreak, setLocalStreak] = useState(streak);
   const [localCompleted, setLocalCompleted] = useState(completed);
-  const [localStoreDate, setLocalStoreDate] = useState(storeDate);
-  const [localTomorrowDate, setLocalTomorrowDate] = useState(tomorrowDate);
 
-  const { colorTheme, textTheme, continuousDate } =
+  const { colorTheme, habits, setHabits, textTheme, continuousDate } =
     React.useContext(RootContext);
 
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
     NotoSans_700Bold,
   });
+
+  useEffect(() => {
+    const retrieveHabitItems = async () => {
+      let retrieveData = await AsyncStorage.getItem("Habits");
+      retrieveData = JSON.parse(retrieveData);
+      let objIndex = retrieveData.findIndex((obj) => obj.id === id);
+      setLocalStreak(retrieveData[objIndex].streak);
+      setLocalCompleted(retrieveData[objIndex].completed);
+    };
+    retrieveHabitItems();
+  }, [localCompleted]);
 
   const handleComplete = async () => {
     setLocalCompleted(true);
@@ -55,39 +55,38 @@ const Streak = ({
     } else if (localStreak + 1 === 365) {
       Alert.alert("Congratulations! You hit a 365-day streak!");
     }
-    let habitsArray = item;
-    habitsArray.streak += 1;
-    habitsArray.completed = true;
+    let habitsArray = habits; // have to have this b/c we have to modify from the entire array
+    let objIndex = habitsArray.findIndex((obj) => obj.id === id);
+    habitsArray[objIndex].streak += 1;
+    habitsArray[objIndex].completed = true;
     let todayDate = moment().format("YYYY/MM/DD");
     let tomorrowDate = moment().add(1, "d").format("YYYY/MM/DD");
-    setLocalStoreDate(todayDate);
-    setLocalTomorrowDate(tomorrowDate);
-    habitsArray.storeDate = todayDate;
-    habitsArray.tomorrowDate = tomorrowDate;
+    habitsArray[objIndex].storeDate = todayDate;
+    habitsArray[objIndex].tomorrowDate = tomorrowDate;
+    setHabits(habitsArray);
     await AsyncStorage.setItem("Habits", JSON.stringify(habitsArray));
   };
 
   useEffect(() => {
-    let habitsArray = item;
-    console.log(item);
+    let habitsArray = habits;
+    let objIndex = habitsArray.findIndex((obj) => obj.id === id);
     let todayDate = moment().format("YYYY/MM/DD");
-    if (todayDate === habitsArray.tomorrowDate) {
-      habitsArray.completed = false;
+    if (todayDate === habitsArray[objIndex].tomorrowDate) {
+      habitsArray[objIndex].completed = false;
       setLocalCompleted(false);
     } else if (
-      habitsArray.storeDate !== "" &&
-      todayDate !== habitsArray.storeDate
+      habitsArray[objIndex].storeDate !== "" &&
+      todayDate !== habitsArray[objIndex].storeDate
     ) {
-      habitsArray.tomorrowDate = "";
-      habitsArray.storeDate = "";
-      habitsArray.streak = 0;
-      habitsArray.completed = false;
+      habitsArray[objIndex].tomorrowDate = "";
+      habitsArray[objIndex].storeDate = "";
+      habitsArray[objIndex].streak = 0;
+      habitsArray[objIndex].completed = false;
       setLocalCompleted(false);
-      setLocalTomorrowDate();
-      setLocalStoreDate();
       setLocalStreak(0);
     }
     const set = async () => {
+      setHabits(habitsArray);
       await AsyncStorage.setItem("Habits", JSON.stringify(habitsArray));
     };
     set();

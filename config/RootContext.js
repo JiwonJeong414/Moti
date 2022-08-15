@@ -8,6 +8,8 @@ export const RootContext = React.createContext({
   setColorTheme: () => {},
   textTheme: "",
   setTextTheme: () => {},
+  habits: [],
+  setHabits: () => {},
   testData: [],
   setTestData: () => {},
   continuousDate: moment().format("YYYY/MM/DD"),
