@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -6,11 +6,48 @@ import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
 import Streak from "../Components/Streak";
 import { RootContext } from "../config/RootContext";
+import moment from "moment";
 
 const Habits = ({ widgetTitle }) => {
+  const { textTheme } = React.useContext(RootContext);
   const [modal, showModal] = useState(false);
   const [title, setTitle] = useState();
-  const { habits, setHabits, textTheme } = React.useContext(RootContext);
+  const [habits, setHabits] = useState([]);
+
+  useEffect(() => {
+    const retrieveHabits = async () => {
+      let retrieveData = await AsyncStorage.getItem("Habits");
+      retrieveData = JSON.parse(retrieveData);
+      let todayDate = moment().format("YYYY/MM/DD");
+      let tomorrowDate = moment().add(1, "d").format("YYYY/MM/DD");
+      if (retrieveData == null)
+        firstLoginHabits([
+          {
+            id: Math.random(),
+            title: "Organize My Room",
+            streak: 2,
+            completed: true,
+            storeDate: todayDate,
+            tomorrowDate: tomorrowDate,
+          },
+          {
+            id: Math.random(),
+            title: "Drink Water",
+            streak: 0,
+            completed: false,
+            storeDate: todayDate,
+            tomorrowDate: tomorrowDate,
+          },
+        ]);
+      else setHabits(retrieveData);
+    };
+    retrieveHabits();
+  }, []);
+
+  const firstLoginHabits = async (array) => {
+    await AsyncStorage.setItem("Habits", JSON.stringify(array));
+    setHabits(array);
+  };
 
   const handleAdd = async () => {
     showModal(false);

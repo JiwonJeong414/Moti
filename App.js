@@ -36,7 +36,6 @@ function RootNavigator() {
   const [accents, setAccents] = useState();
   const [textColor, setTextColor] = useState();
   const [quoteColor, setQuoteColor] = useState();
-  const [habits, setHabits] = useState([]);
   const [testData, setTestData] = useState([]);
   const [continuousDate, setContinuousDate] = useState(
     moment().format("YYYY/MM/DD")
@@ -47,10 +46,9 @@ function RootNavigator() {
     setInterval(() => {
       date = moment().format("YYYY/MM/DD");
       if (date !== continuousDate) {
-        console.log(date + "  " + continuousDate);
         setContinuousDate(date);
       }
-    }, 1000);
+    }, 60000);
   }, []);
 
   useEffect(() => {
@@ -112,39 +110,6 @@ function RootNavigator() {
   }, []);
 
   useEffect(() => {
-    const retrieveHabits = async () => {
-      let retrieveData = await AsyncStorage.getItem("Habits");
-      retrieveData = JSON.parse(retrieveData);
-      let tomorrowDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-      let day = tomorrowDate.getDate();
-      let month = tomorrowDate.getMonth() + 1;
-      let year = tomorrowDate.getFullYear();
-      let todayDate = new Date();
-      let todayDay = todayDate.getDate();
-      let todayMonth = todayDate.getMonth() + 1;
-      let todayYear = todayDate.getFullYear();
-      if (retrieveData == null)
-        firstLoginHabits([
-          {
-            id: Math.random(),
-            title: "Organize My Room",
-            streak: 2,
-            completed: true,
-            storeDate: todayMonth + "/" + todayDay + "/" + todayYear,
-            tomorrowDate: month + "/" + day + "/" + year,
-          },
-          {
-            id: Math.random(),
-            title: "Drink Water",
-            streak: 0,
-            completed: false,
-            storeDate: todayMonth + "/" + todayDay + "/" + todayYear,
-            tomorrowDate: month + "/" + day + "/" + year,
-          },
-        ]);
-      else setHabits(retrieveData);
-    };
-    retrieveHabits();
     const retrieveTodo = async () => {
       let retrieveData = await AsyncStorage.getItem("ToDoItems");
       retrieveData = JSON.parse(retrieveData);
@@ -166,11 +131,6 @@ function RootNavigator() {
     };
     retrieveTodo();
   }, []);
-
-  const firstLoginHabits = async (array) => {
-    await AsyncStorage.setItem("Habits", JSON.stringify(array));
-    setHabits(array);
-  };
 
   const firstLoginTodo = async (array) => {
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(array));
@@ -200,8 +160,6 @@ function RootNavigator() {
         setColorTheme: setColorTheme,
         textTheme: textTheme,
         setTextTheme: setTextTheme,
-        habits: habits,
-        setHabits: setHabits,
         testData: testData,
         setTestData: setTestData,
         continuousDate: continuousDate,

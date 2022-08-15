@@ -16,6 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 
 const CustomDatePicker = ({ widgetTitle }) => {
+  const { textTheme } = React.useContext(RootContext);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [title, setTitle] = useState();
   const [date, setDate] = useState(null);
@@ -40,6 +41,22 @@ const CustomDatePicker = ({ widgetTitle }) => {
     setEvents(array);
   };
 
+  const handleAdd = async () => {
+    if (date === null) {
+      Alert.alert("You need to select a date");
+    } else {
+      showModal(false);
+      let newData = [
+        ...events,
+        { date: date, title: title, id: Math.random() },
+      ];
+      await AsyncStorage.setItem("Events", JSON.stringify(newData));
+      setEvents(newData);
+      setTitle(null);
+      setDate(null);
+    }
+  };
+
   const deleteEventItem = async (item) => {
     let newDataArray = events.filter((obj) => obj.id != item.id);
     await AsyncStorage.setItem("Events", JSON.stringify(newDataArray));
@@ -60,28 +77,10 @@ const CustomDatePicker = ({ widgetTitle }) => {
     setShowDatePicker(false);
   };
 
-  const handleAdd = async () => {
-    if (date === null) {
-      Alert.alert("You need to select a date");
-    } else {
-      showModal(false);
-      let newData = [
-        ...events,
-        { date: date, title: title, id: Math.random() },
-      ];
-      await AsyncStorage.setItem("Events", JSON.stringify(newData));
-      setEvents(newData);
-      setTitle(null);
-      setDate(null);
-    }
-  };
-
   const onConfirm = (date) => {
     setShowDatePicker(false);
     setDate(date.dateString);
   };
-
-  const { textTheme } = React.useContext(RootContext);
 
   return (
     <View style={styles.container}>
