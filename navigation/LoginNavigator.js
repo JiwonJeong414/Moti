@@ -33,7 +33,7 @@ export default function BottomTabNavigator({ navigation }) {
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
               name="home"
-              size={moderateScale(20)}
+              size={moderateScale(25)}
               color={textTheme.text}
             />
           ),

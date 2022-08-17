@@ -67,17 +67,15 @@ const ImageInput = ({
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={container}>
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && (
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            source={{ uri: imageUri }}
+          />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});
 
 export default ImageInput;
