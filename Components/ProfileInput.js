@@ -10,12 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ProfileInput = ({
-  imageUri,
-  onChangeImage,
-  container,
-  asyncStorageName,
-}) => {
+const ProfileInput = ({ imageUri, onChangeImage, container }) => {
   useEffect(() => {
     const retrieveImage = async () => {
       let retrieveImage = await AsyncStorage.getItem("Profile");
@@ -23,13 +18,8 @@ const ProfileInput = ({
       if (retrieveImage == null) onChangeImage(null);
       else onChangeImage(retrieveImage);
     };
-    requestPermision();
     retrieveImage();
-  }, []);
-
-  const requestPermision = async () => {
-    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  };
+  }, [imageUri]);
 
   const handlePress = () => {
     if (!imageUri) selectImage();
@@ -53,7 +43,6 @@ const ProfileInput = ({
         allowsEditing: true,
         aspect: [224, 224],
       });
-      // console.log(result.uri);
       if (!result.cancelled) {
         await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
         onChangeImage(result.uri);

@@ -14,6 +14,7 @@ import {
   NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/noto-sans";
+import LottieView from "lottie-react-native";
 
 const HomeScreen = ({ navigation, route }) => {
   const [myName, setMyName] = useState();
@@ -84,6 +85,12 @@ const HomeScreen = ({ navigation, route }) => {
             <Todo widgetTitle="Todo" />
           </View>
           <Habits widgetTitle="Habits" />
+          <LottieView
+            source={require("../assets/lottie/fire-emoji.json")}
+            style={{ width: 100, height: 100 }}
+            autoPlay
+            loop
+          />
         </View>
       </View>
     </ScrollView>
