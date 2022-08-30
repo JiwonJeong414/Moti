@@ -9,13 +9,9 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { moderateScale } from "react-native-size-matters";
 
-const ImageInput = ({
-  imageUri,
-  onChangeImage,
-  container,
-  asyncStorageName,
-}) => {
+const ImageInput = ({ imageUri, onChangeImage }) => {
   useEffect(() => {
     const retrieveImage = async () => {
       let retrieveImage = await AsyncStorage.getItem("Image");
@@ -48,8 +44,7 @@ const ImageInput = ({
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
+        quality: 0.2,
         allowsEditing: true,
         aspect: [654, 489],
       });
@@ -65,12 +60,24 @@ const ImageInput = ({
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={container}>
+      <View
+        style={{
+          height: moderateScale(244.5),
+          width: moderateScale(327),
+          borderRadius: moderateScale(24),
+          marginTop: moderateScale(45),
+          alignItems: "center",
+          backgroundColor: "gray",
+          justifyContent: "center",
+          overflow: "hidden",
+        }}
+      >
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
         {imageUri && (
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
+            onError={() => Alert.alert(imageUri)}
           />
         )}
       </View>

@@ -18,6 +18,11 @@
         "appleId": "ygirll@hanmail.net",
         "ascAppId": "1638973747",
         "appleTeamId": "8R3T45NWHL"
+      },
+      "android": {
+        "keystore": {
+          "keystorePath": "../Apps/keystore.jks"
+        }
       }
     }
   }

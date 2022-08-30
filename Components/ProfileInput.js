@@ -9,13 +9,12 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RootContext } from "../config/RootContext";
+import { moderateScale } from "react-native-size-matters";
 
-const ProfileInput = ({
-  imageUri,
-  onChangeImage,
-  container,
-  asyncStorageName,
-}) => {
+const ProfileInput = ({ imageUri, onChangeImage }) => {
+  const { textTheme } = React.useContext(RootContext);
+
   useEffect(() => {
     const retrieveImage = async () => {
       let retrieveImage = await AsyncStorage.getItem("Profile");
@@ -48,8 +47,7 @@ const ProfileInput = ({
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
+        quality: 0.2,
         allowsEditing: true,
         aspect: [224, 224],
       });
@@ -65,7 +63,21 @@ const ProfileInput = ({
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={container}>
+      <View
+        style={{
+          position: "absolute",
+          bottom: moderateScale(-40),
+          width: moderateScale(112),
+          height: moderateScale(112),
+          borderRadius: moderateScale(100),
+          borderWidth: moderateScale(3),
+          alignItems: "center",
+          backgroundColor: "gray",
+          overflow: "hidden",
+          justifyContent: "center",
+          borderColor: textTheme.text,
+        }}
+      >
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
         {imageUri && (
           <Image
