@@ -20,9 +20,7 @@
         "appleTeamId": "8R3T45NWHL"
       },
       "android": {
-        "keystore": {
-          "keystorePath": "../Apps/keystore.jks"
-        }
+        "serviceAccountKeyPath": "../Moti-Keystore/pc-api-4859006163950391290-986-19a1e15ae6b7.json"
       }
     }
   }
