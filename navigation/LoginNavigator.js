@@ -7,12 +7,14 @@ import HotlineScreen from "../screens/HotlineScreen";
 import { moderateScale } from "react-native-size-matters";
 import {
   MaterialCommunityIcons,
+  MaterialIcons,
   Feather,
   FontAwesome5,
 } from "@expo/vector-icons";
 import TemplateColorsScreen from "../screens/TemplateColorsScreen";
 import { RootContext } from "../config/RootContext";
 import TextColorScreen from "../screens/TextColorScreen";
+import MoodScreen from "../screens/MoodScreen";
 
 const BottomTab = createMaterialBottomTabNavigator();
 
@@ -26,6 +28,20 @@ export default function BottomTabNavigator({ navigation }) {
       barStyle={{ backgroundColor: colorTheme.accents }}
     >
       <BottomTab.Screen
+        name="Mood"
+        component={MoodScreen}
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons
+              name="mood"
+              size={moderateScale(24.2)}
+              color={textTheme.text}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
         name="Home"
         component={HomeTabNavigator}
         options={{
@@ -33,7 +49,7 @@ export default function BottomTabNavigator({ navigation }) {
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
               name="home"
-              size={moderateScale(20)}
+              size={moderateScale(25)}
               color={textTheme.text}
             />
           ),
