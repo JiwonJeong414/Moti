@@ -12,9 +12,10 @@ import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { moderateScale } from "react-native-size-matters";
 import LottieView from "lottie-react-native";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign, Feather, Entypo } from "@expo/vector-icons";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import moment from "moment";
+import Modal from "react-native-modal";
 
 const MoodScreen = () => {
   const { textTheme, colorTheme } = React.useContext(RootContext);
@@ -22,6 +23,8 @@ const MoodScreen = () => {
   const [moodNumber, setMoodNumber] = useState(3);
   const [editTrue, setEditTrue] = useState(false);
   const [data, setData] = useState({});
+  const [settingsVisible, setSettingVisible] = useState(false);
+  const [moodSet, setMoodSet] = useState(1);
 
   useEffect(() => {
     setSpeed(0.999);
@@ -58,7 +61,9 @@ const MoodScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: colorTheme.neutral }]}
+    >
       <View
         style={{
           top: moderateScale(50),
@@ -66,11 +71,15 @@ const MoodScreen = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: colorTheme.neutral,
         }}
       >
         <Calendar
           style={styles.Calendar}
-          theme={{ calendarBackground: colorTheme.primary }}
+          theme={{
+            calendarBackground: colorTheme.primary,
+            arrowColor: colorTheme.accents,
+          }}
           dayComponent={({ date, state, marking }) => {
             return (
               <View>
@@ -144,19 +153,69 @@ const MoodScreen = () => {
           }}
           markedDates={data}
         />
-        {editTrue === false ? (
-          <TouchableWithoutFeedback onPress={handleSubmit}>
-            <AntDesign
-              name="pluscircleo"
-              size={moderateScale(24.2)}
+        <View
+          style={{
+            alignSelf: "flex-end",
+            right: moderateScale(20),
+            marginTop: moderateScale(-5),
+          }}
+        >
+          <TouchableWithoutFeedback onPress={() => setSettingVisible(true)}>
+            <Entypo
+              name="dots-three-horizontal"
+              size={moderateScale(50)}
               color="black"
             />
           </TouchableWithoutFeedback>
-        ) : (
-          <TouchableWithoutFeedback onPress={handleSubmit}>
-            <Feather name="edit-2" size={moderateScale(24.2)} color="black" />
-          </TouchableWithoutFeedback>
-        )}
+        </View>
+        <Modal
+          isVisible={settingsVisible}
+          animationIn="bounceIn"
+          animationOut="bounceOut"
+          onBackdropPress={() => setSettingVisible(false)}
+          style={{ justifyContent: "center", alignItems: "center" }}
+        >
+          <View style={[styles.modalBackground, { flexDirection: "column" }]}>
+            <View style={styles.modalHeader}>
+              <Text
+                style={{
+                  color: "white",
+                  fontFamily: "NotoSans_400Regular",
+                  fontSize: moderateScale(20),
+                }}
+              >
+                Choose Mood Set
+              </Text>
+            </View>
+            <TouchableWithoutFeedback onPress={() => setMoodSet(1)}>
+              <View>
+                <Image
+                  style={{
+                    width: moderateScale(110),
+                    height: moderateScale(90),
+                    right: moderateScale(105),
+                    top: moderateScale(10),
+                  }}
+                  source={require("../assets/image/alien-okay2.png")}
+                />
+                {moodSet === 1 ? (
+                  <Entypo
+                    name="check"
+                    size={moderateScale(30)}
+                    color="#ADD8E6"
+                    style={{
+                      right: moderateScale(145),
+                      position: "absolute",
+                      top: moderateScale(100),
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </Modal>
         {moodNumber === 1 ? (
           <TouchableWithoutFeedback onPress={handleTouch}>
             <LottieView
@@ -166,7 +225,6 @@ const MoodScreen = () => {
               style={{
                 width: 300,
                 height: 300,
-                marginBottom: moderateScale(100),
               }}
               source={require("../assets/lottie/alien-mad.json")}
             />
@@ -180,7 +238,6 @@ const MoodScreen = () => {
               style={{
                 width: 300,
                 height: 300,
-                marginBottom: moderateScale(100),
               }}
               source={require("../assets/lottie/alien-sad.json")}
             />
@@ -194,7 +251,6 @@ const MoodScreen = () => {
               style={{
                 width: 300,
                 height: 300,
-                marginBottom: moderateScale(100),
               }}
               source={require("../assets/lottie/alien-okay.json")}
             />
@@ -208,7 +264,6 @@ const MoodScreen = () => {
               style={{
                 width: 300,
                 height: 300,
-                marginBottom: moderateScale(100),
               }}
               source={require("../assets/lottie/alien-happy.json")}
             />
@@ -222,31 +277,42 @@ const MoodScreen = () => {
               style={{
                 width: 300,
                 height: 300,
-                marginBottom: moderateScale(100),
               }}
               source={require("../assets/lottie/alien-amazing.json")}
             />
           </TouchableWithoutFeedback>
         )}
+        <TouchableWithoutFeedback onPress={handleSubmit}>
+          <View
+            style={{
+              backgroundColor: colorTheme.primary,
+              width: moderateScale(120),
+              height: moderateScale(50),
+              borderRadius: moderateScale(10),
+              marginBottom: moderateScale(100),
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              shadowOffset: {
+                height: 2,
+              },
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: moderateScale(20),
+                fontFamily: "NotoSans_400Regular",
+              }}
+            >
+              Add Mood
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </ScrollView>
   );
 };
-
-{
-  /* <Calendar
-  style={[styles.calendar, {height: 300}]}
-  dayComponent={({date, state}) => {
-    return (
-      <View>
-        <Text style={{textAlign: 'center', color: state === 'disabled' ? 'gray' : 'black'}}>
-          {date.day}
-        </Text>
-      </View>
-    );
-  }}
-/> */
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -255,6 +321,26 @@ const styles = StyleSheet.create({
   Calendar: {
     width: moderateScale(350),
     borderRadius: moderateScale(8),
+  },
+  modalHeader: {
+    position: "absolute",
+    width: "100.4%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: moderateScale(40),
+    top: moderateScale(0),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8),
+    backgroundColor: "black",
+  },
+  modalBackground: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: moderateScale(10),
+    width: moderateScale(320),
+    height: moderateScale(185),
+    backgroundColor: "#FFF",
   },
 });
 
