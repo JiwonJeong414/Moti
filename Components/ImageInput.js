@@ -9,8 +9,9 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { moderateScale } from "react-native-size-matters";
 
-const ImageInput = ({ imageUri, onChangeImage, container }) => {
+const ImageInput = ({ imageUri, onChangeImage }) => {
   useEffect(() => {
     const retrieveImage = async () => {
       let retrieveImage = await AsyncStorage.getItem("Image");
@@ -18,8 +19,13 @@ const ImageInput = ({ imageUri, onChangeImage, container }) => {
       if (retrieveImage == null) onChangeImage(null);
       else onChangeImage(retrieveImage);
     };
+    requestPermision();
     retrieveImage();
-  }, [imageUri]);
+  }, []);
+
+  const requestPermision = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  };
 
   const handlePress = () => {
     if (!imageUri) selectImage();
@@ -38,11 +44,11 @@ const ImageInput = ({ imageUri, onChangeImage, container }) => {
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
+        quality: 0.2,
         allowsEditing: true,
         aspect: [654, 489],
       });
+      // console.log(result.uri);
       if (!result.cancelled) {
         await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
         onChangeImage(result.uri);
@@ -54,19 +60,29 @@ const ImageInput = ({ imageUri, onChangeImage, container }) => {
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={container}>
+      <View
+        style={{
+          height: moderateScale(244.5),
+          width: moderateScale(327),
+          borderRadius: moderateScale(24),
+          marginTop: moderateScale(45),
+          alignItems: "center",
+          backgroundColor: "gray",
+          justifyContent: "center",
+          overflow: "hidden",
+        }}
+      >
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && (
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            source={{ uri: imageUri }}
+            onError={() => Alert.alert(imageUri)}
+          />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});
 
 export default ImageInput;

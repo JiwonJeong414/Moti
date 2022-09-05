@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "com.jiwonjeong0414.moti",
-      "versionCode": 4
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"

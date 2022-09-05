@@ -18,6 +18,9 @@
         "appleId": "ygirll@hanmail.net",
         "ascAppId": "1638973747",
         "appleTeamId": "8R3T45NWHL"
+      },
+      "android": {
+        "serviceAccountKeyPath": "../Moti-Keystore/pc-api-4859006163950391290-986-19a1e15ae6b7.json"
       }
     }
   }

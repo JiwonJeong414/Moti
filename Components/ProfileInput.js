@@ -9,8 +9,12 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RootContext } from "../config/RootContext";
+import { moderateScale } from "react-native-size-matters";
 
-const ProfileInput = ({ imageUri, onChangeImage, container }) => {
+const ProfileInput = ({ imageUri, onChangeImage }) => {
+  const { textTheme } = React.useContext(RootContext);
+
   useEffect(() => {
     const retrieveImage = async () => {
       let retrieveImage = await AsyncStorage.getItem("Profile");
@@ -18,8 +22,13 @@ const ProfileInput = ({ imageUri, onChangeImage, container }) => {
       if (retrieveImage == null) onChangeImage(null);
       else onChangeImage(retrieveImage);
     };
+    requestPermision();
     retrieveImage();
-  }, [imageUri]);
+  }, []);
+
+  const requestPermision = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  };
 
   const handlePress = () => {
     if (!imageUri) selectImage();
@@ -38,11 +47,11 @@ const ProfileInput = ({ imageUri, onChangeImage, container }) => {
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
+        quality: 0.2,
         allowsEditing: true,
         aspect: [224, 224],
       });
+      // console.log(result.uri);
       if (!result.cancelled) {
         await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
         onChangeImage(result.uri);
@@ -54,19 +63,31 @@ const ProfileInput = ({ imageUri, onChangeImage, container }) => {
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={container}>
+      <View
+        style={{
+          position: "absolute",
+          bottom: moderateScale(-40),
+          width: moderateScale(112),
+          height: moderateScale(112),
+          borderRadius: moderateScale(100),
+          borderWidth: moderateScale(3),
+          alignItems: "center",
+          backgroundColor: "gray",
+          overflow: "hidden",
+          justifyContent: "center",
+          borderColor: textTheme.text,
+        }}
+      >
         {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && (
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            source={{ uri: imageUri }}
+          />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});
 
 export default ProfileInput;
