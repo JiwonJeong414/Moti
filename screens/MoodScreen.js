@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
 import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,6 +17,7 @@ import LottieView from "lottie-react-native";
 import { AntDesign, Feather, Entypo } from "@expo/vector-icons";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import moment from "moment";
+import { Button } from "react-native-paper";
 import Modal from "react-native-modal";
 
 const MoodScreen = () => {
@@ -52,9 +55,24 @@ const MoodScreen = () => {
     retrieveMoodList();
   }, []);
 
+  useEffect(() => {
+    const retrieveMoodNumber = async () => {
+      let retrieveData = await AsyncStorage.getItem("Mood Set");
+      retrieveData = JSON.parse(retrieveData);
+      if (retrieveData == null) setMoodSet(1);
+      else setMoodSet(retrieveData);
+    };
+    retrieveMoodNumber();
+  }, []);
+
   const handleTouch = () => {
     if (moodNumber === 5) setMoodNumber(1);
     else setMoodNumber(moodNumber + 1);
+  };
+
+  const setMood = async (number) => {
+    setMoodSet(number);
+    await AsyncStorage.setItem("Mood Set", JSON.stringify(number));
   };
 
   const handleSubmit = async () => {
@@ -87,7 +105,17 @@ const MoodScreen = () => {
         }}
       >
         <View>
-          <Text style={{ fontSize: moderateScale(30) }}>
+          <Text
+            style={{
+              color: textTheme.text,
+              marginTop:
+                Platform.OS === "ios" ? moderateScale(20) : moderateScale(10),
+              fontSize: moderateScale(35),
+              textAlign: "center",
+              fontFamily: "NotoSans_700Bold",
+              marginBottom: moderateScale(20),
+            }}
+          >
             {myName}'s Mood Calendar
           </Text>
         </View>
@@ -96,6 +124,7 @@ const MoodScreen = () => {
           theme={{
             calendarBackground: colorTheme.primary,
             arrowColor: colorTheme.accents,
+            monthTextColor: colorTheme.accents,
           }}
           dayComponent={({ date, state, marking }) => {
             return (
@@ -103,7 +132,12 @@ const MoodScreen = () => {
                 <Text
                   style={{
                     textAlign: "center",
-                    color: state === "disabled" ? "gray" : "black",
+                    color:
+                      state === "disabled"
+                        ? "gray"
+                        : state === "today"
+                        ? "#ADD8E6"
+                        : textTheme.text,
                   }}
                 >
                   {date.day}
@@ -458,14 +492,26 @@ const MoodScreen = () => {
             marginTop: moderateScale(-5),
           }}
         >
-          <TouchableWithoutFeedback onPress={() => setSettingVisible(true)}>
+          <TouchableOpacity onPress={() => setSettingVisible(true)}>
             <Entypo
               name="dots-three-horizontal"
               size={moderateScale(50)}
-              color="black"
+              color={textTheme.text}
             />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
+        <Text
+          style={{
+            color: textTheme.text,
+            marginTop:
+              Platform.OS === "ios" ? moderateScale(20) : moderateScale(10),
+            fontSize: moderateScale(20),
+            textAlign: "center",
+            fontFamily: "NotoSans_700Bold",
+          }}
+        >
+          Tap To Change Mood
+        </Text>
         <Modal
           isVisible={settingsVisible}
           animationIn="bounceIn"
@@ -486,7 +532,7 @@ const MoodScreen = () => {
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <TouchableWithoutFeedback onPress={() => setMoodSet(1)}>
+              <TouchableWithoutFeedback onPress={() => setMood(1)}>
                 <View>
                   <Image
                     style={{
@@ -513,7 +559,7 @@ const MoodScreen = () => {
                   )}
                 </View>
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMoodSet(2)}>
+              <TouchableWithoutFeedback onPress={() => setMood(2)}>
                 <View>
                   <Image
                     style={{
@@ -540,7 +586,7 @@ const MoodScreen = () => {
                   )}
                 </View>
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMoodSet(3)}>
+              <TouchableWithoutFeedback onPress={() => setMood(3)}>
                 <View>
                   <Image
                     style={{
@@ -566,7 +612,7 @@ const MoodScreen = () => {
                   )}
                 </View>
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMoodSet(4)}>
+              <TouchableWithoutFeedback onPress={() => setMood(4)}>
                 <View>
                   <Image
                     style={{
@@ -593,7 +639,7 @@ const MoodScreen = () => {
                   )}
                 </View>
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMoodSet(5)}>
+              <TouchableWithoutFeedback onPress={() => setMood(5)}>
                 <View>
                   <Image
                     style={{
@@ -951,13 +997,13 @@ const MoodScreen = () => {
         ) : (
           <></>
         )}
-        <TouchableWithoutFeedback onPress={handleSubmit}>
+        <TouchableOpacity onPress={handleSubmit}>
           <View
             style={{
               backgroundColor: colorTheme.primary,
-              width: moderateScale(120),
-              height: moderateScale(50),
-              borderRadius: moderateScale(10),
+              width: moderateScale(240),
+              height: moderateScale(60),
+              borderRadius: moderateScale(30),
               marginBottom: moderateScale(100),
               shadowOpacity: 0.25,
               shadowRadius: 4,
@@ -971,13 +1017,14 @@ const MoodScreen = () => {
             <Text
               style={{
                 fontSize: moderateScale(20),
+                color: textTheme.text,
                 fontFamily: "NotoSans_400Regular",
               }}
             >
-              Add Mood
+              Save Mood
             </Text>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
