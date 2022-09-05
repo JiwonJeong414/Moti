@@ -18,17 +18,29 @@ import moment from "moment";
 import Modal from "react-native-modal";
 
 const MoodScreen = () => {
-  const { textTheme, colorTheme } = React.useContext(RootContext);
+  const { textTheme, colorTheme, onboarded } = React.useContext(RootContext);
   const [speed, setSpeed] = useState(1);
   const [moodNumber, setMoodNumber] = useState(3);
   const [editTrue, setEditTrue] = useState(false);
   const [data, setData] = useState({});
   const [settingsVisible, setSettingVisible] = useState(false);
   const [moodSet, setMoodSet] = useState(1);
+  const [myName, setMyName] = useState();
 
   useEffect(() => {
-    setSpeed(0.999);
+    setTimeout(() => {
+      setSpeed(0.999);
+    }, 1000);
   }, []);
+
+  useEffect(() => {
+    const getName = async () => {
+      let userName = await AsyncStorage.getItem("Name");
+      userName = JSON.parse(userName);
+      setMyName(userName);
+    };
+    getName();
+  }, [onboarded]);
 
   useEffect(() => {
     const retrieveMoodList = async () => {
@@ -74,6 +86,11 @@ const MoodScreen = () => {
           backgroundColor: colorTheme.neutral,
         }}
       >
+        <View>
+          <Text style={{ fontSize: moderateScale(30) }}>
+            {myName}'s Mood Calendar
+          </Text>
+        </View>
         <Calendar
           style={styles.Calendar}
           theme={{
@@ -91,7 +108,9 @@ const MoodScreen = () => {
                 >
                   {date.day}
                 </Text>
-                {marking !== undefined && marking.type === "happy" ? (
+                {marking !== undefined &&
+                marking.type === "happy" &&
+                moodSet === 1 ? (
                   <Image
                     style={{
                       width: moderateScale(46),
@@ -100,7 +119,9 @@ const MoodScreen = () => {
                     }}
                     source={require("../assets/image/alien-happy.png")}
                   />
-                ) : marking !== undefined && marking.type === "sad" ? (
+                ) : marking !== undefined &&
+                  marking.type === "sad" &&
+                  moodSet === 1 ? (
                   <Image
                     style={{
                       width: moderateScale(46),
@@ -109,7 +130,9 @@ const MoodScreen = () => {
                     }}
                     source={require("../assets/image/alien-sad.png")}
                   />
-                ) : marking !== undefined && marking.type === "okay" ? (
+                ) : marking !== undefined &&
+                  marking.type === "okay" &&
+                  moodSet === 1 ? (
                   <Image
                     style={{
                       width: 50,
@@ -119,7 +142,9 @@ const MoodScreen = () => {
                     }}
                     source={require("../assets/image/alien-okay2.png")}
                   />
-                ) : marking !== undefined && marking.type === "mad" ? (
+                ) : marking !== undefined &&
+                  marking.type === "mad" &&
+                  moodSet === 1 ? (
                   <Image
                     style={{
                       width: moderateScale(46),
@@ -129,7 +154,9 @@ const MoodScreen = () => {
                     }}
                     source={require("../assets/image/alien-mad.png")}
                   />
-                ) : marking !== undefined && marking.type === "amazing" ? (
+                ) : marking !== undefined &&
+                  marking.type === "amazing" &&
+                  moodSet === 1 ? (
                   <Image
                     style={{
                       width: moderateScale(46),
@@ -138,7 +165,7 @@ const MoodScreen = () => {
                     }}
                     source={require("../assets/image/alien-amazing.png")}
                   />
-                ) : (
+                ) : marking === undefined && moodSet === 1 ? (
                   <View
                     style={{
                       width: moderateScale(46),
@@ -147,6 +174,73 @@ const MoodScreen = () => {
                       borderRadius: 20,
                     }}
                   ></View>
+                ) : marking !== undefined &&
+                  marking.type === "happy" &&
+                  moodSet === 2 ? (
+                  <Image
+                    style={{
+                      width: moderateScale(50),
+                      height: moderateScale(70),
+                      marginBottom: moderateScale(-30),
+                    }}
+                    source={require("../assets/image/koala-happy.png")}
+                  />
+                ) : marking !== undefined &&
+                  marking.type === "sad" &&
+                  moodSet === 2 ? (
+                  <Image
+                    style={{
+                      width: moderateScale(50),
+                      height: moderateScale(70),
+                      marginBottom: moderateScale(-30),
+                    }}
+                    source={require("../assets/image/koala-sad.png")}
+                  />
+                ) : marking !== undefined &&
+                  marking.type === "okay" &&
+                  moodSet === 2 ? (
+                  <Image
+                    style={{
+                      width: moderateScale(50),
+                      height: moderateScale(70),
+                      marginBottom: moderateScale(-30),
+                    }}
+                    source={require("../assets/image/koala-normal.png")}
+                  />
+                ) : marking !== undefined &&
+                  marking.type === "mad" &&
+                  moodSet === 2 ? (
+                  <Image
+                    style={{
+                      width: moderateScale(50),
+                      height: moderateScale(70),
+                      marginBottom: moderateScale(-30),
+                    }}
+                    source={require("../assets/image/koala-tired.png")}
+                  />
+                ) : marking !== undefined &&
+                  marking.type === "amazing" &&
+                  moodSet === 2 ? (
+                  <Image
+                    style={{
+                      width: moderateScale(50),
+                      height: moderateScale(70),
+                      marginBottom: moderateScale(-30),
+                    }}
+                    source={require("../assets/image/koala-love.png")}
+                  />
+                ) : marking === undefined && moodSet === 2 ? (
+                  <View
+                    style={{
+                      width: moderateScale(46),
+                      height: moderateScale(46),
+                      backgroundColor: "#D3D3D3",
+                      marginTop: moderateScale(10),
+                      borderRadius: moderateScale(19),
+                    }}
+                  ></View>
+                ) : (
+                  <></>
                 )}
               </View>
             );
@@ -187,36 +281,65 @@ const MoodScreen = () => {
                 Choose Mood Set
               </Text>
             </View>
-            <TouchableWithoutFeedback onPress={() => setMoodSet(1)}>
-              <View>
-                <Image
-                  style={{
-                    width: moderateScale(110),
-                    height: moderateScale(90),
-                    right: moderateScale(105),
-                    top: moderateScale(10),
-                  }}
-                  source={require("../assets/image/alien-okay2.png")}
-                />
-                {moodSet === 1 ? (
-                  <Entypo
-                    name="check"
-                    size={moderateScale(30)}
-                    color="#ADD8E6"
+            <View style={{ flexDirection: "row" }}>
+              <TouchableWithoutFeedback onPress={() => setMoodSet(1)}>
+                <View>
+                  <Image
                     style={{
-                      right: moderateScale(145),
-                      position: "absolute",
-                      top: moderateScale(100),
+                      width: moderateScale(110),
+                      height: moderateScale(90),
+                      right: moderateScale(80),
+                      top: moderateScale(10),
                     }}
+                    source={require("../assets/image/alien-okay2.png")}
                   />
-                ) : (
-                  <></>
-                )}
-              </View>
-            </TouchableWithoutFeedback>
+                  {moodSet === 1 ? (
+                    <Entypo
+                      name="check"
+                      size={moderateScale(30)}
+                      color="#ADD8E6"
+                      style={{
+                        right: moderateScale(120),
+                        position: "absolute",
+                        top: moderateScale(100),
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => setMoodSet(2)}>
+                <View>
+                  <Image
+                    style={{
+                      width: moderateScale(90),
+                      height: moderateScale(90),
+                      right: moderateScale(105),
+                      top: moderateScale(10),
+                    }}
+                    source={require("../assets/image/koala-normal.png")}
+                  />
+                  {moodSet === 2 ? (
+                    <Entypo
+                      name="check"
+                      size={moderateScale(30)}
+                      color="#ADD8E6"
+                      style={{
+                        right: moderateScale(133),
+                        position: "absolute",
+                        top: moderateScale(100),
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
         </Modal>
-        {moodNumber === 1 ? (
+        {moodNumber === 1 && moodSet === 1 ? (
           <TouchableWithoutFeedback onPress={handleTouch}>
             <LottieView
               autoPlay
@@ -229,7 +352,7 @@ const MoodScreen = () => {
               source={require("../assets/lottie/alien-mad.json")}
             />
           </TouchableWithoutFeedback>
-        ) : moodNumber === 2 ? (
+        ) : moodNumber === 2 && moodSet === 1 ? (
           <TouchableWithoutFeedback onPress={handleTouch}>
             <LottieView
               autoPlay
@@ -242,7 +365,7 @@ const MoodScreen = () => {
               source={require("../assets/lottie/alien-sad.json")}
             />
           </TouchableWithoutFeedback>
-        ) : moodNumber === 3 ? (
+        ) : moodNumber === 3 && moodSet === 1 ? (
           <TouchableWithoutFeedback onPress={handleTouch}>
             <LottieView
               autoPlay
@@ -255,7 +378,7 @@ const MoodScreen = () => {
               source={require("../assets/lottie/alien-okay.json")}
             />
           </TouchableWithoutFeedback>
-        ) : moodNumber === 4 ? (
+        ) : moodNumber === 4 && moodSet === 1 ? (
           <TouchableWithoutFeedback onPress={handleTouch}>
             <LottieView
               autoPlay
@@ -268,7 +391,7 @@ const MoodScreen = () => {
               source={require("../assets/lottie/alien-happy.json")}
             />
           </TouchableWithoutFeedback>
-        ) : (
+        ) : moodNumber === 5 && moodSet === 1 ? (
           <TouchableWithoutFeedback onPress={handleTouch}>
             <LottieView
               autoPlay
@@ -281,6 +404,73 @@ const MoodScreen = () => {
               source={require("../assets/lottie/alien-amazing.json")}
             />
           </TouchableWithoutFeedback>
+        ) : moodNumber === 1 && moodSet === 2 ? (
+          <TouchableWithoutFeedback onPress={handleTouch}>
+            <LottieView
+              autoPlay
+              loop
+              speed={speed}
+              style={{
+                width: 300,
+                height: 300,
+              }}
+              source={require("../assets/lottie/koala-tired.json")}
+            />
+          </TouchableWithoutFeedback>
+        ) : moodNumber === 2 && moodSet === 2 ? (
+          <TouchableWithoutFeedback onPress={handleTouch}>
+            <LottieView
+              autoPlay
+              loop
+              speed={speed}
+              style={{
+                width: 300,
+                height: 300,
+              }}
+              source={require("../assets/lottie/koala-sad.json")}
+            />
+          </TouchableWithoutFeedback>
+        ) : moodNumber === 3 && moodSet === 2 ? (
+          <TouchableWithoutFeedback onPress={handleTouch}>
+            <LottieView
+              autoPlay
+              loop
+              speed={speed}
+              style={{
+                width: 300,
+                height: 300,
+              }}
+              source={require("../assets/lottie/koala-okay.json")}
+            />
+          </TouchableWithoutFeedback>
+        ) : moodNumber === 4 && moodSet === 2 ? (
+          <TouchableWithoutFeedback onPress={handleTouch}>
+            <LottieView
+              autoPlay
+              loop
+              speed={speed}
+              style={{
+                width: 300,
+                height: 300,
+              }}
+              source={require("../assets/lottie/koala-happy.json")}
+            />
+          </TouchableWithoutFeedback>
+        ) : moodNumber === 5 && moodSet === 2 ? (
+          <TouchableWithoutFeedback onPress={handleTouch}>
+            <LottieView
+              autoPlay
+              loop
+              speed={speed}
+              style={{
+                width: 300,
+                height: 300,
+              }}
+              source={require("../assets/lottie/koala-amazing.json")}
+            />
+          </TouchableWithoutFeedback>
+        ) : (
+          <></>
         )}
         <TouchableWithoutFeedback onPress={handleSubmit}>
           <View
