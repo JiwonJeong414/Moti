@@ -48,7 +48,6 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
         allowsEditing: true,
         aspect: [654, 489],
       });
-      // console.log(result.uri);
       if (!result.cancelled) {
         await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
         onChangeImage(result.uri);

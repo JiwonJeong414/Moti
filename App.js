@@ -11,6 +11,8 @@ import { RootContext } from "./config/RootContext";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ActivityIndicator } from "react-native-paper";
 import moment from "moment";
+import { setUniqueDeviceID } from "./firebase";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -109,6 +111,7 @@ function RootNavigator() {
     };
     retrieveAccents();
   }, []);
+
 
   useEffect(() => {
     const retrieveHabits = async () => {
