@@ -12,38 +12,41 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
 
-import {downloadImage, uploadImage, getUniqueDeviceID, deleteFile} from '../firebase';
-
+import {
+  downloadImage,
+  uploadImage,
+  getUniqueDeviceID,
+  deleteFile,
+} from "../firebase";
 
 const ProfileInput = ({ imageUri, onChangeImage }) => {
   const { textTheme } = React.useContext(RootContext);
 
   useEffect(() => {
-    getUniqueDeviceID()
+    getUniqueDeviceID();
     const retrieveImage = async () => {
       let retrieveImage = await AsyncStorage.getItem("Profile");
       retrieveImage = JSON.parse(retrieveImage);
       if (retrieveImage == null) onChangeImage(null);
       if (retrieveImage == null) {
         //check fire storage
-        downloadProfileImage()
-      }
-      else {
+        downloadProfileImage();
+      } else {
         onChangeImage(retrieveImage);
       }
     };
     requestPermision();
     retrieveImage();
   }, []);
-  
+
   const downloadProfileImage = async () => {
     const url = await downloadImage();
-    if (url){
-      onChangeImage(url)
+    if (url) {
+      onChangeImage(url);
     } else {
       onChangeImage(null);
     }
-  }
+  };
 
   const requestPermision = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -61,7 +64,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
   const deleteImage = async () => {
     await AsyncStorage.removeItem("Profile");
     onChangeImage(null);
-    deleteFile()
+    deleteFile();
   };
 
   const selectImage = async () => {
@@ -75,7 +78,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
       if (!result.cancelled) {
         await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
         onChangeImage(result.uri);
-        await uploadImageAsync(result.uri)
+        await uploadImageAsync(result.uri);
       }
     } catch (error) {
       console.log("Error reading an image", error);
@@ -86,20 +89,20 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     // Why are we using XMLHttpRequest? See:
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
+      xhr.onload = function () {
         resolve(xhr.response);
       };
-      xhr.onerror = function(e) {
+      xhr.onerror = function (e) {
         console.log(e);
-        reject(new TypeError('Network request failed'));
+        reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
       xhr.send(null);
     });
-    await uploadImage(blob)
+    await uploadImage(blob);
     blob.close();
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
