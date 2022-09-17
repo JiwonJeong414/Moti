@@ -312,7 +312,6 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(40),
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5,
   },
   hotline: {
     marginTop: moderateScale(20),
