@@ -27,10 +27,14 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
       let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
-      const retrieveImageObj = JSON.parse(retrieveImagePathStr);
-      if (retrieveImageObj){
-        onChangeImage(retrieveImageObj);
-      } else {
+      try {
+        const retrieveImageObj = JSON.parse(retrieveImagePathStr);
+        if (retrieveImageObj){
+          onChangeImage(retrieveImageObj);
+        } else {
+          downloadProfileImage();
+        }
+      } catch (error) {
         downloadProfileImage();
       }
     };
