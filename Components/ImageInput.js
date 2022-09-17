@@ -13,10 +13,11 @@ import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
 
 import {
-  downloadImage2,
-  uploadImage2,
+  downloadImage,
+  handleUploadImage,
   getUniqueDeviceID,
-  deleteFile2,
+  deleteFile,
+  IMG_TYPE_BACKGROUND
 } from "../firebase";
 
 const ImageInput = ({ imageUri, onChangeImage }) => {
@@ -25,22 +26,23 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   useEffect(() => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
-      let retrieveImage = await AsyncStorage.getItem("Image");
-      retrieveImage = JSON.parse(retrieveImage);
-      if (retrieveImage == null) onChangeImage(null);
-      if (retrieveImage == null) {
+      let retrieveImagePathStr = await AsyncStorage.getItem("Image");
+      const retrieveImageObj = JSON.parse(retrieveImagePathStr);
+      if (retrieveImageObj == null) onChangeImage(null);
+      if (retrieveImageObj == null) {
         //check fire storage
-        downloadImageImage();
+        downloadProfileImage();
       } else {
-        onChangeImage(retrieveImage);
+        onChangeImage(retrieveImageObj);
       }
     };
     requestPermision();
     retrieveImage();
   }, []);
-
+  
+  
   const downloadImageImage = async () => {
-    const url = await downloadImage2();
+    const url = await downloadImage(IMG_TYPE_BACKGROUND);
     if (url) {
       onChangeImage(url);
     } else {
@@ -64,7 +66,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   const deleteImage = async () => {
     await AsyncStorage.removeItem("Image");
     onChangeImage(null);
-    deleteFile2();
+    deleteFile(IMG_TYPE_BACKGROUND);
   };
 
   const selectImage = async () => {
@@ -86,23 +88,8 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   };
 
   const uploadImageAsync = async (uri) => {
-    // Why are we using XMLHttpRequest? See:
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-    await uploadImage2(blob);
-    blob.close();
-  };
+    await handleUploadImage(uri, IMG_TYPE_BACKGROUND);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>

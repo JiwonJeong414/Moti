@@ -14,9 +14,10 @@ import { moderateScale } from "react-native-size-matters";
 
 import {
   downloadImage,
-  uploadImage,
+  handleUploadImage,
   getUniqueDeviceID,
   deleteFile,
+  IMG_TYPE_PROFILE,
 } from "../firebase";
 
 const ProfileInput = ({ imageUri, onChangeImage }) => {
@@ -25,14 +26,16 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
   useEffect(() => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
-      let retrieveImage = await AsyncStorage.getItem("Profile");
-      retrieveImage = JSON.parse(retrieveImage);
-      if (retrieveImage == null) onChangeImage(null);
-      if (retrieveImage == null) {
+      let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
+      const retrieveImageObj = JSON.parse(retrieveImagePathStr);
+      console.log("🚀 ~ file: ProfileInput.js ~ line 31 ~ retrieveImage ~ retrieveImageObj", retrieveImageObj);
+      if (retrieveImageObj == null) onChangeImage(null);
+      if (retrieveImageObj == null) {
         //check fire storage
         downloadProfileImage();
       } else {
-        onChangeImage(retrieveImage);
+        onChangeImage(retrieveImageObj);
+        console.log("🚀 ~ file: ProfileInput.js ~ line 37 ~ retrieveImage ~ retrieveImageObj", retrieveImageObj);
       }
     };
     requestPermision();
@@ -87,22 +90,23 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
 
   const uploadImageAsync = async (uri) => {
     // Why are we using XMLHttpRequest? See:
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-    await uploadImage(blob);
-    blob.close();
-  };
+    // const blob = await new Promise((resolve, reject) => {
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.onload = function() {
+    //     resolve(xhr.response);
+    //   };
+    //   xhr.onerror = function(e) {
+    //     console.log(e);
+    //     reject(new TypeError('Network request failed'));
+    //   };
+    //   xhr.responseType = 'blob';
+    //   xhr.open('GET', uri, true);
+    //   xhr.send(null);
+    // });
+    // await uploadImage(blob)
+    // blob.close();
+    await handleUploadImage(uri, IMG_TYPE_PROFILE)
+  }
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
