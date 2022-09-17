@@ -21,7 +21,10 @@ import {
 } from "../firebase";
 
 const ProfileInput = ({ imageUri, onChangeImage }) => {
-  console.log("🚀 ~ file: ProfileInput.js ~ line 24 ~ ProfileInput ~ imageUri", imageUri);
+  console.log(
+    "🚀 ~ file: ProfileInput.js ~ line 24 ~ ProfileInput ~ imageUri",
+    imageUri
+  );
   const { textTheme } = React.useContext(RootContext);
   // Check Deleted Branch
   useEffect(() => {
@@ -29,14 +32,20 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     const retrieveImage = async () => {
       try {
         let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
-        console.log("🚀 ~ file: ProfileInput.js ~ line 32 ~ retrieveImage ~ retrieveImagePathStr", retrieveImagePathStr);
-        if (retrieveImagePathStr){
+        console.log(
+          "🚀 ~ file: ProfileInput.js ~ line 32 ~ retrieveImage ~ retrieveImagePathStr",
+          retrieveImagePathStr
+        );
+        if (retrieveImagePathStr) {
           onChangeImage(retrieveImagePathStr);
         } else {
           downloadProfileImage();
         }
       } catch (error) {
-        console.log("🚀 ~ file: ProfileInput.js ~ line 41 ~ retrieveImage ~ error", error);
+        console.log(
+          "🚀 ~ file: ProfileInput.js ~ line 41 ~ retrieveImage ~ error",
+          error
+        );
         downloadProfileImage();
       }
     };
@@ -48,7 +57,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     const url = await downloadImage(IMG_TYPE_PROFILE);
     if (url) {
       onChangeImage(url);
-      await AsyncStorage.setItem("Profile", url)
+      await AsyncStorage.setItem("Profile", url);
     } else {
       onChangeImage(null);
     }
@@ -108,8 +117,8 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     // });
     // await uploadImage(blob)
     // blob.close();
-    await handleUploadImage(uri, IMG_TYPE_PROFILE)
-  }
+    await handleUploadImage(uri, IMG_TYPE_PROFILE);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
@@ -133,6 +142,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
+            onError={() => downloadProfileImage()}
           />
         )}
       </View>

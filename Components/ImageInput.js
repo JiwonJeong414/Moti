@@ -17,7 +17,7 @@ import {
   handleUploadImage,
   getUniqueDeviceID,
   deleteFile,
-  IMG_TYPE_BACKGROUND
+  IMG_TYPE_BACKGROUND,
 } from "../firebase";
 
 const ImageInput = ({ imageUri, onChangeImage }) => {
@@ -28,8 +28,11 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
     const retrieveImage = async () => {
       try {
         let retrieveImagePathStr = await AsyncStorage.getItem("Image");
-        console.log("🚀 ~ file: ImageInput.js ~ line 43 ~ retrieveImage ~ retrieveImagePathStr", retrieveImagePathStr);
-        if (retrieveImagePathStr){
+        console.log(
+          "🚀 ~ file: ImageInput.js ~ line 43 ~ retrieveImage ~ retrieveImagePathStr",
+          retrieveImagePathStr
+        );
+        if (retrieveImagePathStr) {
           onChangeImage(retrieveImagePathStr);
         } else {
           downloadImageImage();
@@ -42,13 +45,12 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
     requestPermision();
     retrieveImage();
   }, []);
-  
-  
+
   const downloadImageImage = async () => {
     const url = await downloadImage(IMG_TYPE_BACKGROUND);
     if (url) {
       onChangeImage(url);
-      await AsyncStorage.setItem("Image", url)
+      await AsyncStorage.setItem("Image", url);
     } else {
       onChangeImage(null);
     }
@@ -93,7 +95,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
 
   const uploadImageAsync = async (uri) => {
     await handleUploadImage(uri, IMG_TYPE_BACKGROUND);
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
@@ -114,11 +116,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
-            onError={() =>
-              Alert.alert(
-                "Image disappearing has been fixed. Please reset your profile and banner pictures by pressing the gray box to delete!"
-              )
-            }
+            onError={() => downloadImageImage()}
           />
         )}
       </View>

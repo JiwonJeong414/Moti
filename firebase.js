@@ -33,8 +33,8 @@ const firebaseConfig = {
 let myApp = initializeApp(firebaseConfig);
 export const storage = getStorage();
 
-export const IMG_TYPE_PROFILE = 'profile';
-export const IMG_TYPE_BACKGROUND = 'image';
+export const IMG_TYPE_PROFILE = "profile";
+export const IMG_TYPE_BACKGROUND = "image";
 
 export const getUniqueDeviceID = async () => {
   try {
@@ -65,61 +65,71 @@ export const setUniqueDeviceID = async () => {
 export const handleUploadImage = async (uri, imageType) => {
   const img = await fetch(uri);
   const blob = await img.blob();
-  await uploadImage(blob, imageType)
-}
+  await uploadImage(blob, imageType);
+};
 
 export const uploadImage = async (blob, imageType) => {
   let deviceID = await getUniqueDeviceID();
-  const imageRef = imageType === IMG_TYPE_PROFILE ? ref(storage, `images/${deviceID}/profile.jpg`)
-                                                  : ref(storage, `images/${deviceID}/background.jpg`);
+  const imageRef =
+    imageType === IMG_TYPE_PROFILE
+      ? ref(storage, `images/${deviceID}/profile.jpg`)
+      : ref(storage, `images/${deviceID}/image.jpg`);
 
   console.log("uploading image");
   const uploadTask = uploadBytesResumable(imageRef, blob);
 
   // Listen for state changes, errors, and completion of the upload.
-  uploadTask.on('state_changed',(snapshot) => {
-  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-    switch (snapshot.state) {
-      case 'paused':
-      console.log('Upload is paused');
-      break;
-      case 'running':
-      console.log('Upload is running');
-      break;
-    }
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + progress + "% done");
+      switch (snapshot.state) {
+        case "paused":
+          console.log("Upload is paused");
+          break;
+        case "running":
+          console.log("Upload is running");
+          break;
+      }
     },
-      (error) => {
-      this.setState({ isLoading: false })
+    (error) => {
+      this.setState({ isLoading: false });
       // A full list of error codes is available at
       // https://firebase.google.com/docs/storage/web/handle-errors
       switch (error.code) {
-        case 'storage/unauthorized':
+        case "storage/unauthorized":
           console.log("User doesn't have permission to access the object");
-        break;
-        case 'storage/canceled':
+          break;
+        case "storage/canceled":
           console.log("User canceled the upload");
-        break;
-        case 'storage/unknown':
+          break;
+        case "storage/unknown":
           console.log("Unknown error occurred, inspect error.serverResponse");
-        break;
+          break;
       }
-      },
+    },
     () => {
-    // Upload completed successfully, now we can get the download URL
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    console.log('File available at', downloadURL);
-    AsyncStorage.setItem(imageType === IMG_TYPE_PROFILE ?  "Profile" : "Image", downloadURL)
-    //perform your task
-    });
-  });
+      // Upload completed successfully, now we can get the download URL
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        console.log("File available at", downloadURL);
+        AsyncStorage.setItem(
+          imageType === IMG_TYPE_PROFILE ? "Profile" : "Image",
+          downloadURL
+        );
+        //perform your task
+      });
+    }
+  );
 };
 
 export const downloadImage = async (imageType) => {
   let deviceID = await getUniqueDeviceID();
-  const imageRef = imageType === IMG_TYPE_PROFILE ? ref(storage, `images/${deviceID}/profile.jpg`)
-                                                  : ref(storage, `images/${deviceID}/image.jpg`);
+  const imageRef =
+    imageType === IMG_TYPE_PROFILE
+      ? ref(storage, `images/${deviceID}/profile.jpg`)
+      : ref(storage, `images/${deviceID}/image.jpg`);
   const fileRef = ref(imageRef);
   // Get the download URL
   return getDownloadURL(fileRef)
@@ -150,12 +160,12 @@ export const downloadImage = async (imageType) => {
     });
 };
 
-
-
 export const deleteFile = async (imageType) => {
   let deviceID = await getUniqueDeviceID();
-  const imageRef = imageType === IMG_TYPE_PROFILE ? ref(storage, `images/${deviceID}/profile.jpg`)
-                                                  : ref(storage, `images/${deviceID}/background.jpg`);
+  const imageRef =
+    imageType === IMG_TYPE_PROFILE
+      ? ref(storage, `images/${deviceID}/profile.jpg`)
+      : ref(storage, `images/${deviceID}/image.jpg`);
 
   // Delete the file
   deleteObject(imageRef)
