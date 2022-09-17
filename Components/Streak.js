@@ -41,7 +41,7 @@ const Streak = ({ title, deleteItem, streak, completed, id, item }) => {
       setLocalCompleted(retrieveData[objIndex].completed);
     };
     retrieveHabitItems();
-  }, [localCompleted]);
+  }, [localStreak, localCompleted]);
 
   const handleComplete = async () => {
     setLocalCompleted(true);
