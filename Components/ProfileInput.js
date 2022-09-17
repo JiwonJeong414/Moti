@@ -29,13 +29,17 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
       let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
       const retrieveImageObj = JSON.parse(retrieveImagePathStr);
       console.log("🚀 ~ file: ProfileInput.js ~ line 31 ~ retrieveImage ~ retrieveImageObj", retrieveImageObj);
-      if (retrieveImageObj == null) onChangeImage(null);
-      if (retrieveImageObj == null) {
-        //check fire storage
+      try {
+        const img = await fetch(retrieveImageObj);
+        const blob = await img.blob();
+        if (blob){
+          onChangeImage(retrieveImageObj);
+          console.log("🚀 ~ file: ProfileInput.js ~ line 37 ~ retrieveImage ~ retrieveImageObj", retrieveImageObj);
+        } else {
+          downloadProfileImage();  
+        }
+      } catch (error) {
         downloadProfileImage();
-      } else {
-        onChangeImage(retrieveImageObj);
-        console.log("🚀 ~ file: ProfileInput.js ~ line 37 ~ retrieveImage ~ retrieveImageObj", retrieveImageObj);
       }
     };
     requestPermision();
@@ -43,7 +47,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
   }, []);
 
   const downloadProfileImage = async () => {
-    const url = await downloadImage();
+    const url = await downloadImage(IMG_TYPE_PROFILE);
     if (url) {
       onChangeImage(url);
     } else {

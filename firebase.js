@@ -34,7 +34,7 @@ let myApp = initializeApp(firebaseConfig);
 export const storage = getStorage();
 
 export const IMG_TYPE_PROFILE = 'profile';
-export const IMG_TYPE_BACKGROUND = 'background';
+export const IMG_TYPE_BACKGROUND = 'image';
 
 export const getUniqueDeviceID = async () => {
   try {

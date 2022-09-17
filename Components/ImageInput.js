@@ -31,7 +31,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
       if (retrieveImageObj == null) onChangeImage(null);
       if (retrieveImageObj == null) {
         //check fire storage
-        downloadProfileImage();
+        await downloadImageImage();
       } else {
         onChangeImage(retrieveImageObj);
       }
