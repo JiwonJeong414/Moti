@@ -10,25 +10,25 @@ import { initializeApp } from "firebase/app";
 import { v4 as uuidv4 } from "uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // Initialize Firebase
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBIVsdF7PE0S9-OMUnYPAwFHE1ohoAcR18",
-//   authDomain: "moti-29485.firebaseapp.com",
-//   projectId: "moti-29485",
-//   storageBucket: "moti-29485.appspot.com",
-//   messagingSenderId: "62709121008",
-//   appId: "1:62709121008:web:9771a5a7834c2bf67aa735",
-//   measurementId: "G-4Q2E5E5V99",
-// };
-
 const firebaseConfig = {
-  apiKey: "AIzaSyAmB1o2YLuUJfJFqYDBMxijuGFFFw1cprQ",
-  authDomain: "hatbanking-8fe66.firebaseapp.com",
-  projectId: "hatbanking-8fe66",
-  storageBucket: "hatbanking-8fe66.appspot.com",
-  messagingSenderId: "38643457145",
-  appId: "1:38643457145:web:ac3a4742337a35f45808a8",
-  measurementId: "G-3D0WP0TGDS"
+  apiKey: "AIzaSyBIVsdF7PE0S9-OMUnYPAwFHE1ohoAcR18",
+  authDomain: "moti-29485.firebaseapp.com",
+  projectId: "moti-29485",
+  storageBucket: "moti-29485.appspot.com",
+  messagingSenderId: "62709121008",
+  appId: "1:62709121008:web:9771a5a7834c2bf67aa735",
+  measurementId: "G-4Q2E5E5V99",
 };
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAmB1o2YLuUJfJFqYDBMxijuGFFFw1cprQ",
+//   authDomain: "hatbanking-8fe66.firebaseapp.com",
+//   projectId: "hatbanking-8fe66",
+//   storageBucket: "hatbanking-8fe66.appspot.com",
+//   messagingSenderId: "38643457145",
+//   appId: "1:38643457145:web:ac3a4742337a35f45808a8",
+//   measurementId: "G-3D0WP0TGDS"
+// };
 
 let myApp = initializeApp(firebaseConfig);
 export const storage = getStorage();
@@ -110,6 +110,7 @@ export const uploadImage = async (blob, imageType) => {
     // Upload completed successfully, now we can get the download URL
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
     console.log('File available at', downloadURL);
+    AsyncStorage.setItem(imageType === IMG_TYPE_PROFILE ?  "Profile" : "Image", downloadURL)
     //perform your task
     });
   });
@@ -118,7 +119,7 @@ export const uploadImage = async (blob, imageType) => {
 export const downloadImage = async (imageType) => {
   let deviceID = await getUniqueDeviceID();
   const imageRef = imageType === IMG_TYPE_PROFILE ? ref(storage, `images/${deviceID}/profile.jpg`)
-                                                  : ref(storage, `images/${deviceID}/background.jpg`);
+                                                  : ref(storage, `images/${deviceID}/image.jpg`);
   const fileRef = ref(imageRef);
   // Get the download URL
   return getDownloadURL(fileRef)

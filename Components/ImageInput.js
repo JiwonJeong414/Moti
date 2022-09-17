@@ -26,16 +26,19 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   useEffect(() => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
-      let retrieveImagePathStr = await AsyncStorage.getItem("Image");
-      const retrieveImageObj = JSON.parse(retrieveImagePathStr);
-      if (retrieveImageObj == null) onChangeImage(null);
-      if (retrieveImageObj == null) {
-        //check fire storage
-        await downloadImageImage();
-      } else {
-        onChangeImage(retrieveImageObj);
+      try {
+        let retrieveImagePathStr = await AsyncStorage.getItem("Image");
+        console.log("🚀 ~ file: ImageInput.js ~ line 43 ~ retrieveImage ~ retrieveImagePathStr", retrieveImagePathStr);
+        if (retrieveImagePathStr){
+          onChangeImage(retrieveImagePathStr);
+        } else {
+          downloadImageImage();
+        }
+      } catch (error) {
+        downloadImageImage();
       }
     };
+
     requestPermision();
     retrieveImage();
   }, []);
@@ -45,6 +48,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
     const url = await downloadImage(IMG_TYPE_BACKGROUND);
     if (url) {
       onChangeImage(url);
+      await AsyncStorage.setItem("Image", url)
     } else {
       onChangeImage(null);
     }
@@ -78,7 +82,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
       });
       // console.log(result.uri);
       if (!result.cancelled) {
-        await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
+        // await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
         onChangeImage(result.uri);
         await uploadImageAsync(result.uri);
       }

@@ -21,20 +21,22 @@ import {
 } from "../firebase";
 
 const ProfileInput = ({ imageUri, onChangeImage }) => {
+  console.log("🚀 ~ file: ProfileInput.js ~ line 24 ~ ProfileInput ~ imageUri", imageUri);
   const { textTheme } = React.useContext(RootContext);
   // Check Deleted Branch
   useEffect(() => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
-      let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
       try {
-        const retrieveImageObj = JSON.parse(retrieveImagePathStr);
-        if (retrieveImageObj){
-          onChangeImage(retrieveImageObj);
+        let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
+        console.log("🚀 ~ file: ProfileInput.js ~ line 32 ~ retrieveImage ~ retrieveImagePathStr", retrieveImagePathStr);
+        if (retrieveImagePathStr){
+          onChangeImage(retrieveImagePathStr);
         } else {
           downloadProfileImage();
         }
       } catch (error) {
+        console.log("🚀 ~ file: ProfileInput.js ~ line 41 ~ retrieveImage ~ error", error);
         downloadProfileImage();
       }
     };
@@ -80,7 +82,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
       });
       // console.log(result.uri);
       if (!result.cancelled) {
-        await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
+        // await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
         onChangeImage(result.uri);
         await uploadImageAsync(result.uri);
       }
