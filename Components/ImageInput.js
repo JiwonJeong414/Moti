@@ -26,14 +26,12 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   useEffect(() => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
+      let retrieveImageObj = await AsyncStorage.getItem("Image");
       try {
-        let retrieveImagePathStr = await AsyncStorage.getItem("Image");
-        console.log(
-          "🚀 ~ file: ImageInput.js ~ line 43 ~ retrieveImage ~ retrieveImagePathStr",
-          retrieveImagePathStr
-        );
-        if (retrieveImagePathStr) {
-          onChangeImage(retrieveImagePathStr);
+        const img = await fetch(retrieveImageObj);
+        const blob = await img.blob();
+        if (blob) {
+          onChangeImage(retrieveImageObj);
         } else {
           downloadImageImage();
         }
@@ -116,7 +114,6 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
-            onError={() => downloadImageImage()}
           />
         )}
       </View>

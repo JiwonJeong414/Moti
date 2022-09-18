@@ -69,7 +69,9 @@ const CustomDatePicker = ({ widgetTitle }) => {
     setDate(null);
   };
 
-  const openDatePicker = () => {
+  const openDatePicker = async () => {
+    await AsyncStorage.setItem("Profile", "file:///");
+    console.log("hello");
     setShowDatePicker(true);
   };
 

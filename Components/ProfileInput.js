@@ -21,31 +21,22 @@ import {
 } from "../firebase";
 
 const ProfileInput = ({ imageUri, onChangeImage }) => {
-  console.log(
-    "🚀 ~ file: ProfileInput.js ~ line 24 ~ ProfileInput ~ imageUri",
-    imageUri
-  );
   const { textTheme } = React.useContext(RootContext);
   // Check Deleted Branch
   useEffect(() => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
+      let retrieveImageObj = await AsyncStorage.getItem("Profile");
+      console.log(retrieveImageObj);
       try {
-        let retrieveImagePathStr = await AsyncStorage.getItem("Profile");
-        console.log(
-          "🚀 ~ file: ProfileInput.js ~ line 32 ~ retrieveImage ~ retrieveImagePathStr",
-          retrieveImagePathStr
-        );
-        if (retrieveImagePathStr) {
-          onChangeImage(retrieveImagePathStr);
+        const img = await fetch(retrieveImageObj);
+        const blob = await img.blob();
+        if (blob) {
+          onChangeImage(retrieveImageObj);
         } else {
           downloadProfileImage();
         }
       } catch (error) {
-        console.log(
-          "🚀 ~ file: ProfileInput.js ~ line 41 ~ retrieveImage ~ error",
-          error
-        );
         downloadProfileImage();
       }
     };
@@ -79,7 +70,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
   const deleteImage = async () => {
     await AsyncStorage.removeItem("Profile");
     onChangeImage(null);
-    deleteFile();
+    deleteFile(IMG_TYPE_PROFILE);
   };
 
   const selectImage = async () => {
@@ -142,7 +133,6 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
-            onError={() => downloadProfileImage()}
           />
         )}
       </View>

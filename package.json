@@ -57,7 +57,8 @@
     "react-native-web": "~0.18.7",
     "react-native-wheel-color-picker": "^1.2.0",
     "uuid": "^3.4.0",
-    "with-rn-image-crop-picker": "^0.2.0"
+    "with-rn-image-crop-picker": "^0.2.0",
+    "expo-file-system": "~14.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6"
