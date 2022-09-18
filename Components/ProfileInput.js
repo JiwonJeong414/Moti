@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -11,7 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
-
+import * as FileSystem from "expo-file-system";
 import {
   downloadImage,
   handleUploadImage,
@@ -21,6 +22,8 @@ import {
 } from "../firebase";
 
 const ProfileInput = ({ imageUri, onChangeImage }) => {
+  const [loading, setLoading] = useState(false);
+
   const { textTheme } = React.useContext(RootContext);
   // Check Deleted Branch
   useEffect(() => {
@@ -44,11 +47,25 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     retrieveImage();
   }, []);
 
+  const saveToLocal = async (uri) => {
+    console.log("uri" + uri);
+    FileSystem.downloadAsync(
+      uri,
+      FileSystem.documentDirectory + "profile.jpg"
+    ).then(({ uri }) => {
+      setProfile(uri);
+    });
+  };
+
+  const setProfile = async (uri) => {
+    await AsyncStorage.setItem("Profile", uri);
+  };
+
   const downloadProfileImage = async () => {
     const url = await downloadImage(IMG_TYPE_PROFILE);
     if (url) {
       onChangeImage(url);
-      await AsyncStorage.setItem("Profile", url);
+      saveToLocal(url);
     } else {
       onChangeImage(null);
     }
@@ -83,8 +100,11 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
       // console.log(result.uri);
       if (!result.cancelled) {
         // await AsyncStorage.setItem("Profile", JSON.stringify(result.uri));
-        onChangeImage(result.uri);
+        setLoading(true);
         await uploadImageAsync(result.uri);
+        if (loading === false) {
+          onChangeImage(result.uri);
+        }
       }
     } catch (error) {
       console.log("Error reading an image", error);
@@ -92,23 +112,7 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
   };
 
   const uploadImageAsync = async (uri) => {
-    // Why are we using XMLHttpRequest? See:
-    // const blob = await new Promise((resolve, reject) => {
-    //   const xhr = new XMLHttpRequest();
-    //   xhr.onload = function() {
-    //     resolve(xhr.response);
-    //   };
-    //   xhr.onerror = function(e) {
-    //     console.log(e);
-    //     reject(new TypeError('Network request failed'));
-    //   };
-    //   xhr.responseType = 'blob';
-    //   xhr.open('GET', uri, true);
-    //   xhr.send(null);
-    // });
-    // await uploadImage(blob)
-    // blob.close();
-    await handleUploadImage(uri, IMG_TYPE_PROFILE);
+    await handleUploadImage(uri, IMG_TYPE_PROFILE, setLoading);
   };
 
   return (
@@ -122,18 +126,21 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
           borderRadius: moderateScale(100),
           borderWidth: moderateScale(3),
           alignItems: "center",
-          backgroundColor: "gray",
+          backgroundColor: "#D3D3D3",
           overflow: "hidden",
           justifyContent: "center",
           borderColor: textTheme.text,
         }}
       >
-        {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && (
+        {imageUri === null && loading === false ? (
+          <MaterialCommunityIcons name="camera" size={40} />
+        ) : imageUri !== null && loading === false ? (
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
           />
+        ) : (
+          <ActivityIndicator size={"small"} color="black" />
         )}
       </View>
     </TouchableWithoutFeedback>

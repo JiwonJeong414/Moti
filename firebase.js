@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { v4 as uuidv4 } from "uuid";
+import * as FileSystem from "expo-file-system";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // Initialize Firebase
 const firebaseConfig = {
@@ -19,16 +20,6 @@ const firebaseConfig = {
   appId: "1:62709121008:web:9771a5a7834c2bf67aa735",
   measurementId: "G-4Q2E5E5V99",
 };
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAmB1o2YLuUJfJFqYDBMxijuGFFFw1cprQ",
-//   authDomain: "hatbanking-8fe66.firebaseapp.com",
-//   projectId: "hatbanking-8fe66",
-//   storageBucket: "hatbanking-8fe66.appspot.com",
-//   messagingSenderId: "38643457145",
-//   appId: "1:38643457145:web:ac3a4742337a35f45808a8",
-//   measurementId: "G-3D0WP0TGDS"
-// };
 
 let myApp = initializeApp(firebaseConfig);
 export const storage = getStorage();
@@ -62,20 +53,19 @@ export const setUniqueDeviceID = async () => {
   }
 };
 
-export const handleUploadImage = async (uri, imageType) => {
+export const handleUploadImage = async (uri, imageType, setLoading) => {
   const img = await fetch(uri);
   const blob = await img.blob();
-  await uploadImage(blob, imageType);
+  await uploadImage(blob, imageType, setLoading);
 };
 
-export const uploadImage = async (blob, imageType) => {
+export const uploadImage = async (blob, imageType, setLoading) => {
   let deviceID = await getUniqueDeviceID();
   const imageRef =
     imageType === IMG_TYPE_PROFILE
       ? ref(storage, `images/${deviceID}/profile.jpg`)
       : ref(storage, `images/${deviceID}/image.jpg`);
 
-  console.log("uploading image");
   const uploadTask = uploadBytesResumable(imageRef, blob);
 
   // Listen for state changes, errors, and completion of the upload.
@@ -85,14 +75,6 @@ export const uploadImage = async (blob, imageType) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log("Upload is " + progress + "% done");
-      switch (snapshot.state) {
-        case "paused":
-          console.log("Upload is paused");
-          break;
-        case "running":
-          console.log("Upload is running");
-          break;
-      }
     },
     (error) => {
       this.setState({ isLoading: false });
@@ -114,14 +96,27 @@ export const uploadImage = async (blob, imageType) => {
       // Upload completed successfully, now we can get the download URL
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log("File available at", downloadURL);
-        AsyncStorage.setItem(
-          imageType === IMG_TYPE_PROFILE ? "Profile" : "Image",
-          downloadURL
-        );
-        //perform your task
+        saveToLocal(downloadURL);
       });
+      setLoading(false);
     }
   );
+  const saveToLocal = async (uri) => {
+    FileSystem.downloadAsync(
+      uri,
+      FileSystem.documentDirectory +
+        (imageType === IMG_TYPE_PROFILE ? "profile.jpg" : "image.jpg")
+    ).then(({ uri }) => {
+      setImage(uri);
+    });
+
+    const setImage = async (uri) => {
+      await AsyncStorage.setItem(
+        imageType === IMG_TYPE_PROFILE ? "Profile" : "Image",
+        uri
+      );
+    };
+  };
 };
 
 export const downloadImage = async (imageType) => {

@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -11,7 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootContext } from "../config/RootContext";
 import { moderateScale } from "react-native-size-matters";
-
+import * as FileSystem from "expo-file-system";
 import {
   downloadImage,
   handleUploadImage,
@@ -21,6 +22,8 @@ import {
 } from "../firebase";
 
 const ImageInput = ({ imageUri, onChangeImage }) => {
+  const [loading, setLoading] = useState(false);
+
   const { textTheme } = React.useContext(RootContext);
 
   useEffect(() => {
@@ -39,16 +42,27 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
         downloadImageImage();
       }
     };
-
     requestPermision();
     retrieveImage();
   }, []);
+
+  const saveToLocal = async (uri) => {
+    FileSystem.downloadAsync(
+      uri,
+      FileSystem.documentDirectory + "image.jpg"
+    ).then(({ uri }) => {
+      setImage(uri);
+    });
+  };
+  const setImage = async (uri) => {
+    await AsyncStorage.setItem("Image", uri);
+  };
 
   const downloadImageImage = async () => {
     const url = await downloadImage(IMG_TYPE_BACKGROUND);
     if (url) {
       onChangeImage(url);
-      await AsyncStorage.setItem("Image", url);
+      saveToLocal(url);
     } else {
       onChangeImage(null);
     }
@@ -83,8 +97,11 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
       // console.log(result.uri);
       if (!result.cancelled) {
         // await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
-        onChangeImage(result.uri);
+        setLoading(true);
         await uploadImageAsync(result.uri);
+        if (loading === false) {
+          onChangeImage(result.uri);
+        }
       }
     } catch (error) {
       console.log("Error reading an image", error);
@@ -92,7 +109,7 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
   };
 
   const uploadImageAsync = async (uri) => {
-    await handleUploadImage(uri, IMG_TYPE_BACKGROUND);
+    await handleUploadImage(uri, IMG_TYPE_BACKGROUND, setLoading);
   };
 
   return (
@@ -104,17 +121,20 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
           borderRadius: moderateScale(24),
           marginTop: moderateScale(45),
           alignItems: "center",
-          backgroundColor: "gray",
+          backgroundColor: "#D3D3D3",
           justifyContent: "center",
           overflow: "hidden",
         }}
       >
-        {!imageUri && <MaterialCommunityIcons name="camera" size={40} />}
-        {imageUri && (
+        {imageUri === null && loading === false ? (
+          <MaterialCommunityIcons name="camera" size={40} />
+        ) : imageUri !== null && loading === false ? (
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{ uri: imageUri }}
           />
+        ) : (
+          <ActivityIndicator size={"small"} color="black" />
         )}
       </View>
     </TouchableWithoutFeedback>
