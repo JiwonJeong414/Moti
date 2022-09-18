@@ -30,7 +30,6 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
     getUniqueDeviceID();
     const retrieveImage = async () => {
       let retrieveImageObj = await AsyncStorage.getItem("Profile");
-      console.log(retrieveImageObj);
       try {
         const img = await fetch(retrieveImageObj);
         const blob = await img.blob();
@@ -48,7 +47,6 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
   }, []);
 
   const saveToLocal = async (uri) => {
-    console.log("uri" + uri);
     FileSystem.downloadAsync(
       uri,
       FileSystem.documentDirectory + "profile.jpg"

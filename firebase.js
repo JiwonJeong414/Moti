@@ -34,10 +34,6 @@ export const getUniqueDeviceID = async () => {
       deviceID = uuidv4();
       await AsyncStorage.setItem("DeviceID", deviceID);
     }
-    console.log(
-      "🚀 ~ file: firebase.js ~ line 34 ~ getUniqueDeviceID ~ deviceID",
-      deviceID
-    );
     return deviceID;
   } catch (error) {
     return null;
@@ -74,23 +70,11 @@ export const uploadImage = async (blob, imageType, setLoading) => {
     (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
     },
     (error) => {
       this.setState({ isLoading: false });
       // A full list of error codes is available at
       // https://firebase.google.com/docs/storage/web/handle-errors
-      switch (error.code) {
-        case "storage/unauthorized":
-          console.log("User doesn't have permission to access the object");
-          break;
-        case "storage/canceled":
-          console.log("User canceled the upload");
-          break;
-        case "storage/unknown":
-          console.log("Unknown error occurred, inspect error.serverResponse");
-          break;
-      }
     },
     () => {
       // Upload completed successfully, now we can get the download URL
@@ -132,10 +116,6 @@ export const downloadImage = async (imageType) => {
       return url;
     })
     .catch((error) => {
-      console.log(
-        "🚀 ~ file: firebase.js ~ line 60 ~ downloadImage ~ error",
-        error
-      );
       switch (error.code) {
         case "storage/object-not-found":
           // File doesn't exist
