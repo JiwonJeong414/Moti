@@ -2,7 +2,7 @@
   "expo": {
     "name": "Moti Dashboard",
     "slug": "Moti-Dashboard",
-    "version": "2.0.0",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,14 +20,14 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.jiwonjeong414.moti",
-      "buildNumber": "2.0.0",
+      "buildNumber": "2.0.2",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "This app lets you browse and edit photos from your library"
       }
     },
     "android": {
       "package": "com.jiwonjeong0414.moti",
-      "versionCode": 5
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/favicon.png"
