@@ -98,10 +98,11 @@ const ImageInput = ({ imageUri, onChangeImage }) => {
       if (!result.cancelled) {
         // await AsyncStorage.setItem("Image", JSON.stringify(result.uri));
         setLoading(true);
+        onChangeImage(result.uri);
+        setLoading(false);
         await uploadImageAsync(result.uri);
-        if (loading === false) {
-          onChangeImage(result.uri);
-        }
+        // if (loading === false) {
+        // }
       }
     } catch (error) {
       console.log("Error reading an image", error);
