@@ -1,40 +1,45 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  ScrollView,
   Text,
   SafeAreaView,
-  TouchableWithoutFeedback,
-  Image,
   TouchableOpacity,
-  TouchableHighlight,
+  Animated,
+  Platform,
 } from "react-native";
-import { RootContext } from "../config/RootContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { moderateScale } from "react-native-size-matters";
-import LottieView from "lottie-react-native";
-import { AntDesign, Feather, Entypo } from "@expo/vector-icons";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import { Button } from "react-native-paper";
-import Modal from "react-native-modal";
+import {
+  useFonts,
+  NotoSans_400Regular,
+  NotoSans_700Bold,
+} from "@expo-google-fonts/noto-sans";
 
 const MoodScreen = () => {
-  const { textTheme, colorTheme, onboarded } = React.useContext(RootContext);
-  const [speed, setSpeed] = useState(1);
-  const [moodNumber, setMoodNumber] = useState(3);
-  const [editTrue, setEditTrue] = useState(false);
-  const [data, setData] = useState({});
-  const [settingsVisible, setSettingVisible] = useState(false);
-  const [moodSet, setMoodSet] = useState(1);
-  const [myName, setMyName] = useState();
+  const colorTheme = {
+    primary: "#1C2331",
+    secondary: "#252D3D",
+    neutral: "#1A1F2C",
+    accent1: "#E4D5B7",
+    accent2: "#8B8FA3",
+    cardBorder: "#2F374A",
+    text: "#E4D5B7",
+    subText: "#8B8FA3",
+  };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSpeed(0.999);
-    }, 1000);
-  }, []);
+  let [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_700Bold,
+  });
+
+  const [moodNumber, setMoodNumber] = useState(3);
+  const [data, setData] = useState({});
+  const [myName, setMyName] = useState("");
+  const animatedValue = new Animated.Value(0);
 
   useEffect(() => {
     const getName = async () => {
@@ -43,990 +48,256 @@ const MoodScreen = () => {
       setMyName(userName);
     };
     getName();
-  }, [onboarded]);
+  }, []);
 
   useEffect(() => {
     const retrieveMoodList = async () => {
-      let retrieveData = await AsyncStorage.getItem("Moods");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setData({});
-      else setData(retrieveData);
+      try {
+        let retrieveData = await AsyncStorage.getItem("Moods");
+        retrieveData = JSON.parse(retrieveData);
+        if (retrieveData) {
+          setData(retrieveData);
+        }
+      } catch (error) {
+        console.log("Error retrieving moods:", error);
+      }
     };
     retrieveMoodList();
   }, []);
 
-  useEffect(() => {
-    const retrieveMoodNumber = async () => {
-      let retrieveData = await AsyncStorage.getItem("Mood Set");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setMoodSet(1);
-      else setMoodSet(retrieveData);
-    };
-    retrieveMoodNumber();
-  }, []);
-
-  const handleTouch = () => {
-    if (moodNumber === 5) setMoodNumber(1);
-    else setMoodNumber(moodNumber + 1);
+  const getMoodColor = (moodType) => {
+    switch (moodType) {
+      case "amazing":
+        return "#E4D5B7"; // accent1
+      case "happy":
+        return "#8B8FA3"; // accent2
+      case "okay":
+        return "#2F374A"; // cardBorder
+      case "sad":
+        return "#252D3D"; // secondary
+      case "mad":
+        return "#1C2331"; // primary
+      default:
+        return "#1A1F2C"; // neutral
+    }
   };
 
-  const setMood = async (number) => {
-    setMoodSet(number);
-    await AsyncStorage.setItem("Mood Set", JSON.stringify(number));
+  const handleMoodChange = () => {
+    Animated.sequence([
+      Animated.timing(animatedValue, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animatedValue, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    setMoodNumber(moodNumber === 5 ? 1 : moodNumber + 1);
+  };
+
+  const getMoodEmoji = (type) => {
+    switch (type) {
+      case "amazing":
+        return "🌟";
+      case "happy":
+        return "😊";
+      case "okay":
+        return "😐";
+      case "sad":
+        return "😢";
+      case "mad":
+        return "😠";
+      default:
+        return "😐";
+    }
+  };
+
+  const getTypeFromNumber = (num) => {
+    switch (num) {
+      case 1:
+        return "mad";
+      case 2:
+        return "sad";
+      case 3:
+        return "okay";
+      case 4:
+        return "happy";
+      case 5:
+        return "amazing";
+      default:
+        return "okay";
+    }
   };
 
   const handleSubmit = async () => {
-    setEditTrue(!editTrue);
-    let today = moment().format("YYYY-MM-DD");
-    // today = moment().add(-4, "d").format("YYYY-MM-DD");
-    let type = "";
-    if (moodNumber === 1) type = "mad";
-    else if (moodNumber === 2) type = "sad";
-    else if (moodNumber === 3) type = "okay";
-    else if (moodNumber === 4) type = "happy";
-    else if (moodNumber === 5) type = "amazing";
-    const newData = { ...data, [today]: { type: type } };
-    await AsyncStorage.setItem("Moods", JSON.stringify(newData));
-    setData(newData);
+    try {
+      const today = moment().format("YYYY-MM-DD");
+      const moodType = getTypeFromNumber(moodNumber);
+
+      const newData = {
+        ...data,
+        [today]: {
+          marked: true,
+          customStyles: {
+            container: {
+              backgroundColor: getMoodColor(moodType),
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: colorTheme.cardBorder,
+            },
+            text: {
+              color: colorTheme.text,
+              fontFamily: "NotoSans_700Bold",
+            },
+          },
+          mood: moodType,
+        },
+      };
+
+      await AsyncStorage.setItem("Moods", JSON.stringify(newData));
+      setData(newData);
+    } catch (error) {
+      console.log("Error saving mood:", error);
+    }
   };
 
+  const customTheme = {
+    backgroundColor: colorTheme.primary,
+    calendarBackground: colorTheme.secondary,
+    textSectionTitleColor: colorTheme.text,
+    selectedDayBackgroundColor: colorTheme.accent1,
+    selectedDayTextColor: colorTheme.primary,
+    todayTextColor: colorTheme.accent1,
+    dayTextColor: colorTheme.text,
+    textDisabledColor: colorTheme.subText,
+    dotColor: colorTheme.accent1,
+    selectedDotColor: colorTheme.primary,
+    arrowColor: colorTheme.accent1,
+    monthTextColor: colorTheme.text,
+    textDayFontFamily: "NotoSans_400Regular",
+    textMonthFontFamily: "NotoSans_700Bold",
+    textDayHeaderFontFamily: "NotoSans_400Regular",
+    textDayFontSize: moderateScale(16),
+    textMonthFontSize: moderateScale(16),
+    textDayHeaderFontSize: moderateScale(14),
+  };
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <ScrollView
+    <SafeAreaView
       style={[styles.container, { backgroundColor: colorTheme.neutral }]}
     >
-      <View
-        style={{
-          top: moderateScale(50),
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: colorTheme.neutral,
-        }}
-      >
-        <View>
+      <View style={styles.content}>
+        <View style={styles.headerContainer}>
           <Text
-            style={{
-              color: textTheme.text,
-              marginTop:
-                Platform.OS === "ios" ? moderateScale(20) : moderateScale(10),
-              fontSize: moderateScale(35),
-              textAlign: "center",
-              fontFamily: "NotoSans_700Bold",
-              marginBottom: moderateScale(20),
-            }}
+            style={[
+              styles.headerText,
+              {
+                color: colorTheme.text,
+                fontFamily: "NotoSans_700Bold",
+              },
+            ]}
           >
-            {myName}'s Mood Calendar
+            {myName}'s Mood Tracker
           </Text>
-        </View>
-        <Calendar
-          style={styles.Calendar}
-          theme={{
-            calendarBackground: colorTheme.primary,
-            arrowColor: colorTheme.accents,
-            monthTextColor: colorTheme.accents,
-          }}
-          dayComponent={({ date, state, marking }) => {
-            return (
-              <View>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color:
-                      state === "disabled"
-                        ? "gray"
-                        : state === "today"
-                        ? "#ADD8E6"
-                        : textTheme.text,
-                  }}
-                >
-                  {date.day}
-                </Text>
-                {marking !== undefined &&
-                marking.type === "happy" &&
-                moodSet === 1 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/alien-happy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "sad" &&
-                  moodSet === 1 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/alien-sad.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "okay" &&
-                  moodSet === 1 ? (
-                  <Image
-                    style={{
-                      width: 50,
-                      height: moderateScale(95),
-                      marginTop: moderateScale(-10),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/alien-okay2.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "mad" &&
-                  moodSet === 1 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(110),
-                      marginTop: moderateScale(-15),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/alien-mad.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "amazing" &&
-                  moodSet === 1 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/alien-amazing.png")}
-                  />
-                ) : marking === undefined && moodSet === 1 ? (
-                  <View
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(78),
-                      backgroundColor: "#D3D3D3",
-                      borderRadius: 20,
-                    }}
-                  ></View>
-                ) : marking !== undefined &&
-                  marking.type === "happy" &&
-                  moodSet === 2 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/koala-happy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "sad" &&
-                  moodSet === 2 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/koala-sad.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "okay" &&
-                  moodSet === 2 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/koala-normal.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "mad" &&
-                  moodSet === 2 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/koala-tired.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "amazing" &&
-                  moodSet === 2 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/koala-love.png")}
-                  />
-                ) : marking === undefined && moodSet === 2 ? (
-                  <View
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(46),
-                      backgroundColor: "#D3D3D3",
-                      marginTop: moderateScale(10),
-                      borderRadius: moderateScale(19),
-                    }}
-                  ></View>
-                ) : marking !== undefined &&
-                  marking.type === "happy" &&
-                  moodSet === 3 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(60),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/fruit-happy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "sad" &&
-                  moodSet === 3 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(60),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/fruit-sleepy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "okay" &&
-                  moodSet === 3 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(60),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/fruit-normal.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "mad" &&
-                  moodSet === 3 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(60),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/fruit-dizzy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "amazing" &&
-                  moodSet === 3 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(50),
-                      height: moderateScale(55),
-                      top: moderateScale(5),
-                    }}
-                    source={require("../assets/image/fruit-amazing.png")}
-                  />
-                ) : marking === undefined && moodSet === 3 ? (
-                  <View
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(46),
-                      backgroundColor: "#D3D3D3",
-                      marginTop: moderateScale(10),
-                      borderRadius: moderateScale(19),
-                    }}
-                  ></View>
-                ) : marking !== undefined &&
-                  marking.type === "happy" &&
-                  moodSet === 4 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/monster-happy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "sad" &&
-                  moodSet === 4 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/monster-sad.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "okay" &&
-                  moodSet === 4 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/monster-normal.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "mad" &&
-                  moodSet === 4 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/monster-mad.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "amazing" &&
-                  moodSet === 4 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(70),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/monster-love.png")}
-                  />
-                ) : marking === undefined && moodSet === 4 ? (
-                  <View
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(46),
-                      backgroundColor: "#D3D3D3",
-                      marginTop: moderateScale(10),
-                      borderRadius: moderateScale(19),
-                    }}
-                  ></View>
-                ) : marking !== undefined &&
-                  marking.type === "happy" &&
-                  moodSet === 5 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/twod-happy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "sad" &&
-                  moodSet === 5 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(80),
-                      bottom: moderateScale(5),
-                      marginBottom: moderateScale(-30),
-                    }}
-                    source={require("../assets/image/twod-lazy.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "okay" &&
-                  moodSet === 5 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/twod-good.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "mad" &&
-                  moodSet === 5 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(90),
-                      marginBottom: moderateScale(-30),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/twod-sad.png")}
-                  />
-                ) : marking !== undefined &&
-                  marking.type === "amazing" &&
-                  moodSet === 5 ? (
-                  <Image
-                    style={{
-                      width: moderateScale(70),
-                      height: moderateScale(80),
-                      marginBottom: moderateScale(-30),
-                      left: moderateScale(10),
-                      bottom: moderateScale(10),
-                    }}
-                    source={require("../assets/image/twod-love.png")}
-                  />
-                ) : marking === undefined && moodSet === 5 ? (
-                  <View
-                    style={{
-                      width: moderateScale(46),
-                      height: moderateScale(46),
-                      backgroundColor: "#D3D3D3",
-                      marginTop: moderateScale(10),
-                      borderRadius: moderateScale(19),
-                    }}
-                  ></View>
-                ) : (
-                  <></>
-                )}
-              </View>
-            );
-          }}
-          markedDates={data}
-        />
-        <View
-          style={{
-            alignSelf: "flex-end",
-            right: moderateScale(20),
-            marginTop: moderateScale(-5),
-          }}
-        >
-          <TouchableOpacity onPress={() => setSettingVisible(true)}>
-            <Entypo
-              name="dots-three-horizontal"
-              size={moderateScale(50)}
-              color={textTheme.text}
+          <TouchableOpacity
+            style={[
+              styles.chartButton,
+              { backgroundColor: colorTheme.secondary },
+            ]}
+          >
+            <MaterialCommunityIcons
+              name="chart-box-outline"
+              size={moderateScale(24)}
+              color={colorTheme.accent1}
             />
           </TouchableOpacity>
         </View>
-        <Text
-          style={{
-            color: textTheme.text,
-            marginTop:
-              Platform.OS === "ios" ? moderateScale(20) : moderateScale(10),
-            fontSize: moderateScale(20),
-            textAlign: "center",
-            fontFamily: "NotoSans_700Bold",
-          }}
+
+        <View
+          style={[
+            styles.calendarWrapper,
+            {
+              backgroundColor: colorTheme.secondary,
+              borderColor: colorTheme.cardBorder,
+              borderWidth: 1,
+            },
+          ]}
         >
-          Tap To Change Mood
-        </Text>
-        <Modal
-          isVisible={settingsVisible}
-          animationIn="bounceIn"
-          animationOut="bounceOut"
-          onBackdropPress={() => setSettingVisible(false)}
-          style={{ justifyContent: "center", alignItems: "center" }}
+          <Calendar
+            style={styles.calendar}
+            theme={customTheme}
+            markedDates={data}
+            markingType="custom"
+            enableSwipeMonths={true}
+            hideExtraDays={true}
+          />
+        </View>
+
+        <Animated.View
+          style={[
+            styles.moodContainer,
+            {
+              transform: [
+                {
+                  scale: animatedValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 1.2],
+                  }),
+                },
+              ],
+            },
+          ]}
         >
-          <View style={[styles.modalBackground, { flexDirection: "column" }]}>
-            <View style={styles.modalHeader}>
-              <Text
-                style={{
-                  color: "white",
-                  fontFamily: "NotoSans_400Regular",
-                  fontSize: moderateScale(20),
-                }}
-              >
-                Choose Mood Set
-              </Text>
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableWithoutFeedback onPress={() => setMood(1)}>
-                <View>
-                  <Image
-                    style={{
-                      width: moderateScale(110),
-                      height: moderateScale(90),
-                      left: moderateScale(55),
-                      top: moderateScale(10),
-                    }}
-                    source={require("../assets/image/alien-okay2.png")}
-                  />
-                  {moodSet === 1 ? (
-                    <Entypo
-                      name="check"
-                      size={moderateScale(30)}
-                      color="#ADD8E6"
-                      style={{
-                        position: "absolute",
-                        top: moderateScale(100),
-                        left: moderateScale(95),
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMood(2)}>
-                <View>
-                  <Image
-                    style={{
-                      width: moderateScale(90),
-                      height: moderateScale(90),
-                      left: moderateScale(20),
-                      top: moderateScale(10),
-                    }}
-                    source={require("../assets/image/koala-normal.png")}
-                  />
-                  {moodSet === 2 ? (
-                    <Entypo
-                      name="check"
-                      size={moderateScale(30)}
-                      color="#ADD8E6"
-                      style={{
-                        position: "absolute",
-                        top: moderateScale(100),
-                        left: moderateScale(50),
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMood(3)}>
-                <View>
-                  <Image
-                    style={{
-                      width: moderateScale(60),
-                      height: moderateScale(60),
-                      top: moderateScale(30),
-                    }}
-                    source={require("../assets/image/fruit-happy.png")}
-                  />
-                  {moodSet === 3 ? (
-                    <Entypo
-                      name="check"
-                      size={moderateScale(30)}
-                      color="#ADD8E6"
-                      style={{
-                        right: moderateScale(12),
-                        position: "absolute",
-                        top: moderateScale(100),
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMood(4)}>
-                <View>
-                  <Image
-                    style={{
-                      width: moderateScale(110),
-                      height: moderateScale(110),
-                      right: moderateScale(20),
-                      top: moderateScale(5),
-                    }}
-                    source={require("../assets/image/monster-happy.png")}
-                  />
-                  {moodSet === 4 ? (
-                    <Entypo
-                      name="check"
-                      size={moderateScale(30)}
-                      color="#ADD8E6"
-                      style={{
-                        right: moderateScale(58),
-                        position: "absolute",
-                        top: moderateScale(100),
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => setMood(5)}>
-                <View>
-                  <Image
-                    style={{
-                      width: moderateScale(90),
-                      height: moderateScale(90),
-                      right: moderateScale(60),
-                      top: moderateScale(10),
-                    }}
-                    source={require("../assets/image/twod-good.png")}
-                  />
-                  {moodSet === 5 ? (
-                    <Entypo
-                      name="check"
-                      size={moderateScale(30)}
-                      color="#ADD8E6"
-                      style={{
-                        right: moderateScale(88),
-                        position: "absolute",
-                        top: moderateScale(100),
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </View>
-        </Modal>
-        {moodNumber === 1 && moodSet === 1 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/alien-mad.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 2 && moodSet === 1 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/alien-sad.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 3 && moodSet === 1 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/alien-okay.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 4 && moodSet === 1 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/alien-happy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 5 && moodSet === 1 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/alien-amazing.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 1 && moodSet === 2 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/koala-tired.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 2 && moodSet === 2 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/koala-sad.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 3 && moodSet === 2 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/koala-okay.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 4 && moodSet === 2 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/koala-happy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 5 && moodSet === 2 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/koala-amazing.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 1 && moodSet === 3 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/fruit-dizzy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 2 && moodSet === 3 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/fruit-sleepy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 3 && moodSet === 3 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/fruit-cute.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 4 && moodSet === 3 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/fruit-happy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 5 && moodSet === 3 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/fruit-amazing.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 1 && moodSet === 4 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/monster-mad.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 2 && moodSet === 4 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/monster-sad.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 3 && moodSet === 4 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/monster-fine.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 4 && moodSet === 4 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/monster-happy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 5 && moodSet === 4 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/monster-love.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 1 && moodSet === 5 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/twod-sad.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 2 && moodSet === 5 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/twod-lazy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 3 && moodSet === 5 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/twod-good.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 4 && moodSet === 5 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/twod-happy.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : moodNumber === 5 && moodSet === 5 ? (
-          <TouchableWithoutFeedback onPress={handleTouch}>
-            <LottieView
-              autoPlay
-              loop
-              speed={speed}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/lottie/twod-love.json")}
-            />
-          </TouchableWithoutFeedback>
-        ) : (
-          <></>
-        )}
-        <TouchableOpacity onPress={handleSubmit}>
-          <View
-            style={{
-              backgroundColor: colorTheme.primary,
-              width: moderateScale(240),
-              height: moderateScale(60),
-              borderRadius: moderateScale(30),
-              marginBottom: moderateScale(100),
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              shadowOffset: {
-                height: 2,
+          <TouchableOpacity
+            onPress={handleMoodChange}
+            style={[
+              styles.moodButton,
+              {
+                backgroundColor: colorTheme.secondary,
+                borderColor: colorTheme.cardBorder,
+                borderWidth: 1,
               },
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+            ]}
           >
-            <Text
-              style={{
-                fontSize: moderateScale(20),
-                color: textTheme.text,
-                fontFamily: "NotoSans_400Regular",
-              }}
-            >
-              Save Mood
+            <Text style={styles.moodEmoji}>
+              {getMoodEmoji(getTypeFromNumber(moodNumber))}
             </Text>
-          </View>
+          </TouchableOpacity>
+        </Animated.View>
+
+        <TouchableOpacity
+          style={[
+            styles.saveButton,
+            {
+              backgroundColor: colorTheme.secondary,
+              borderColor: colorTheme.cardBorder,
+              borderWidth: 1,
+            },
+          ]}
+          onPress={handleSubmit}
+        >
+          <Text
+            style={[
+              styles.saveButtonText,
+              {
+                color: colorTheme.text,
+                fontFamily: "NotoSans_700Bold",
+              },
+            ]}
+          >
+            Save Today's Mood
+          </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -1034,29 +305,90 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  Calendar: {
-    width: moderateScale(350),
+  content: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? moderateScale(25) : 0,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: moderateScale(20),
+    paddingVertical: moderateScale(15),
+    marginBottom: moderateScale(10),
+  },
+  headerText: {
+    fontSize: moderateScale(24),
+  },
+  chartButton: {
+    padding: moderateScale(8),
     borderRadius: moderateScale(8),
   },
-  modalHeader: {
-    position: "absolute",
-    width: "100.4%",
-    justifyContent: "center",
-    alignItems: "center",
-    height: moderateScale(40),
-    top: moderateScale(0),
-    borderTopLeftRadius: moderateScale(8),
-    borderTopRightRadius: moderateScale(8),
-    backgroundColor: "black",
+  calendarWrapper: {
+    marginHorizontal: moderateScale(20),
+    borderRadius: moderateScale(20),
+    overflow: "hidden",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
-  modalBackground: {
-    flexDirection: "row",
+  calendar: {
+    borderRadius: moderateScale(20),
+  },
+  moodContainer: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: moderateScale(10),
-    width: moderateScale(320),
-    height: moderateScale(185),
-    backgroundColor: "#FFF",
+    marginTop: moderateScale(40),
+    marginBottom: moderateScale(20),
+  },
+  moodButton: {
+    width: moderateScale(100),
+    height: moderateScale(100),
+    borderRadius: moderateScale(50),
+    alignItems: "center",
+    justifyContent: "center",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  moodEmoji: {
+    fontSize: moderateScale(50),
+  },
+  saveButton: {
+    marginHorizontal: moderateScale(20),
+    padding: moderateScale(15),
+    borderRadius: moderateScale(15),
+    alignItems: "center",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  saveButtonText: {
+    fontSize: moderateScale(18),
   },
 });
 

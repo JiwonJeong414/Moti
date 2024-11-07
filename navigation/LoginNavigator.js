@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TouchableOpacity, Platform, Animated } from "react-native";
+import { TouchableOpacity, Platform, Animated, View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
@@ -17,7 +17,6 @@ import TextColorScreen from "../screens/TextColorScreen";
 import MoodScreen from "../screens/MoodScreen";
 
 const BottomTab = createBottomTabNavigator();
-
 function TabIcon({ name, size, color, focused, type }) {
   const scaleValue = React.useRef(new Animated.Value(1)).current;
   const opacityValue = React.useRef(new Animated.Value(0.4)).current;
@@ -50,7 +49,7 @@ function TabIcon({ name, size, color, focused, type }) {
         }),
       ]).start();
     }
-  }, [focused, scaleValue, opacityValue]);
+  }, [focused]);
 
   const IconComponent =
     type === "MaterialIcons"
@@ -64,13 +63,14 @@ function TabIcon({ name, size, color, focused, type }) {
       style={{
         transform: [{ scale: scaleValue }],
         opacity: opacityValue,
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <IconComponent name={name} size={size} color={color} />
     </Animated.View>
   );
 }
-
 export default function BottomTabNavigator({ navigation }) {
   const { colorTheme, textTheme } = React.useContext(RootContext);
 
@@ -78,30 +78,46 @@ export default function BottomTabNavigator({ navigation }) {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "#18181b", // Dark background
-          borderTopWidth: 0,
-          height: moderateScale(80),
-          paddingTop: moderateScale(12),
-          paddingBottom:
-            Platform.OS === "ios" ? moderateScale(24) : moderateScale(12),
+          backgroundColor: "#18181b",
+          height:
+            Platform.OS === "ios" ? moderateScale(100) : moderateScale(80),
+          borderTopLeftRadius: moderateScale(30),
+          borderTopRightRadius: moderateScale(30),
+          overflow: "hidden",
+          borderWidth: 0.2,
+          borderColor: "#E4D5B7", //this is the duplicate
+          borderBottomWidth: 0,
           ...Platform.select({
             ios: {
               shadowColor: "#000",
               shadowOffset: {
                 width: 0,
-                height: -3,
+                height: -8,
               },
-              shadowOpacity: 0.2,
+              shadowOpacity: 0.3,
               shadowRadius: 10,
             },
             android: {
               elevation: 8,
             },
           }),
+        },
+        tabBarActiveTintColor: "#E4D5B7",
+        tabBarInactiveTintColor: "#8B8FA3",
+        tabBarShowLabel: true,
+        tabBarHideOnKeyboard: true,
+        tabBarLabelStyle: {
+          fontFamily: "NotoSans_400Regular",
+          fontSize: moderateScale(12),
+          marginTop: moderateScale(-8),
+          marginBottom:
+            Platform.OS === "ios" ? moderateScale(8) : moderateScale(4),
+        },
+        tabBarItemStyle: {
+          paddingTop: moderateScale(8),
         },
       }}
     >
@@ -114,7 +130,7 @@ export default function BottomTabNavigator({ navigation }) {
               type="MaterialIcons"
               name="mood"
               size={moderateScale(28)}
-              color="#fff"
+              color={focused ? "#E4D5B7" : "#8B8FA3"}
               focused={focused}
             />
           ),
@@ -129,7 +145,7 @@ export default function BottomTabNavigator({ navigation }) {
               type="MaterialCommunityIcons"
               name="home"
               size={moderateScale(28)}
-              color="#fff"
+              color={focused ? "#E4D5B7" : "#8B8FA3"}
               focused={focused}
             />
           ),
@@ -144,7 +160,7 @@ export default function BottomTabNavigator({ navigation }) {
               type="FontAwesome5"
               name="phone-alt"
               size={moderateScale(24)}
-              color="#fff"
+              color={focused ? "#E4D5B7" : "#8B8FA3"}
               focused={focused}
             />
           ),
@@ -153,6 +169,7 @@ export default function BottomTabNavigator({ navigation }) {
     </BottomTab.Navigator>
   );
 }
+
 const HomeTabStack = createStackNavigator();
 
 export function HomeTabNavigator({ navigation }) {
@@ -172,20 +189,25 @@ export function HomeTabNavigator({ navigation }) {
         component={TemplateColorsScreen}
         options={{
           headerStyle: {
-            backgroundColor: "black",
+            backgroundColor: "#18181b",
+            borderBottomWidth: 1,
+            borderBottomColor: "red", // Updated to match your theme's primary color
           },
           headerTitleStyle: {
-            color: "white",
+            color: "#E4D5B7",
+            fontFamily: "NotoSans_700Bold",
+            fontSize: moderateScale(18),
           },
           headerShadowVisible: false,
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-              <Feather
-                name="x"
-                size={moderateScale(30)}
-                color="white"
-                style={{ marginLeft: moderateScale(20) }}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("HomeScreen")}
+              style={{
+                padding: moderateScale(8),
+                marginLeft: moderateScale(12),
+              }}
+            >
+              <Feather name="x" size={moderateScale(28)} color="#E4D5B7" />
             </TouchableOpacity>
           ),
         }}
@@ -195,20 +217,25 @@ export function HomeTabNavigator({ navigation }) {
         component={TextColorScreen}
         options={{
           headerStyle: {
-            backgroundColor: "black",
+            backgroundColor: "#18181b",
+            borderBottomWidth: 1,
+            borderBottomColor: "#1C2331", // Updated to match your theme's primary color
           },
           headerTitleStyle: {
-            color: "white",
+            color: "#E4D5B7",
+            fontFamily: "NotoSans_700Bold",
+            fontSize: moderateScale(18),
           },
           headerShadowVisible: false,
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-              <Feather
-                name="x"
-                size={moderateScale(30)}
-                color="white"
-                style={{ marginLeft: moderateScale(20) }}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("HomeScreen")}
+              style={{
+                padding: moderateScale(8),
+                marginLeft: moderateScale(12),
+              }}
+            >
+              <Feather name="x" size={moderateScale(28)} color="#E4D5B7" />
             </TouchableOpacity>
           ),
         }}

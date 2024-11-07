@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,7 +7,7 @@ import { Button, IconButton, TextInput } from "react-native-paper";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
 
-const Todo = ({ widgetTitle }) => {
+const Todo = forwardRef((props, ref) => {
   const [task, setTask] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const { testData, setTestData, textTheme } = React.useContext(RootContext);
@@ -21,6 +21,12 @@ const Todo = ({ widgetTitle }) => {
     setTestData(newData);
   };
 
+  useImperativeHandle(ref, () => ({
+    openModal: () => {
+      setModalVisible(true);
+    },
+  }));
+
   const deleteToDoItem = async (item) => {
     let newDataArray = testData.filter((obj) => obj.id != item.id);
     await AsyncStorage.setItem("ToDoItems", JSON.stringify(newDataArray));
@@ -33,27 +39,8 @@ const Todo = ({ widgetTitle }) => {
     setModalVisible(false);
   };
 
-  const handleModal = () => {
-    setTask(null);
-    setModalVisible(true);
-  };
-
   return (
     <View style={styles.container}>
-      <View style={styles.groupRow}>
-        <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
-          {widgetTitle}
-        </Text>
-        <IconButton
-          icon="sticker-plus"
-          onPress={handleModal}
-          color={textTheme.text}
-          style={{
-            right: moderateScale(15),
-            top: moderateScale(2),
-          }}
-        />
-      </View>
       <Modal
         isVisible={modalVisible}
         animationIn="bounceIn"
@@ -116,7 +103,7 @@ const Todo = ({ widgetTitle }) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

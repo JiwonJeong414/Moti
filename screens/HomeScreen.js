@@ -31,6 +31,12 @@ const HomeScreen = ({ navigation }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const context = useContext(RootContext);
   const customDatePickerRef = useRef(null);
+  const todoRef = useRef(null);
+  const habitsRef = useRef(null);
+
+  const [eventsHeight, setEventsHeight] = useState(0);
+  const [todoHeight, setTodoHeight] = useState(0);
+  const [habitsHeight, setHabitsHeight] = useState(0);
 
   const colorTheme = context?.colorTheme || {
     primary: "#1C2331",
@@ -84,9 +90,14 @@ const HomeScreen = ({ navigation }) => {
         }
         break;
       case "todo":
-        // TODO: Implement todo add functionality
+        if (todoRef.current) {
+          todoRef.current.openModal();
+        }
         break;
       case "habits":
+        if (habitsRef.current) {
+          habitsRef.current.openModal();
+        }
         // TODO: Implement habits add functionality
         break;
     }
@@ -94,10 +105,9 @@ const HomeScreen = ({ navigation }) => {
 
   const calculateSection = (y) => {
     if (y < 300) return "events";
-    if (y < 600) return "todo";
+    if (y < 500) return "todo";
     return "habits";
   };
-
   if (!fontsLoaded) {
     return null;
   }
@@ -171,7 +181,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={[styles.widgetTitle, { color: colorTheme.accent1 }]}>
               Todo
             </Text>
-            <Todo />
+            <Todo props ref={todoRef} />
           </View>
 
           <View
@@ -187,7 +197,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={[styles.widgetTitle, { color: colorTheme.accent1 }]}>
               Habits
             </Text>
-            <Habits />
+            <Habits props ref={habitsRef} />
           </View>
         </View>
       </ScrollView>

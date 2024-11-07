@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,7 +7,7 @@ import { moderateScale } from "react-native-size-matters";
 import Streak from "../Components/Streak";
 import { RootContext } from "../config/RootContext";
 
-const Habits = ({ widgetTitle }) => {
+const Habits = forwardRef((props, ref) => {
   const [modal, showModal] = useState(false);
   const [title, setTitle] = useState();
   const { habits, setHabits, textTheme } = React.useContext(RootContext);
@@ -30,34 +30,20 @@ const Habits = ({ widgetTitle }) => {
     setTitle(null);
   };
 
+  useImperativeHandle(ref, () => ({
+    openModal: () => {
+      showModal(true);
+    },
+  }));
+
   const deleteHabitItem = async (item) => {
     let newDataArray = habits.filter((obj) => obj.id != item.id);
     await AsyncStorage.setItem("Habits", JSON.stringify(newDataArray));
     setHabits(newDataArray);
   };
 
-  const handleModal = () => {
-    showModal(true);
-    setTitle(null);
-  };
-
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
-          {widgetTitle}
-        </Text>
-        <IconButton
-          icon="bookmark-plus-outline"
-          onPress={handleModal}
-          color={textTheme.text}
-          style={{
-            right: moderateScale(15),
-            marginBottom: moderateScale(-8),
-            bottom: moderateScale(8),
-          }}
-        />
-      </View>
       <Modal
         isVisible={modal}
         animationIn="bounceIn"
@@ -123,7 +109,7 @@ const Habits = ({ widgetTitle }) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
