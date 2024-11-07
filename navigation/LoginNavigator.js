@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Platform, Animated } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import HotlineScreen from "../screens/HotlineScreen";
 import { moderateScale } from "react-native-size-matters";
@@ -16,27 +16,106 @@ import { RootContext } from "../config/RootContext";
 import TextColorScreen from "../screens/TextColorScreen";
 import MoodScreen from "../screens/MoodScreen";
 
-const BottomTab = createMaterialBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
+
+function TabIcon({ name, size, color, focused, type }) {
+  const scaleValue = React.useRef(new Animated.Value(1)).current;
+  const opacityValue = React.useRef(new Animated.Value(0.4)).current;
+
+  React.useEffect(() => {
+    if (focused) {
+      Animated.parallel([
+        Animated.spring(scaleValue, {
+          toValue: 1.2,
+          friction: 5,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacityValue, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.spring(scaleValue, {
+          toValue: 1,
+          friction: 5,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacityValue, {
+          toValue: 0.4,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [focused, scaleValue, opacityValue]);
+
+  const IconComponent =
+    type === "MaterialIcons"
+      ? MaterialIcons
+      : type === "FontAwesome5"
+      ? FontAwesome5
+      : MaterialCommunityIcons;
+
+  return (
+    <Animated.View
+      style={{
+        transform: [{ scale: scaleValue }],
+        opacity: opacityValue,
+      }}
+    >
+      <IconComponent name={name} size={size} color={color} />
+    </Animated.View>
+  );
+}
 
 export default function BottomTabNavigator({ navigation }) {
   const { colorTheme, textTheme } = React.useContext(RootContext);
+
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      shifting={true}
-      sceneAnimationEnabled={true}
-      barStyle={{ backgroundColor: colorTheme.accents }}
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarStyle: {
+          position: "absolute",
+          backgroundColor: "#18181b", // Dark background
+          borderTopWidth: 0,
+          height: moderateScale(80),
+          paddingTop: moderateScale(12),
+          paddingBottom:
+            Platform.OS === "ios" ? moderateScale(24) : moderateScale(12),
+          ...Platform.select({
+            ios: {
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: -3,
+              },
+              shadowOpacity: 0.2,
+              shadowRadius: 10,
+            },
+            android: {
+              elevation: 8,
+            },
+          }),
+        },
+      }}
     >
       <BottomTab.Screen
         name="Mood"
         component={MoodScreen}
         options={{
-          tabBarLabel: "",
-          tabBarIcon: ({ size, color }) => (
-            <MaterialIcons
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              type="MaterialIcons"
               name="mood"
-              size={moderateScale(24.2)}
-              color={textTheme.text}
+              size={moderateScale(28)}
+              color="#fff"
+              focused={focused}
             />
           ),
         }}
@@ -45,12 +124,13 @@ export default function BottomTabNavigator({ navigation }) {
         name="Home"
         component={HomeTabNavigator}
         options={{
-          tabBarLabel: "",
-          tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              type="MaterialCommunityIcons"
               name="home"
-              size={moderateScale(25)}
-              color={textTheme.text}
+              size={moderateScale(28)}
+              color="#fff"
+              focused={focused}
             />
           ),
         }}
@@ -59,12 +139,13 @@ export default function BottomTabNavigator({ navigation }) {
         name="Hotline"
         component={HotlineScreen}
         options={{
-          tabBarLabel: "",
-          tabBarIcon: ({ size, color }) => (
-            <FontAwesome5
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              type="FontAwesome5"
               name="phone-alt"
-              size={moderateScale(20)}
-              color={textTheme.text}
+              size={moderateScale(24)}
+              color="#fff"
+              focused={focused}
             />
           ),
         }}
@@ -72,7 +153,6 @@ export default function BottomTabNavigator({ navigation }) {
     </BottomTab.Navigator>
   );
 }
-
 const HomeTabStack = createStackNavigator();
 
 export function HomeTabNavigator({ navigation }) {

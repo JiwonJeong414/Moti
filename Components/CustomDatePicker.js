@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import {
   StyleSheet,
   Text,
@@ -15,7 +20,7 @@ import { moderateScale } from "react-native-size-matters";
 import { AntDesign } from "@expo/vector-icons";
 import { RootContext } from "../config/RootContext";
 
-const CustomDatePicker = ({ widgetTitle }) => {
+const CustomDatePicker = forwardRef((props, ref) => {
   const { textTheme } = React.useContext(RootContext);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [title, setTitle] = useState();
@@ -35,6 +40,13 @@ const CustomDatePicker = ({ widgetTitle }) => {
     };
     retrieveEventItems();
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    openModal: () => {
+      console.log("CustomDatePicker openModal called");
+      showModal(true);
+    },
+  }));
 
   const firstLoginEvent = async (array) => {
     await AsyncStorage.setItem("Events", JSON.stringify(array));
@@ -85,10 +97,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={[styles.sectionTitle, { color: textTheme.text }]}>
-          {widgetTitle}
-        </Text>
-        <IconButton
+        {/* <IconButton
           icon="calendar-plus"
           onPress={handleModal}
           color={textTheme.text}
@@ -96,7 +105,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
             right: moderateScale(15),
             top: moderateScale(2),
           }}
-        />
+        /> */}
       </View>
       <Modal
         isVisible={modal}
@@ -243,7 +252,7 @@ const CustomDatePicker = ({ widgetTitle }) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -252,7 +261,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: moderateScale(22),
     paddingTop: moderateScale(10),
-    paddingBottom: moderateScale(10),
     fontWeight: "bold",
     paddingLeft: moderateScale(18),
     paddingRight: moderateScale(9),

@@ -115,34 +115,62 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View
-        style={{
-          position: "absolute",
-          bottom: moderateScale(-40),
-          width: moderateScale(112),
-          height: moderateScale(112),
-          borderRadius: moderateScale(100),
-          borderWidth: moderateScale(3),
-          alignItems: "center",
-          backgroundColor: "#D3D3D3",
-          overflow: "hidden",
-          justifyContent: "center",
-          borderColor: textTheme.text,
-        }}
-      >
+      <View style={[styles.profileContainer, { borderColor: textTheme.text }]}>
         {imageUri === null && loading === false ? (
-          <MaterialCommunityIcons name="camera" size={40} />
+          <View style={styles.cameraIconContainer}>
+            <MaterialCommunityIcons
+              name="camera"
+              size={moderateScale(40)}
+              color={textTheme.text}
+            />
+          </View>
         ) : imageUri !== null && loading === false ? (
           <Image
-            style={{ width: "100%", height: "100%" }}
+            style={styles.profileImage}
             source={{ uri: imageUri }}
+            resizeMode="cover"
           />
         ) : (
-          <ActivityIndicator size={"small"} color="black" />
+          <ActivityIndicator size="small" color={textTheme.text} />
         )}
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
+const styles = StyleSheet.create({
+  profileContainer: {
+    position: "absolute",
+    bottom: moderateScale(-45), // Adjusted to move profile picture lower
+    alignSelf: "center", // Center horizontally
+    width: moderateScale(90), // Slightly smaller
+    height: moderateScale(90), // Slightly smaller
+    borderRadius: moderateScale(45), // Half of width/height
+    borderWidth: moderateScale(4), // Slightly thicker border
+    backgroundColor: "#f5f5f5", // Lighter background
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: moderateScale(45),
+  },
+  cameraIconContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+  },
+});
 
 export default ProfileInput;
