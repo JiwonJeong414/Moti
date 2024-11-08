@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
-  SafeAreaView,
   StatusBar,
   Animated,
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { moderateScale } from "react-native-size-matters";
-import { RootContext } from "./RootContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   NotoSans_400Regular,
@@ -19,6 +17,7 @@ import {
   useFonts,
 } from "@expo-google-fonts/noto-sans";
 import Todo from "../Components/Todo";
+import { RootContext } from "../config/RootContext";
 import CustomDatePicker from "../Components/CustomDatePicker";
 import Quotes from "../Components/Quotes";
 import BannerAndIcon from "../Components/BannerAndIcon";
@@ -29,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
   const [myName, setMyName] = useState("");
   const [activeSection, setActiveSection] = useState("events");
   const scrollY = useRef(new Animated.Value(0)).current;
-  const context = useContext(RootContext);
+  const { onboarded, colorTheme, textTheme } = React.useContext(RootContext);
   const customDatePickerRef = useRef(null);
   const todoRef = useRef(null);
   const habitsRef = useRef(null);
@@ -37,17 +36,6 @@ const HomeScreen = ({ navigation }) => {
   const [eventsHeight, setEventsHeight] = useState(0);
   const [todoHeight, setTodoHeight] = useState(0);
   const [habitsHeight, setHabitsHeight] = useState(0);
-
-  const colorTheme = context?.colorTheme || {
-    primary: "#1C2331",
-    secondary: "#252D3D",
-    neutral: "#1A1F2C",
-    accent1: "#E4D5B7",
-    accent2: "#8B8FA3",
-    cardBorder: "#2F374A",
-    text: "#E4D5B7",
-    subText: "#8B8FA3",
-  };
 
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
@@ -57,16 +45,15 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     const getName = async () => {
       try {
-        const userName = await AsyncStorage.getItem("Name");
-        if (userName) {
-          setMyName(JSON.parse(userName));
-        }
+        let userName = await AsyncStorage.getItem("Name");
+        userName = JSON.parse(userName);
+        setMyName(userName);
       } catch (error) {
-        console.log("Error getting name:", error);
+        console.log("Error fetching name:", error);
       }
     };
     getName();
-  }, []);
+  }, [onboarded]);
 
   const getComposeIcon = () => {
     switch (activeSection) {
@@ -84,30 +71,23 @@ const HomeScreen = ({ navigation }) => {
   const handleCompose = () => {
     switch (activeSection) {
       case "events":
-        if (customDatePickerRef.current) {
-          console.log("Opening CustomDatePicker modal");
-          customDatePickerRef.current.openModal();
-        }
+        customDatePickerRef.current?.openModal();
         break;
       case "todo":
-        if (todoRef.current) {
-          todoRef.current.openModal();
-        }
+        todoRef.current?.openModal();
         break;
       case "habits":
-        if (habitsRef.current) {
-          habitsRef.current.openModal();
-        }
-        // TODO: Implement habits add functionality
+        habitsRef.current?.openModal();
         break;
     }
   };
 
-  const calculateSection = (y) => {
-    if (y < 300) return "events";
-    if (y < 500) return "todo";
+  const calculateActiveSection = (y) => {
+    if (y < eventsHeight) return "events";
+    if (y < eventsHeight + todoHeight) return "todo";
     return "habits";
   };
+
   if (!fontsLoaded) {
     return null;
   }
@@ -124,7 +104,7 @@ const HomeScreen = ({ navigation }) => {
             useNativeDriver: false,
             listener: (event) => {
               const y = event.nativeEvent.contentOffset.y;
-              setActiveSection(calculateSection(y));
+              setActiveSection(calculateActiveSection(y));
             },
           }
         )}
@@ -200,6 +180,7 @@ const HomeScreen = ({ navigation }) => {
             <Habits props ref={habitsRef} />
           </View>
         </View>
+        <SettingModal navigation={navigation} />
       </ScrollView>
 
       <Animated.View
@@ -243,7 +224,7 @@ const styles = StyleSheet.create({
   },
   bannerContainer: {
     paddingTop: moderateScale(10),
-    paddingBottom: moderateScale(40),
+    paddingBottom: moderateScale(45),
     alignItems: "center",
     justifyContent: "center",
   },
@@ -294,7 +275,7 @@ const styles = StyleSheet.create({
   composeButton: {
     alignSelf: "flex-end",
     right: moderateScale(20),
-    bottom: moderateScale(90),
+    bottom: moderateScale(110),
     width: moderateScale(60),
     height: moderateScale(60),
     borderRadius: moderateScale(30),

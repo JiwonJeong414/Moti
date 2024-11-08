@@ -24,7 +24,7 @@ import {
 const ProfileInput = ({ imageUri, onChangeImage }) => {
   const [loading, setLoading] = useState(false);
 
-  const { textTheme } = React.useContext(RootContext);
+  const { textTheme, colorTheme } = React.useContext(RootContext);
   // Check Deleted Branch
   useEffect(() => {
     getUniqueDeviceID();
@@ -115,7 +115,9 @@ const ProfileInput = ({ imageUri, onChangeImage }) => {
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={[styles.profileContainer, { borderColor: textTheme.text }]}>
+      <View
+        style={[styles.profileContainer, { borderColor: colorTheme.accent1 }]}
+      >
         {imageUri === null && loading === false ? (
           <View style={styles.cameraIconContainer}>
             <MaterialCommunityIcons

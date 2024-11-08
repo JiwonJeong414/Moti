@@ -7,118 +7,53 @@ import { moderateScale } from "react-native-size-matters";
 
 const TextColorScreen = () => {
   const { textTheme, setTextTheme } = React.useContext(RootContext);
+  const [selectedOption, setSelectedOption] = useState(
+    textTheme.text === "black" && textTheme.quote === "white"
+      ? "option1"
+      : "option2"
+  );
 
-  const [textColor, setTextColor] = useState(textTheme.text);
-  const [quoteColor, setQuoteColor] = useState(textTheme.quote);
+  const handleOptionChange = async (option) => {
+    setSelectedOption(option);
 
-  const handleTextCheck = async (name) => {
-    await AsyncStorage.setItem("Text", JSON.stringify(name));
-    setTextColor(name);
-    let textTheme = {
-      text: name,
-      quote: quoteColor,
-    };
-    setTextTheme(textTheme);
-  };
+    const newTextTheme =
+      option === "option1"
+        ? { text: "black", quote: "white" }
+        : { text: "white", quote: "black" };
 
-  const handleQuoteCheck = async (name) => {
-    await AsyncStorage.setItem("Quotes", JSON.stringify(name));
-    setQuoteColor(name);
-    let textTheme = {
-      text: textColor,
-      quote: name,
-    };
-    setTextTheme(textTheme);
+    setTextTheme(newTextTheme);
+
+    // Save text and quote colors to AsyncStorage
+    await AsyncStorage.setItem("TextTheme", JSON.stringify(newTextTheme));
   };
 
   return (
     <ScrollView>
       <View style={{ alignItems: "center" }}>
-        <Text
-          style={{
-            marginTop: moderateScale(15),
-            fontSize: moderateScale(30),
-            fontWeight: "bold",
-          }}
-        >
-          Text
-        </Text>
+        <Text style={styles.header}>Choose Text and Quote Colors</Text>
       </View>
       <RadioButton.Item
-        value="black"
-        label="Black"
-        status={textColor === "black" ? "checked" : "unchecked"}
-        onPress={() => handleTextCheck("black")}
+        label="Option 1 (Text: Black, Quote: White)"
+        value="option1"
+        status={selectedOption === "option1" ? "checked" : "unchecked"}
+        onPress={() => handleOptionChange("option1")}
       />
       <RadioButton.Item
-        value="white"
-        label="White"
-        status={textColor === "white" ? "checked" : "unchecked"}
-        onPress={() => handleTextCheck("white")}
-      />
-      <RadioButton.Item
-        value="red"
-        label="Red"
-        status={textColor === "red" ? "checked" : "unchecked"}
-        onPress={() => handleTextCheck("red")}
-      />
-      <RadioButton.Item
-        value="blue"
-        label="Blue"
-        status={textColor === "blue" ? "checked" : "unchecked"}
-        onPress={() => handleTextCheck("blue")}
-      />
-      <RadioButton.Item
-        value="green"
-        label="Green"
-        status={textColor === "green" ? "checked" : "unchecked"}
-        onPress={() => handleTextCheck("green")}
-      />
-      <View style={{ alignItems: "center" }}>
-        <Text
-          style={{
-            marginTop: moderateScale(15),
-            fontSize: moderateScale(30),
-            fontWeight: "bold",
-          }}
-        >
-          Quote
-        </Text>
-      </View>
-      <RadioButton.Item
-        value="black"
-        label="Black"
-        status={quoteColor === "black" ? "checked" : "unchecked"}
-        onPress={() => handleQuoteCheck("black")}
-      />
-      <RadioButton.Item
-        value="white"
-        label="White"
-        status={quoteColor === "white" ? "checked" : "unchecked"}
-        onPress={() => handleQuoteCheck("white")}
-      />
-      <RadioButton.Item
-        value="red"
-        label="Red"
-        status={quoteColor === "red" ? "checked" : "unchecked"}
-        onPress={() => handleQuoteCheck("red")}
-      />
-      <RadioButton.Item
-        value="blue"
-        label="Blue"
-        status={quoteColor === "blue" ? "checked" : "unchecked"}
-        onPress={() => handleQuoteCheck("blue")}
-      />
-      <RadioButton.Item
-        value="green"
-        label="Green"
-        status={quoteColor === "green" ? "checked" : "unchecked"}
-        onPress={() => handleQuoteCheck("green")}
+        label="Option 2 (Text: White, Quote: Black)"
+        value="option2"
+        status={selectedOption === "option2" ? "checked" : "unchecked"}
+        onPress={() => handleOptionChange("option2")}
       />
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    marginTop: moderateScale(15),
+    fontSize: moderateScale(30),
+    fontWeight: "bold",
+  },
+});
 
 export default TextColorScreen;

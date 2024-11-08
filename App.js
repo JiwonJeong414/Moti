@@ -8,8 +8,10 @@ import BottomTabNavigator, {
   HomeTabNavigator,
 } from "./navigation/LoginNavigator";
 import { RootContext } from "./config/RootContext";
-import { Provider as PaperProvider } from "react-native-paper";
-import { ActivityIndicator } from "react-native-paper";
+import {
+  Provider as PaperProvider,
+  ActivityIndicator,
+} from "react-native-paper";
 import moment from "moment";
 
 const Stack = createNativeStackNavigator();
@@ -27,15 +29,10 @@ export default function App() {
 }
 
 function RootNavigator() {
-  const [onboarded, setOnboard] = React.useState(false);
-  const [colorTheme, setColorTheme] = React.useState({});
-  const [textTheme, setTextTheme] = useState();
-  const [loading, setLoading] = useState();
-  const [primary, setPrimary] = useState();
-  const [neutral, setNeutral] = useState();
-  const [accents, setAccents] = useState();
-  const [textColor, setTextColor] = useState();
-  const [quoteColor, setQuoteColor] = useState();
+  const [onboarded, setOnboard] = useState(false);
+  const [colorTheme, setColorTheme] = useState({});
+  const [textTheme, setTextTheme] = useState({});
+  const [loading, setLoading] = useState(true);
   const [habits, setHabits] = useState([]);
   const [testData, setTestData] = useState([]);
   const [continuousDate, setContinuousDate] = useState(
@@ -43,122 +40,94 @@ function RootNavigator() {
   );
 
   useEffect(() => {
-    let date = moment().format("YYYY/MM/DD");
-    setInterval(() => {
-      date = moment().format("YYYY/MM/DD");
+    const dateUpdater = setInterval(() => {
+      const date = moment().format("YYYY/MM/DD");
       if (date !== continuousDate) {
         setContinuousDate(date);
       }
     }, 10000);
+    return () => clearInterval(dateUpdater);
+  }, [continuousDate]);
+
+  useEffect(() => {
+    const loadThemes = async () => {
+      const savedColorTheme = JSON.parse(
+        await AsyncStorage.getItem("ColorTheme")
+      );
+      const savedTextTheme = JSON.parse(
+        await AsyncStorage.getItem("TextTheme")
+      );
+
+      setColorTheme(
+        savedColorTheme || {
+          primary: "#1C2331",
+          secondary: "#252D3D",
+          neutral: "#1A1F2C",
+          accent1: "#E4D5B7",
+          accent2: "#8B8FA3",
+          cardBorder: "#2F374A",
+        }
+      );
+
+      setTextTheme(
+        savedTextTheme || {
+          text: "#E4D5B7",
+          subText: "#8B8FA3",
+        }
+      );
+    };
+
+    const loadInitialData = async () => {
+      await loadThemes();
+      await retrieveHabits();
+      await retrieveTodo();
+    };
+
+    loadInitialData();
   }, []);
 
-  useEffect(() => {
-    let colorTheme = {
-      text: textColor,
-      quote: quoteColor,
-    };
-    setTextTheme(colorTheme);
-  }, [quoteColor]);
+  const retrieveHabits = async () => {
+    const savedHabits = JSON.parse(await AsyncStorage.getItem("Habits"));
+    if (savedHabits) {
+      setHabits(savedHabits);
+    } else {
+      firstLoginHabits([
+        {
+          id: Math.random(),
+          title: "Organize My Room",
+          streak: 2,
+          completed: true,
+          storeDate: moment().format("YYYY/MM/DD"),
+          tomorrowDate: moment().add(1, "d").format("YYYY/MM/DD"),
+        },
+        {
+          id: Math.random(),
+          title: "Drink Water",
+          streak: 0,
+          completed: false,
+          storeDate: "",
+          tomorrowDate: "",
+        },
+      ]);
+    }
+  };
 
-  useEffect(() => {
-    const retrieveText = async () => {
-      let retrieveData = await AsyncStorage.getItem("Text");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setTextColor("white");
-      else setTextColor(retrieveData);
-    };
-    retrieveText();
-    const retrieveQuote = async () => {
-      let retrieveData = await AsyncStorage.getItem("Quotes");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setQuoteColor("white");
-      else setQuoteColor(retrieveData);
-    };
-    retrieveQuote();
-  }, []);
-
-  useEffect(() => {
-    let colorTheme = {
-      primary: primary,
-      neutral: neutral,
-      accents: accents,
-    };
-    setColorTheme(colorTheme);
-  }, [accents]);
-
-  useEffect(() => {
-    const retrievePrimary = async () => {
-      let retrieveData = await AsyncStorage.getItem("Primary");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setPrimary("#2E2C2F");
-      else setPrimary(retrieveData);
-    };
-    retrievePrimary();
-    const retrieveNeutral = async () => {
-      let retrieveData = await AsyncStorage.getItem("Neutral");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setNeutral("#C2BFB5");
-      else setNeutral(retrieveData);
-    };
-    retrieveNeutral();
-    const retrieveAccents = async () => {
-      let retrieveData = await AsyncStorage.getItem("Accents");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null) setAccents("#C2BFB5");
-      else setAccents(retrieveData);
-    };
-    retrieveAccents();
-  }, []);
-
-  useEffect(() => {
-    const retrieveHabits = async () => {
-      let retrieveData = await AsyncStorage.getItem("Habits");
-      retrieveData = JSON.parse(retrieveData);
-      let todayDate = moment().format("YYYY/MM/DD");
-      let tomorrowDate = moment().add(1, "d").format("YYYY/MM/DD");
-      if (retrieveData == null)
-        firstLoginHabits([
-          {
-            id: Math.random(),
-            title: "Organize My Room",
-            streak: 2,
-            completed: true,
-            storeDate: todayDate,
-            tomorrowDate: tomorrowDate,
-          },
-          {
-            id: Math.random(),
-            title: "Drink Water",
-            streak: 0,
-            completed: false,
-            storeDate: "",
-            tomorrowDate: "",
-          },
-        ]);
-      else setHabits(retrieveData);
-    };
-    retrieveHabits();
-    const retrieveTodo = async () => {
-      let retrieveData = await AsyncStorage.getItem("ToDoItems");
-      retrieveData = JSON.parse(retrieveData);
-      if (retrieveData == null)
-        firstLoginTodo([
-          { title: "Download Moti App", completed: true, id: Math.random() },
-          {
-            title: "Press Square to Complete",
-            completed: false,
-            id: Math.random(),
-          },
-          {
-            title: "Swipe Left to Delete",
-            completed: false,
-            id: Math.random(),
-          },
-        ]);
-      else setTestData(retrieveData);
-    };
-    retrieveTodo();
-  }, []);
+  const retrieveTodo = async () => {
+    const savedTodos = JSON.parse(await AsyncStorage.getItem("ToDoItems"));
+    if (savedTodos) {
+      setTestData(savedTodos);
+    } else {
+      firstLoginTodo([
+        { title: "Download Moti App", completed: true, id: Math.random() },
+        {
+          title: "Press Square to Complete",
+          completed: false,
+          id: Math.random(),
+        },
+        { title: "Swipe Left to Delete", completed: false, id: Math.random() },
+      ]);
+    }
+  };
 
   const firstLoginHabits = async (array) => {
     await AsyncStorage.setItem("Habits", JSON.stringify(array));
@@ -172,47 +141,34 @@ function RootNavigator() {
 
   useEffect(() => {
     const checkIfLoggedIn = async () => {
-      let userName = await AsyncStorage.getItem("Name");
-      userName = JSON.parse(userName);
-      if (userName == null) setOnboard(false);
-      else setOnboard(true);
+      const userName = JSON.parse(await AsyncStorage.getItem("Name"));
+      setOnboard(!!userName);
     };
-    setLoading(true);
-    checkIfLoggedIn();
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+
+    checkIfLoggedIn().then(() => setLoading(false));
   }, []);
 
   return (
     <RootContext.Provider
       value={{
-        onboarded: onboarded,
-        setOnboard: setOnboard,
-        colorTheme: colorTheme,
-        setColorTheme: setColorTheme,
-        textTheme: textTheme,
-        setTextTheme: setTextTheme,
-        habits: habits,
-        setHabits: setHabits,
-        testData: testData,
-        setTestData: setTestData,
-        continuousDate: continuousDate,
+        onboarded,
+        setOnboard,
+        colorTheme,
+        setColorTheme,
+        textTheme,
+        setTextTheme,
+        habits,
+        setHabits,
+        testData,
+        setTestData,
+        continuousDate,
       }}
     >
-      {loading === true ? (
+      {loading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <ActivityIndicator animating={true} color="black" />
+          <ActivityIndicator animating color="black" />
         </View>
-      ) : onboarded === false ? (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={OnBoardingScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      ) : (
+      ) : onboarded ? (
         <Stack.Navigator>
           <Stack.Screen
             name="Root"
@@ -222,6 +178,14 @@ function RootNavigator() {
           <Stack.Screen
             name="Home"
             component={HomeTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={OnBoardingScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

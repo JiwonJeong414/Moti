@@ -8,10 +8,9 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
-import SettingOpenCircle from "./SettingOpenCircle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   NotoSans_400Regular,
@@ -23,7 +22,6 @@ import moment from "moment";
 const Streak = ({ title, deleteItem, streak, completed, id, item }) => {
   const [localStreak, setLocalStreak] = useState(streak);
   const [localCompleted, setLocalCompleted] = useState(completed);
-
   const { colorTheme, habits, setHabits, textTheme, continuousDate } =
     React.useContext(RootContext);
 
@@ -99,87 +97,101 @@ const Streak = ({ title, deleteItem, streak, completed, id, item }) => {
     ]);
   };
 
-  if (!fontsLoaded) {
-    return <></>;
-  }
+  if (!fontsLoaded) return null;
 
   return (
-    <View style={[styles.item, { backgroundColor: colorTheme.primary }]}>
-      <View style={{ alignSelf: "flex-end" }}>
-        <TouchableOpacity onPress={() => handleDelete(item)} hitSlop={40}>
-          <SettingOpenCircle />
+    <View style={[styles.card, { backgroundColor: colorTheme.primary }]}>
+      <View style={styles.header}>
+        <Text style={[styles.title, { color: "#E4D5B7" }]}>{title}</Text>
+        <TouchableOpacity
+          onPress={() => handleDelete(item)}
+          style={styles.menuButton}
+        >
+          <MaterialCommunityIcons
+            name="dots-vertical"
+            size={20}
+            color="#8B8FA3"
+          />
         </TouchableOpacity>
       </View>
-      <Text style={[styles.itemText, { color: textTheme.text }]}>{title}</Text>
+
       <View style={styles.streakContainer}>
-        <Text style={styles.streakText}>Streak:</Text>
-        <Text style={styles.streakValue}>{localStreak}</Text>
-        {localCompleted ? (
-          <View style={styles.checkContainer}>
-            <AntDesign name="check" style={styles.checkIcon} />
+        <Text style={[styles.streakLabel, { color: "#8B8FA3" }]}>
+          Streak: {localStreak}
+        </Text>
+
+        <TouchableWithoutFeedback
+          onPress={!localCompleted ? handleComplete : null}
+        >
+          <View
+            style={[
+              styles.checkContainer,
+              {
+                borderColor: localCompleted ? "#7C4DFF" : "#8B8FA3",
+                backgroundColor: localCompleted ? "#7C4DFF" : "transparent",
+              },
+            ]}
+          >
+            {localCompleted && (
+              <MaterialCommunityIcons name="check" size={16} color="#FFFFFF" />
+            )}
           </View>
-        ) : (
-          <TouchableWithoutFeedback onPress={handleComplete}>
-            <View style={styles.checkContainer}></View>
-          </TouchableWithoutFeedback>
-        )}
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  item: {
+  card: {
     padding: moderateScale(16),
-    backgroundColor: "#333", // Slightly lighter dark gray for a sleek look
+    marginHorizontal: moderateScale(20),
+    marginBottom: moderateScale(12),
+    borderRadius: moderateScale(16),
+    elevation: 2,
     shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
-    marginHorizontal: moderateScale(16),
-    width: "90%",
-    borderRadius: moderateScale(18),
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: moderateScale(24),
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  itemText: {
-    textAlign: "center",
-    fontSize: moderateScale(24),
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: moderateScale(12),
+  },
+  title: {
+    fontSize: moderateScale(20),
     fontFamily: "NotoSans_700Bold",
-    color: "#ffffff",
-    marginBottom: moderateScale(8),
+  },
+  menuButton: {
+    width: moderateScale(32),
+    height: moderateScale(32),
+    borderRadius: moderateScale(16),
+    alignItems: "center",
+    justifyContent: "center",
   },
   streakContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: moderateScale(8),
+    justifyContent: "space-between",
+    marginTop: moderateScale(4),
   },
-  streakText: {
-    fontSize: moderateScale(18),
+  streakLabel: {
+    fontSize: moderateScale(16),
     fontFamily: "NotoSans_400Regular",
-    color: "#d1d1d1",
-    marginRight: moderateScale(4),
-  },
-  streakValue: {
-    fontSize: moderateScale(18),
-    fontFamily: "NotoSans_700Bold",
-    color: "#ffffff",
   },
   checkContainer: {
-    width: moderateScale(32),
-    height: moderateScale(32),
-    borderWidth: moderateScale(3),
-    borderColor: "#4caf50",
-    borderRadius: moderateScale(16),
+    width: moderateScale(24),
+    height: moderateScale(24),
+    borderRadius: moderateScale(12),
+    borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: moderateScale(10),
   },
   checkIcon: {
-    position: "absolute",
-    color: "#4caf50",
-    fontSize: moderateScale(24),
+    fontSize: moderateScale(16),
+    color: "#FFFFFF",
   },
 });
 

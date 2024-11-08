@@ -4,6 +4,8 @@ import SettingOpenCircle from "./SettingOpenCircle";
 import { moderateScale } from "react-native-size-matters";
 import { RootContext } from "../config/RootContext";
 import { IconButton } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import {
   NotoSans_400Regular,
   NotoSans_700Bold,
@@ -97,80 +99,92 @@ const Event = ({ date, index, length, title, deleteItem, item }) => {
   }
 
   return (
-    <View
-      style={[
-        styles.item,
-        {
-          backgroundColor: colorTheme.primary,
-          marginBottom: margin,
-        },
-      ]}
-    >
-      <View style={{ alignSelf: "flex-end" }}>
-        <TouchableOpacity onPress={() => handleDelete(item)} hitSlop={40}>
-          <SettingOpenCircle />
-        </TouchableOpacity>
+    <View style={[styles.eventCard, { backgroundColor: colorTheme.primary }]}>
+      <View style={[styles.eventIcon, { backgroundColor: "#7C4DFF" }]}>
+        <MaterialCommunityIcons
+          name="calendar-clock"
+          size={24}
+          color="#FFFFFF"
+        />
       </View>
-      <View style={{ flexDirection: "column" }}>
-        <Text style={[styles.itemText, { color: textTheme.text }]}>
-          {title}
+      <View style={styles.eventContent}>
+        <Text style={[styles.eventTitle, { color: "#E4D5B7" }]}>{title}</Text>
+        <Text style={[styles.eventSubtitle, { color: "#8B8FA3" }]}>
+          {calculateDate > 1
+            ? `${calculateDate} Days Left`
+            : calculateDate === 0
+            ? "D-Day"
+            : Math.abs(calculateDate) > 1
+            ? `${Math.abs(calculateDate)} Days Ago`
+            : calculateDate === 1
+            ? `${calculateDate} Day Left`
+            : `${Math.abs(calculateDate)} Day Ago`}
         </Text>
-        <View
-          style={{
-            marginBottom: moderateScale(8),
-          }}
-        >
-          {calculateDate > 1 ? (
-            <Text style={[styles.left, { color: textTheme.text }]}>
-              {calculateDate} Days Left
-            </Text>
-          ) : calculateDate === 0 ? (
-            <Text style={[styles.left, { color: textTheme.text }]}>D-Day</Text>
-          ) : Math.abs(calculateDate) > 1 ? (
-            <Text style={[styles.left, { color: textTheme.text }]}>
-              {Math.abs(calculateDate)} Days Ago
-            </Text>
-          ) : calculateDate === 1 ? (
-            <Text style={[styles.left, { color: textTheme.text }]}>
-              {calculateDate} Day Left
-            </Text>
-          ) : (
-            <Text style={[styles.left, { color: textTheme.text }]}>
-              {Math.abs(calculateDate)} Day Ago
-            </Text>
-          )}
-        </View>
       </View>
+      <TouchableOpacity
+        onPress={() => handleDelete(item)}
+        style={styles.moreButton}
+      >
+        <MaterialCommunityIcons
+          name="dots-vertical"
+          size={20}
+          color="#8B8FA3"
+        />
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  item: {
-    padding: moderateScale(14),
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+  eventCard: {
+    flexDirection: "row",
     alignItems: "center",
+    padding: moderateScale(16),
+    borderRadius: moderateScale(16),
+    marginBottom: moderateScale(12),
+    marginHorizontal: moderateScale(20),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
     elevation: 5,
-    left: moderateScale(18),
-    width: "90.5%",
-    borderRadius: moderateScale(20),
+  },
+  eventIcon: {
+    width: moderateScale(48),
+    height: moderateScale(48),
+    borderRadius: moderateScale(24),
+    alignItems: "center",
     justifyContent: "center",
+    marginRight: moderateScale(16),
+    shadowColor: "#7C4DFF",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
-  itemText: {
-    textAlign: "center",
-    fontSize: moderateScale(28),
+  eventContent: {
+    flex: 1,
+  },
+  eventTitle: {
+    fontSize: moderateScale(18),
     fontFamily: "NotoSans_700Bold",
-    paddingBottom: moderateScale(4),
+    marginBottom: moderateScale(4),
   },
-  left: {
-    textAlign: "center",
-    fontSize: moderateScale(23),
+  eventSubtitle: {
+    fontSize: moderateScale(14),
     fontFamily: "NotoSans_400Regular",
   },
-  modalBackground: {
-    justifyContent: "center",
+  moreButton: {
+    width: moderateScale(32),
+    height: moderateScale(32),
+    borderRadius: moderateScale(16),
     alignItems: "center",
+    justifyContent: "center",
   },
 });
 

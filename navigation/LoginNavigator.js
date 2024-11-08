@@ -84,12 +84,10 @@ export default function BottomTabNavigator({ navigation }) {
           backgroundColor: "#18181b",
           height:
             Platform.OS === "ios" ? moderateScale(100) : moderateScale(80),
-          borderTopLeftRadius: moderateScale(30),
-          borderTopRightRadius: moderateScale(30),
           overflow: "hidden",
-          borderWidth: 0.2,
-          borderColor: "#E4D5B7", //this is the duplicate
-          borderBottomWidth: 0,
+          // Remove any border properties if they exist
+          borderTopWidth: 0,
+          // Add shadow for iOS
           ...Platform.select({
             ios: {
               shadowColor: "#000",
@@ -100,6 +98,7 @@ export default function BottomTabNavigator({ navigation }) {
               shadowOpacity: 0.3,
               shadowRadius: 10,
             },
+            // Add elevation for Android
             android: {
               elevation: 8,
             },

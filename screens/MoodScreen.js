@@ -13,6 +13,8 @@ import { moderateScale } from "react-native-size-matters";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
+import { RootContext } from "../config/RootContext";
+
 import {
   useFonts,
   NotoSans_400Regular,
@@ -20,16 +22,7 @@ import {
 } from "@expo-google-fonts/noto-sans";
 
 const MoodScreen = () => {
-  const colorTheme = {
-    primary: "#1C2331",
-    secondary: "#252D3D",
-    neutral: "#1A1F2C",
-    accent1: "#E4D5B7",
-    accent2: "#8B8FA3",
-    cardBorder: "#2F374A",
-    text: "#E4D5B7",
-    subText: "#8B8FA3",
-  };
+  const { onboarded, colorTheme, textTheme } = React.useContext(RootContext);
 
   let [fontsLoaded] = useFonts({
     NotoSans_400Regular,
@@ -168,16 +161,16 @@ const MoodScreen = () => {
   const customTheme = {
     backgroundColor: colorTheme.primary,
     calendarBackground: colorTheme.secondary,
-    textSectionTitleColor: colorTheme.text,
+    textSectionTitleColor: colorTheme.accent1,
     selectedDayBackgroundColor: colorTheme.accent1,
     selectedDayTextColor: colorTheme.primary,
     todayTextColor: colorTheme.accent1,
-    dayTextColor: colorTheme.text,
-    textDisabledColor: colorTheme.subText,
+    dayTextColor: colorTheme.accent1,
+    textDisabledColor: colorTheme.accent1,
     dotColor: colorTheme.accent1,
     selectedDotColor: colorTheme.primary,
     arrowColor: colorTheme.accent1,
-    monthTextColor: colorTheme.text,
+    monthTextColor: colorTheme.accent1,
     textDayFontFamily: "NotoSans_400Regular",
     textMonthFontFamily: "NotoSans_700Bold",
     textDayHeaderFontFamily: "NotoSans_400Regular",
@@ -200,7 +193,7 @@ const MoodScreen = () => {
             style={[
               styles.headerText,
               {
-                color: colorTheme.text,
+                color: colorTheme.accent1,
                 fontFamily: "NotoSans_700Bold",
               },
             ]}
@@ -288,7 +281,7 @@ const MoodScreen = () => {
             style={[
               styles.saveButtonText,
               {
-                color: colorTheme.text,
+                color: colorTheme.accent1,
                 fontFamily: "NotoSans_700Bold",
               },
             ]}
